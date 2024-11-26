@@ -1,0 +1,173 @@
+﻿@page
+@model Mister_Robot.Areas.Identity.Pages.Account.RegisterModel
+@{
+	ViewData["Title"] = "Register";
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+	<link rel="stylesheet" href="/css/register_login.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+
+<body class="background-image">
+
+	<header class="header-nav">
+		<a href="@Url.Action("Index", "Home")" class="logo">
+			<img src="@Url.Content("~/assets/mr_robot_logo.png")" />
+		</a>
+		<nav class="navbar">
+			<a href="@Url.Action("Index", "Home")"><i class="bx bx-home-heart"></i>Home</a>
+			<a href="@Url.Action("Index", "Inventory")">  <i class="bx bx-box"></i>Inventory</a>
+			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })"><i class="bx bx-cog"></i>Settings</a>
+		</nav>
+		<partial name="_LoginPartial" />
+	</header>
+
+	<div class="showcase-register">
+		<div class="register-container">
+			<h2 class="register-text">Create Account</h2>
+			<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+				<div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+				<div class="form-floating mb-3">
+					<label class="user-label-reg" for="Input.FirstName">
+						<img src="/assets/user.png" alt="User Icon" width="24" height="24" />
+						First Name
+					</label>
+					<input asp-for="Input.FirstName" class="form-control" placeholder="Enter your First Name" />
+					<span asp-validation-for="Input.FirstName" class="text-danger"></span>
+				</div>
+
+				<div class="form-floating mb-3">
+					<label class="user-label-reg" for="Input.LastName">
+						<img src="/assets/user.png" alt="User Icon" width="24" height="24" />
+						Last Name
+					</label>
+					<input asp-for="Input.LastName" class="form-control" placeholder="Enter your Last Name" />
+					<span asp-validation-for="Input.LastName" class="text-danger"></span>
+				</div>
+
+				<div class="form-floating mb-3">
+					<label class="user-label-reg" for="Input.Email">
+						<img src="/assets/user.png" alt="User Icon" width="24" height="24" />
+						Email
+					</label>
+					<input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="name@example.com" />
+					<span asp-validation-for="Input.Email" class="text-danger"></span>
+				</div>
+
+				<div class="form-floating mb-3">
+					<label class="user-label-reg" for="Input.Username">
+						<img src="/assets/user.png" alt="User Icon" width="24" height="24" />
+						Username
+					</label>
+					<input asp-for="Input.Username" class="form-control" aria-required="true" placeholder="Enter your Username" />
+					<span asp-validation-for="Input.Username" class="text-danger"></span>
+				</div>
+
+				<div class="form-floating mb-3">
+					<label class="password-label-reg" for="Input.Password">
+						<img src="/assets/password.png" alt="Password Icon" width="24" height="24" />
+						Password
+					</label>
+					<input asp-for="Input.Password" class="form-control" aria-required="true" placeholder="Enter your Password" />
+					<span asp-validation-for="Input.Password" class="text-danger"></span>
+				</div>
+
+				<div class="form-floating mb-3">
+					<label class="password-confirm-label-reg" for="Input.ConfirmPassword">
+						<img src="/assets/password.png" alt="Confirm Password Icon" width="24" height="24" />
+						Confirm Password
+					</label>
+					<input asp-for="Input.ConfirmPassword" class="form-control" aria-required="true" placeholder="Confirm your Password" />
+					<span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+				</div>
+
+				<button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+				<div class="link-container">
+					<p>
+						<a class="login-link" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">I have an account</a>
+					</p>
+				</div>
+			</form>
+
+			<section>
+				<h3>Use another service to register.</h3>
+				<hr />
+				@{
+					if ((Model.ExternalLogins?.Count ?? 0) == 0)
+					{
+						<div>
+							<p>
+								There are no external authentication services configured.
+							</p>
+						</div>
+					}
+					else
+					{
+						<form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+							<div>
+								<p>
+									@foreach (var provider in Model.ExternalLogins!)
+									{
+										<button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+									}
+								</p>
+							</div>
+						</form>
+					}
+				}
+			</section>
+		</div>
+		<p id="error-message-register" class="text-danger"></p>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			var successMessage = '@TempData["SuccessMessage"]';
+			var returnUrl = '@TempData["ReturnUrl"]';
+			if (successMessage) {
+				$('body').append('<div id="blur-background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; backdrop-filter: blur(5px); z-index: 999;"></div>');
+				Swal.fire({
+					icon: 'success',
+					title: 'Success',
+					text: successMessage,
+					showConfirmButton: false,
+					timer: 3000,
+					background: 'linear-gradient(45deg, #1e3c72, #2a5298)',
+					width: '30em',
+					padding: '3em',
+					customClass: {
+						popup: 'swal2-popup',
+						title: 'swal2-title',
+						content: 'swal2-content',
+						icon: 'swal2-icon',
+						confirmButton: 'swal2-confirm'
+					},
+					willClose: () => {
+						$('#blur-background').remove();
+					}
+				}).then(function () {
+					window.location.href = returnUrl;
+				});
+			}
+		});
+	</script>
+
+	@section Scripts {
+		<partial name="_ValidationScriptsPartial" />
+	}
+</body>
+</html>

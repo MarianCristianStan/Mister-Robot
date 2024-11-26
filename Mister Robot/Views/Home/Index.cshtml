@@ -1,0 +1,50 @@
+﻿@{
+	ViewData["Title"] = "HomePage";
+	Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+
+	<link rel="stylesheet" href="@Url.Content("~/css/homepage.css")" />
+	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+			rel="stylesheet" />
+</head>
+<body class="background-image">
+	<header class="header-nav">
+		<a href="@Url.Action("Index", "Home")" class="logo">
+			<img src="@Url.Content("~/assets/mr_robot_logo.png")"
+		</a>
+
+		<nav class="navbar">
+			<a href="@Url.Action("Index", "Home")"><i class="bx bx-home-heart"></i>Home</a>
+			<a href="@Url.Action("Index", "Inventory")">  <i class="bx bx-box"></i>Inventory</a>
+			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })"><i class="bx bx-cog"></i>Settings</a>
+
+		</nav>
+		<partial name="_LoginPartial" />
+	</header>
+
+	<div class="showcase">
+		<video class="background-video" autoplay loop muted plays-inline>
+			<source src="@Url.Content("~/assets/background/bg_world_loop.mp4")" />
+		</video>
+
+		<div class="content text-center">
+			<h1 class="main-title">Hi, I'm <span class="highlight">Mr. Robot</span></h1>
+			<h1 class="sub-title">Your one-stop assistant for all your electronic needs!</h1>
+			<h1 class="page-type">
+				Discover the best <span class="highlight">CPUs</span>, <span class="highlight">GPUs</span>, and <span class="highlight">Accessories</span> for your setup.
+	      </h1>
+			<a href="@Url.Action("Index", "Inventory")" class="btn-primary">Visit Inventory</a>
+		</div>
+	</div>
+	
+
+
+
+</body>
+</html>

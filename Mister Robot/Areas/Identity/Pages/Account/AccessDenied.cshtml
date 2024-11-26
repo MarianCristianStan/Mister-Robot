@@ -1,0 +1,27 @@
+﻿@page
+@model Mister_Robot.Areas.Identity.Pages.Account.AccessDeniedModel
+@{
+	ViewData["Title"] = "Access Denied";
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+	<link rel="stylesheet" href="/css/error.css" />
+</head>
+<body class="access-denied-body">
+<div class="access-denied-container">
+	<header>
+		<h1 class="access-denied-title">@ViewData["Title"]</h1>
+		<p class="access-denied-message">You do not have access to this resource.</p>
+	</header>
+	<div class="access-denied-actions">
+		<a href="/" class="home-link">Return to Home</a>
+	</div>
+</div>
+</body>
+</html>

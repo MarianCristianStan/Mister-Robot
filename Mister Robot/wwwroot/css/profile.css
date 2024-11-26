@@ -1,0 +1,346 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	font-family: "Poppins", sans-serif;
+}
+
+
+:root {
+	--yellow: #ffd700;
+	--blue: #1b1a55;
+	--green: #4caf50;
+	--white: #ffffff;
+	--dark-bg: #121212;
+}
+
+@media (max-width: 768px) {
+	.navbar {
+		display: none;
+	}
+
+	.logo img {
+		height: 30px;
+	}
+}
+.background-image {
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+	background-image: url('/assets/background/background_site.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	z-index: -1;
+}
+	.header-nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		padding: 1.3rem 2rem;
+		display: flex;
+		justify-content: space-between;
+		background: rgba(0, 0, 0, 0.2);
+		backdrop-filter: blur(50px);
+		align-items: center;
+		z-index: 100;
+		text-align: center;
+	}
+
+	.header-nav::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(90deg, transparent, rgba(50, 130, 184, 0.3));
+		transition: 0.5s;
+	}
+
+	.header-nav:hover::after {
+		left: 100%;
+	}
+
+.logo {
+	font-size: 3rem;
+	/* color: #fff;*/
+	color: #FFD700;
+	text-decoration: none;
+	font-weight: 700;
+}
+
+	.logo img {
+		height: 96px;
+	}
+
+.profile img {
+	width: 150px;
+	height: 150px;
+	object-fit: cover;
+	border-radius: 50%;
+	margin-bottom: 1rem;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	border: 4px solid var(--yellow);
+}
+
+.header-nav a {
+	font-size: 1.6rem;
+	/* //color: #bbe1fa;*/
+	color: #FFD700;
+	text-decoration: none;
+	font-weight: 600;
+	margin-left: 1.5rem;
+	transition: 0.3s;
+	letter-spacing: 2px;
+}
+
+.header-nav .page-type {
+	font-size: 1.5rem;
+	color: #2196F3;
+	color: #FF8C00;
+	text-decoration: none;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+.header-nav a:hover {
+	-webkit-text-stroke: 2px var(--green);
+	color: var(--green);
+	transition: color 0.3s, -webkit-text-stroke 0.3s;
+}
+
+
+
+.profile-container {
+	background: rgba(0, 0, 0, 0.8);
+	width: 40rem;
+	height: 40rem;
+	margin: 0 auto;
+	position: relative;
+	margin-top: 12rem;
+	box-shadow: 2px 5px 20px rgba(119, 119, 119, 0.5);
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.profile-leftbox {
+	width: 15%;
+	background: var(--dark-bg);
+	border-right: 1px solid var(--yellow);
+	border-radius: 10px 0 0 10px;
+	padding: 1rem 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+
+.profile-nav {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+	.profile-nav a {
+		list-style: none;
+		padding: 35px;
+		color: var(--white);
+		font-size: 1.2em;
+		display: block;
+		transition: all 0.3s ease-in-out;
+		text-decoration: none;
+	}
+
+		.profile-nav a:hover {
+			color: var(--yellow);
+			transform: scale(1.5);
+			cursor: pointer;
+		}
+
+.profile-na a:first-child {
+	margin-top: 7px;
+}
+
+.profile-rightbox {
+	width: 85%;
+	padding: 2rem;
+	background: #fff;
+	border-radius: 0 8px 8px 0;
+	box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.profile {
+	width: 100%;
+}
+
+	.profile h1 {
+		font-family: "Montserrat", sans-serif;
+		color: #001f3f;
+		font-size: 2rem;
+		margin-top: 3rem;
+		margin-bottom: 1.5rem;
+		text-align: center;
+	}
+
+	.profile h2 {
+		color: #777;
+		font-family: "Roboto", sans-serif;
+		width: 80%;
+		text-transform: uppercase;
+		font-size: 0.8rem;
+		letter-spacing: 1px;
+		margin-left: 2px;
+		margin-top: 1rem;
+		font-weight: 700;
+	}
+
+	.profile .form-control {
+		width: 100%;
+		padding: 10px;
+		margin-bottom: 15px;
+		border: 1px solid #ccc;
+		border-radius: 6px;
+		background-color: #f8f8f8;
+		transition: border-color 0.3s ease-in-out;
+		color: #555;
+		font-size: 1rem;
+	}
+
+		.profile .form-control:focus {
+			border: 1px solid var(--green);
+			
+			outline: none;
+			box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+		}
+
+	.profile .form-label {
+		font-size: 1rem;
+		font-weight: 500;
+		color: var(--dark-bg);
+		margin-top: 0.5rem;
+	}
+
+	.profile .text-danger {
+		color: red;
+		margin-top: 10px;
+	}
+
+	.profile #profileSaveButton,
+	.profile .w-100.btn.btn-lg.btn-primary {
+		width: 100%;
+		padding: 10px 30px;
+		border: none;
+		border-radius: 6px;
+		background-color: #2ecc71;
+		color: white;
+		font-size: 1.1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+	}
+
+		.profile #profileSaveButton:hover,
+		.profile .w-100.btn.btn-lg.btn-primary:hover {
+			background-color: #27ae60;
+			transform: scale(1.05);
+		}
+
+.profile-settings {
+	width: 100%;
+}
+
+	.profile-settings h1 {
+		font-family: "Montserrat", sans-serif;
+		color: #001f3f;
+		font-size: 2rem;
+		margin-top: 3rem;
+		margin-bottom: 1.5rem;
+		text-align: center;
+	}
+
+	.profile-settings h2 {
+		color: #777;
+		font-family: "Roboto", sans-serif;
+		width: 80%;
+		text-transform: uppercase;
+		font-size: 0.8rem;
+		letter-spacing: 1px;
+		margin-left: 2px;
+		margin-top: 1rem;
+		font-weight: 700;
+	}
+
+	.profile-settings p {
+		border-width: 1px;
+		border-style: solid;
+		border-image: linear-gradient(to right, #001f3f, rgba(126, 211, 134, 0.5)) 1 0%;
+		border-top: 0;
+		width: 80%;
+		font-family: "Montserrat", sans-serif;
+		font-size: 0.9rem;
+		padding: 10px 0;
+	
+	}
+
+.profile-settings-btn {
+	float: right;
+	font-family: "Roboto", sans-serif;
+	text-transform: uppercase;
+	font-size: 0;
+}
+
+
+.profile-rightbox .form-group img {
+	display: block;
+	margin: 10px auto;
+	border-radius: 50%;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
+}
+
+.profile-rightbox .form-group input[type="file"] {
+	display: none;
+}
+
+.custom-file-upload {
+	display: block;
+	margin: 20px auto;
+	padding: 10px 20px;
+	border-radius: 25px;
+	background-color: var(--yellow);
+	color: var(--dark-bg);
+	text-align: center;
+	cursor: pointer;
+	width: fit-content;
+	transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+	.custom-file-upload:hover {
+		background-color: var(--green);
+		color: var(--white);
+	}
+
+#profilePicture {
+	margin-bottom: 10px;
+}
+
+.status-message {
+	text-align: center;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--green);
+	margin-bottom: 1.5rem;
+}

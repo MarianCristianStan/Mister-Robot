@@ -1,0 +1,98 @@
+﻿@model Mister_Robot.Models.Product
+@{
+	ViewData["Title"] = "Add Product";
+	Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+	<link rel="stylesheet" href="@Url.Content("~/css/inventory.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/dashboard.css")" />
+	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body class="background-image">
+	<header class="header-nav">
+		<a href="@Url.Action("Index", "Home")" class="logo">
+			<img src="@Url.Content("~/assets/mr_robot_logo.png")" />
+		</a>
+		<nav class="navbar">
+			<a href="@Url.Action("Index", "Home")"><i class="bx bx-home-heart"></i>Home</a>
+			<a href="@Url.Action("Index", "Inventory")">  <i class="bx bx-box"></i>Inventory</a>
+			@if (User.IsInRole("Admin"))
+			{
+				<a href="@Url.Action("Manage", "Inventory")">
+					<i class="bx bx-edit-alt"></i> Manage
+				</a>
+			}
+			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })"><i class="bx bx-cog"></i>Settings</a>
+		</nav>
+		<partial name="_LoginPartial" />
+	</header>
+
+	<div class="container add-product-container">
+		<h1 class="main-title">Add New Product</h1>
+
+		<form asp-action="AddProduct" method="post" enctype="multipart/form-data" class="form-container styled-form">
+			<div class="form-group">
+				<label for="Name">Product Name</label>
+				<input type="text" name="Name" id="Name" class="form-control" required placeholder="Enter product name" />
+			</div>
+
+			<div class="form-group">
+				<label for="Brand">Brand</label>
+				<input type="text" name="Brand" id="Brand" class="form-control" required placeholder="Enter product brand" />
+			</div>
+
+			<div class="form-group">
+				<label for="Price">Price ($)</label>
+				<input type="number" name="Price" id="Price" class="form-control" step="10" required placeholder="Enter product price" />
+			</div>
+
+			<div class="form-group">
+				<label for="StockQuantity">Stock Quantity</label>
+				<input type="number" name="StockQuantity" id="StockQuantity" class="form-control" required placeholder="Enter stock quantity" />
+			</div>
+
+			<div class="form-group">
+				<label for="Description">Description</label>
+				<textarea name="Description" id="Description" class="form-control" rows="5"></textarea>
+			</div>
+
+
+			<div class="form-group">
+				<label for="Category">Category</label>
+				<select name="ProductCategoryId" id="Category" class="form-control">
+					<option value="" disabled selected>Select a category</option>
+					@foreach (var category in ViewBag.Categories)
+					{
+						<option value="@category.Id">@category.Name</option>
+					}
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="SupplierID">Supplier</label>
+				<select name="SupplierID" id="SupplierID" class="form-control" required>
+					<option value="" disabled selected>Select a supplier</option>
+					@foreach (var supplier in ViewBag.Suppliers)
+					{
+						<option value="@supplier.SupplierID">@supplier.Name</option>
+					}
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="Image">Product Image</label>
+				<input type="file" name="ImageFile" id="Image" class="form-control" />
+			</div>
+
+			<div class="form-buttons">
+				<button type="submit" class="btn btn-primary">Add Product</button>
+				<a href="@Url.Action("Manage", "Inventory")" class="btn btn-secondary">Cancel</a>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

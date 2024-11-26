@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <title>@ViewData["Title"] - Mister Robot</title>
+   <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+   @Html.Partial("_Navbar")
+   <main class="container">
+      @RenderBody()
+   </main>
+   <footer class="footer">
+      <p>&copy; @DateTime.Now.Year - Mister Robot</p>
+   </footer>
+</body>
+</html>

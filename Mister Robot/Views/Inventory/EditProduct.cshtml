@@ -1,0 +1,96 @@
+﻿@model Mister_Robot.Models.Product
+@{
+   ViewData["Title"] = "Edit Product";
+   Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>@ViewData["Title"]</title>
+   <link rel="stylesheet" href="@Url.Content("~/css/inventory.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/dashboard.css")" />
+   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body class="background-image">
+   <header class="header-nav">
+      <a href="@Url.Action("Index", "Home")" class="logo">
+         <img src="@Url.Content("~/assets/mr_robot_logo.png")" />
+      </a>
+      <nav class="navbar">
+         <a href="@Url.Action("Index", "Home")"><i class="bx bx-home-heart"></i>Home</a>
+         <a href="@Url.Action("Index", "Inventory")">  <i class="bx bx-box"></i>Inventory</a>
+         @if (User.IsInRole("Admin"))
+         {
+            <a href="@Url.Action("Manage", "Inventory")">
+               <i class="bx bx-edit-alt"></i> Manage
+            </a>
+         }
+         <a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })"><i class="bx bx-cog"></i>Settings</a>
+      </nav>
+      <partial name="_LoginPartial" />
+   </header>
+
+   <div class="container add-product-container">
+      <h1 class="main-title">Edit Product</h1>
+
+      <form asp-action="EditProduct" method="post" enctype="multipart/form-data" class="form-container styled-form">
+         <input type="hidden" asp-for="ProductID" />
+
+         <div class="form-group">
+            <label asp-for="Name">Product Name</label>
+            <input asp-for="Name" class="form-control" required placeholder="Enter product name" />
+         </div>
+
+         <div class="form-group">
+            <label asp-for="Brand">Brand</label>
+            <input asp-for="Brand" class="form-control" required placeholder="Enter product brand" />
+         </div>
+
+         <div class="form-group">
+            <label asp-for="Price">Price ($)</label>
+            <input asp-for="Price" class="form-control" type="number" step="0.01" required placeholder="Enter product price" />
+         </div>
+
+         <div class="form-group">
+            <label asp-for="StockQuantity">Stock Quantity</label>
+            <input asp-for="StockQuantity" class="form-control" type="number" required placeholder="Enter stock quantity" />
+         </div>
+
+         <div class="form-group">
+            <label asp-for="Description">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="5" placeholder="Enter product description"></textarea>
+         </div>
+
+         <div class="form-group">
+            <label asp-for="ProductCategoryId">Category</label>
+            <select asp-for="ProductCategoryId" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name", Model.ProductCategoryId))">
+               <option value="" disabled>Select a category</option>
+            </select>
+         </div>
+
+         <div class="form-group">
+            <label asp-for="SupplierID">Supplier</label>
+            <select asp-for="SupplierID" class="form-control" asp-items="@(new SelectList(ViewBag.Suppliers, "SupplierID", "Name", Model.SupplierID))">
+               <option value="" disabled>Select a supplier</option>
+            </select>
+         </div>
+
+         <div class="form-group">
+            <label for="Image">Product Image</label>
+            <input type="file" name="ImageFile" id="Image" class="form-control" />
+            @if (Model.Image != null)
+            {
+               <img src="data:image/png;base64,@(Convert.ToBase64String(Model.Image))" alt="Current Image" class="current-image" />
+            }
+         </div>
+
+         <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Update Product</button>
+            <a href="@Url.Action("Manage", "Inventory")" class="btn btn-secondary">Cancel</a>
+         </div>
+      </form>
+   </div>
+</body>
+</html>

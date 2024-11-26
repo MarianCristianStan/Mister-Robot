@@ -1,0 +1,55 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap");
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	font-family: "Roboto", sans-serif;
+}
+
+.access-denied-body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #f8d7da;
+}
+
+.access-denied-container {
+	text-align: center;
+	background-color: #ffffff;
+	padding: 2rem;
+	border-radius: 10px;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.access-denied-title {
+	font-size: 3rem;
+	font-weight: 700;
+	color: #d9534f;
+}
+
+.access-denied-message {
+	font-size: 1.2rem;
+	color: #d9534f;
+	margin-top: 0.5rem;
+}
+
+.access-denied-actions {
+	margin-top: 2rem;
+}
+
+.home-link {
+	display: inline-block;
+	padding: 0.75rem 1.5rem;
+	background-color: #d9534f;
+	color: #ffffff;
+	text-decoration: none;
+	border-radius: 5px;
+	font-weight: 700;
+	transition: background-color 0.3s;
+}
+
+	.home-link:hover {
+		background-color: #c9302c;
+	}

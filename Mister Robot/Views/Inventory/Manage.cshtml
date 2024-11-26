@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Mister_Robot.Models.Product>
+@{
+	ViewData["Title"] = "Manage Inventory";
+	Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+	<link rel="stylesheet" href="@Url.Content("~/css/inventory.css")" />
+	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body class="background-image">
+	<header class="header-nav">
+		<a href="@Url.Action("Index", "Home")" class="logo">
+			<img src="@Url.Content("~/assets/mr_robot_logo.png")" />
+		</a>
+		<nav class="navbar">
+			<a href="@Url.Action("Index", "Home")"><i class="bx bx-home-heart"></i>Home</a>
+			<a href="@Url.Action("Index", "Inventory")">  <i class="bx bx-box"></i>Inventory</a>
+			@if (User.IsInRole("Admin"))
+			{
+				<a href="@Url.Action("Manage", "Inventory")">
+					<i class="bx bx-edit-alt"></i> Manage
+				</a>
+			}
+			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })"><i class="bx bx-cog"></i>Settings</a>
+		</nav>
+		<partial name="_LoginPartial" />
+	</header>
+	<div class="manage-box">
+
+		<div class="dashboard container">
+			<div class="dashboard-header">
+				<h1>Inventory Management Dashboard</h1>
+				<a href="@Url.Action("AddProduct", "Inventory")" class="btn-add-product">Add New Product</a>
+			</div>
+
+			<!-- Table -->
+			<div class="table-responsive">
+				<table class="dashboard-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Image</th>
+							<th>Name</th>
+							<th>Brand</th>
+							<th>Price</th>
+							<th>Stock</th>
+							<th>Category</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var product in Model)
+						{
+							<tr>
+								<td>@product.ProductID</td>
+								<td>
+									@if (product.Image != null)
+									{
+										<img src="data:image/png;base64,@(Convert.ToBase64String(product.Image))" alt="@product.Name" class="product-thumbnail" />
+									}
+									else
+									{
+										<img src="~/assets/default_product_img.jpg" alt="Default Image" class="product-thumbnail" />
+									}
+								</td>
+								<td>@product.Name</td>
+								<td>@product.Brand</td>
+								<td>$@product.Price</td>
+								<td>@product.StockQuantity</td>
+								<td>@product.ProductCategory?.Name</td>
+								<td>
+									<a href="@Url.Action("EditProduct", "Inventory", new { id = product.ProductID })" class="btn-edit">Edit</a>
+									<form asp-action="Delete" asp-controller="Inventory" method="post" class="inline-form">
+										<input type="hidden" name="id" value="@product.ProductID" />
+										<button type="submit" class="btn-delete">Delete</button>
+									</form>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+
+			@if (!Model.Any())
+			{
+				<div class="no-products-found">
+					<i class="bx bx-error"></i>
+					<p>No products found in the inventory.</p>
+				</div>
+			}
+		</div>
+	</div>
+</body>
+</html>

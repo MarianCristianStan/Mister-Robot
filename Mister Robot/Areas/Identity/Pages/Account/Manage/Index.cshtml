@@ -1,0 +1,105 @@
+﻿@page
+@model Mister_Robot.Areas.Identity.Pages.Account.Manage.IndexModel
+@{
+	ViewData["Title"] = "Profile";
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+	<link rel="stylesheet" href="~/css/profile.css" />
+	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+</head>
+
+<body class="background-image">
+	<header class="header-nav">
+		<a href="@Url.Action("Index", "Home")" class="logo">
+			<img src="@Url.Content("~/assets/mr_robot_logo.png")"
+		</a>
+
+		<nav class="navbar">
+			<a href="@Url.Action("Index", "Home")"><i class="bx bx-home-heart"></i>Home</a>
+			<a href="@Url.Action("Index", "Inventory")">  <i class="bx bx-box"></i>Inventory</a>
+			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })"><i class="bx bx-cog"></i>Settings</a>
+
+		</nav>
+		<partial name="_LoginPartial" />
+	</header>
+
+	<div class="profile-container">
+		<div class="profile-leftbox">
+			<nav class="profile-nav">
+				<a href="#" id="infoLink" data-target="profile" data-title="Profile - Personal Info">
+					<i class="fa fa-user"></i>
+				</a>
+				<a href="/Identity/Account/Manage/ChangePassword" id="passwordLink" data-title="Change Password">
+					<i class="fa fa-key"></i>
+				</a>
+			</nav>
+		</div>
+		<div class="profile-rightbox" id="profile-rightbox">
+			<div class="profile" id="profile">
+				<h1>Personal Info</h1>
+				@if (!string.IsNullOrEmpty(Model.StatusMessage))
+				{
+					<div class="status-message">@Model.StatusMessage</div>
+				}
+				<form id="profile-form" method="post" enctype="multipart/form-data">
+					<div class="row">
+						<div class="col-md-6 offset-md-3 text-center">
+							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+							<div class="form-group">
+								@if (Model.Input.ProfilePicture != null)
+								{
+									<img id="profilePicture" src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.ProfilePicture))">
+								}
+
+								<label for="file-upload" class="custom-file-upload">
+									Choose Profile Picture
+								</label>
+								<input id="file-upload" type="file" accept="image/*" asp-for="Input.ProfilePicture" onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])" />
+								<span asp-validation-for="Input.ProfilePicture" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="Input.FirstName" class="form-label"></label>
+								<input asp-for="Input.FirstName" class="form-control" />
+								<span asp-validation-for="Input.FirstName" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="Input.LastName" class="form-label"></label>
+								<input asp-for="Input.LastName" class="form-control" />
+								<span asp-validation-for="Input.LastName" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="Input.Gender" class="form-label"></label>
+								<select asp-for="Input.Gender" class="form-control">
+									<option value="Male">Male</option>
+									<option value="Female">Female</option>
+								</select>
+								<span asp-validation-for="Input.Gender" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="Input.Email" class="form-label"></label>
+								<input asp-for="Input.Email" class="form-control" />
+								<span asp-validation-for="Input.Email" class="text-danger"></span>
+							</div>
+							<button id="profileSaveButton" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

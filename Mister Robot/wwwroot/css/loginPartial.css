@@ -1,0 +1,42 @@
+﻿/* Custom styles for navbar items */
+.navbar-nav {
+	list-style: none;
+	display: flex;
+	align-items: center; 
+}
+
+	.navbar-nav .nav-item {
+		margin-right: 10px; 
+	}
+
+#logout {
+	color: white;
+	background-color: transparent;
+	border: none;
+	border-radius: 70%;
+	width: 60px;
+	height: 60px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: background-color 0.3s ease;
+}
+
+	#logout:hover {
+		background-color: rgba(52, 152, 219, 0.1);
+		box-shadow: 0 0 10px rgb(255, 216, 0); 
+	}
+
+	/* Icon styles */
+	#logout i {
+		color: white; 
+		font-size: 18px; 
+		transition: transform 0.3s ease; 
+	}
+
+	#logout:hover i {
+		transform: scale(1.2); 
+	}
+
+

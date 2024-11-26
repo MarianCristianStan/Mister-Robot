@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Mister_Robot.Models.Product>
+@{
+   ViewData["Title"] = "Inventory";
+   Layout = null;
+   var searchTerm = ViewBag.SearchTerm as string;
+   var selectedCategory = ViewBag.SelectedCategory as string;
+   var categories = ViewBag.Categories as IEnumerable<string>;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>@ViewData["Title"]</title>
+   <link rel="stylesheet" href="@Url.Content("~/css/inventory.css")" />
+   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body class="background-image">
+
+   <header class="header-nav">
+      <a href="@Url.Action("Index", "Home")" class="logo">
+         <img src="@Url.Content("~/assets/mr_robot_logo.png")" />
+      </a>
+      <nav class="navbar">
+         <a href="@Url.Action("Index", "Home")"><i class="bx bx-home-heart"></i>Home</a>
+         <a href="@Url.Action("Index", "Inventory")">  <i class="bx bx-box"></i>Inventory</a>
+         @if (User.IsInRole("Admin"))
+         {
+            <a href="@Url.Action("Manage", "Inventory")">
+               <i class="bx bx-edit-alt"></i> Manage
+            </a>
+         }
+         <a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })"><i class="bx bx-cog"></i>Settings</a>
+      </nav>
+      <partial name="_LoginPartial" />
+   </header>
+  
+   <div class="container">
+      <h1 class="main-title">Browse Our Inventory</h1>
+
+      <!-- Search Bar -->
+      <form method="get" class="filter-form">
+         <input type="text" name="search" value="@searchTerm" placeholder="Search for products..." />
+         <button type="submit">Search</button>
+      </form>
+
+       <!-- Sidebar Category Menu -->
+      <div class="category-menu">
+         <h4>Categories</h4>
+         <ul>
+            @foreach (var category in ViewBag.Categories)
+            {
+               <li class="@(category.Id.ToString() == ViewBag.SelectedCategory ? "active-category" : "")">
+                  <a href="@Url.Action("Index", new { category = category.Id })">@category.Name</a>
+               </li>
+            }
+            <li class="@(string.IsNullOrEmpty(ViewBag.SelectedCategory) ? "active-category" : "")">
+               <a href="@Url.Action("Index")">All Products</a>
+            </li>
+         </ul>
+      </div>
+
+
+
+      <!-- Product Cards -->
+      <div class="row">
+         @foreach (var product in Model)
+         {
+            <div class="card product-card">
+               <!-- Product Image -->
+               @if (product.Image != null)
+               {
+                  <img src="data:image/png;base64,@(Convert.ToBase64String(product.Image))" alt="@product.Name" />
+               }
+               else
+               {
+                  <img src="~/assets/default_product_img.jpg" alt="Default Image" />
+               }
+
+               <!-- Card Body -->
+               <div class="card-body">
+                  <h5 class="card-title">@product.Name</h5>
+                  <p class="card-brand">@product.Brand</p>
+                  <p class="card-price">$@product.Price</p>
+                  @if (!string.IsNullOrEmpty(product.Description))
+                  {
+                     <p class="card-description">@product.Description</p>
+                  }
+                  <!-- Add to Cart Button -->
+                  <div class="card-buttons">
+                     <button class="btn-add-to-cart">Add to Cart</button>
+                  </div>
+               </div>
+            </div>
+         }
+      </div>
+
+      @if (!Model.Any())
+      {
+         <div class="no-products-found">
+            <i class="bx bx-error"></i>
+            <p>No products found in this category.</p>
+         </div>
+      }
+   </div>
+
+</body>
+</html>
