@@ -12,8 +12,8 @@ using Mister_Robot.Models;
 namespace Mister_Robot.Migrations
 {
     [DbContext(typeof(MisterRobotContext))]
-    [Migration("20241121141757_init")]
-    partial class init
+    [Migration("20250107175710_db-rework-v1")]
+    partial class dbreworkv1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,84 +162,72 @@ namespace Mister_Robot.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Mister_Robot.Models.CPU", b =>
+            modelBuilder.Entity("Mister_Robot.Models.Cart", b =>
                 {
-                    b.Property<int>("CPU_ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CPU_ID"));
-
-                    b.Property<decimal>("BaseClock")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<decimal>("BoostClock")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<int>("CoreCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SocketType")
-                        .IsRequired()
+                    b.Property<string>("CartId")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("ThreadCount")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("CPU_ID");
+                    b.HasKey("CartId");
 
-                    b.HasIndex("ProductID")
+                    b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("CPUs");
+                    b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("Mister_Robot.Models.GPU", b =>
+            modelBuilder.Entity("Mister_Robot.Models.CartProduct", b =>
                 {
-                    b.Property<int>("GPU_ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GPU_ID"));
-
-                    b.Property<int>("BoostClock")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CoreClock")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MemorySize")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MemoryType")
-                        .IsRequired()
+                    b.Property<string>("CartId")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("ProductID")
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("GPU_ID");
+                    b.HasKey("CartId", "ProductId");
 
-                    b.HasIndex("ProductID")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
-                    b.ToTable("GPUS");
+                    b.ToTable("CartProducts");
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.Order", b =>
+                {
+                    b.Property<string>("OrderId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("TotalAmount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.Product", b =>
                 {
-                    b.Property<int>("ProductID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Brand")
                         .IsRequired()
@@ -258,35 +246,36 @@ namespace Mister_Robot.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
-                    b.Property<int>("ProductCategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductCategoryId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("StockQuantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("SupplierID")
-                        .HasColumnType("int");
+                    b.Property<string>("SupplierId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ProductID");
+                    b.HasKey("ProductId");
 
                     b.HasIndex("ProductCategoryId");
 
-                    b.HasIndex("SupplierID");
+                    b.HasIndex("SupplierId");
 
                     b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.ProductCategory", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("CategoryId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
@@ -297,18 +286,44 @@ namespace Mister_Robot.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("ParentCategoryId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("CategoryId");
+
+                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("ProductCategories");
                 });
 
+            modelBuilder.Entity("Mister_Robot.Models.ProductFeature", b =>
+                {
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnOrder(0);
+
+                    b.Property<string>("FeatureName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("FeatureValue")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ProductId", "FeatureName");
+
+                    b.ToTable("ProductFeatures");
+                });
+
             modelBuilder.Entity("Mister_Robot.Models.Supplier", b =>
                 {
-                    b.Property<int>("SupplierID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SupplierID"));
+                    b.Property<string>("SupplierId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -317,17 +332,19 @@ namespace Mister_Robot.Migrations
 
                     b.Property<string>("ContactNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("SupplierID");
+                    b.HasKey("SupplierId");
 
                     b.ToTable("Suppliers");
                 });
@@ -355,9 +372,6 @@ namespace Mister_Robot.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -415,11 +429,9 @@ namespace Mister_Robot.Migrations
 
             modelBuilder.Entity("Mister_Robot.Models.UserAddress", b =>
                 {
-                    b.Property<int>("UserAddressID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserAddressID"));
+                    b.Property<string>("UserAddressId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -432,7 +444,8 @@ namespace Mister_Robot.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
@@ -448,12 +461,60 @@ namespace Mister_Robot.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("UserAddressID");
+                    b.HasKey("UserAddressId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("UserAddresses");
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.Wishlist", b =>
+                {
+                    b.Property<string>("WishlistId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("WishlistId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Wishlists");
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.Property<string>("OrdersOrderId")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ProductsProductId")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("OrdersOrderId", "ProductsProductId");
+
+                    b.HasIndex("ProductsProductId");
+
+                    b.ToTable("OrderProduct");
+                });
+
+            modelBuilder.Entity("ProductWishlist", b =>
+                {
+                    b.Property<string>("ProductsProductId")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("WishlistsWishlistId")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("ProductsProductId", "WishlistsWishlistId");
+
+                    b.HasIndex("WishlistsWishlistId");
+
+                    b.ToTable("ProductWishlist");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -507,26 +568,45 @@ namespace Mister_Robot.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Mister_Robot.Models.CPU", b =>
+            modelBuilder.Entity("Mister_Robot.Models.Cart", b =>
                 {
-                    b.HasOne("Mister_Robot.Models.Product", "Product")
-                        .WithOne("CPU")
-                        .HasForeignKey("Mister_Robot.Models.CPU", "ProductID")
+                    b.HasOne("Mister_Robot.Models.User", "User")
+                        .WithOne("Cart")
+                        .HasForeignKey("Mister_Robot.Models.Cart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.CartProduct", b =>
+                {
+                    b.HasOne("Mister_Robot.Models.Cart", "Cart")
+                        .WithMany("CartProducts")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mister_Robot.Models.Product", "Product")
+                        .WithMany("CartProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
 
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Mister_Robot.Models.GPU", b =>
+            modelBuilder.Entity("Mister_Robot.Models.Order", b =>
                 {
-                    b.HasOne("Mister_Robot.Models.Product", "Product")
-                        .WithOne("GPU")
-                        .HasForeignKey("Mister_Robot.Models.GPU", "ProductID")
+                    b.HasOne("Mister_Robot.Models.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.Product", b =>
@@ -539,13 +619,33 @@ namespace Mister_Robot.Migrations
 
                     b.HasOne("Mister_Robot.Models.Supplier", "Supplier")
                         .WithMany("ProductsSupplied")
-                        .HasForeignKey("SupplierID")
+                        .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ProductCategory");
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.ProductCategory", b =>
+                {
+                    b.HasOne("Mister_Robot.Models.ProductCategory", "ParentCategory")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("ParentCategoryId");
+
+                    b.Navigation("ParentCategory");
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.ProductFeature", b =>
+                {
+                    b.HasOne("Mister_Robot.Models.Product", "Product")
+                        .WithMany("Features")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.UserAddress", b =>
@@ -559,16 +659,64 @@ namespace Mister_Robot.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Mister_Robot.Models.Wishlist", b =>
+                {
+                    b.HasOne("Mister_Robot.Models.User", "User")
+                        .WithOne("Wishlist")
+                        .HasForeignKey("Mister_Robot.Models.Wishlist", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OrderProduct", b =>
+                {
+                    b.HasOne("Mister_Robot.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrdersOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mister_Robot.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProductWishlist", b =>
+                {
+                    b.HasOne("Mister_Robot.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mister_Robot.Models.Wishlist", null)
+                        .WithMany()
+                        .HasForeignKey("WishlistsWishlistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.Cart", b =>
+                {
+                    b.Navigation("CartProducts");
+                });
+
             modelBuilder.Entity("Mister_Robot.Models.Product", b =>
                 {
-                    b.Navigation("CPU");
+                    b.Navigation("CartProducts");
 
-                    b.Navigation("GPU");
+                    b.Navigation("Features");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.ProductCategory", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.Supplier", b =>
@@ -578,7 +726,13 @@ namespace Mister_Robot.Migrations
 
             modelBuilder.Entity("Mister_Robot.Models.User", b =>
                 {
+                    b.Navigation("Cart");
+
+                    b.Navigation("Orders");
+
                     b.Navigation("UserAddress");
+
+                    b.Navigation("Wishlist");
                 });
 #pragma warning restore 612, 618
         }

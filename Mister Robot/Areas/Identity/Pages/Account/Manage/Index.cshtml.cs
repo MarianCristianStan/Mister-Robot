@@ -55,7 +55,6 @@ namespace Mister_Robot.Areas.Identity.Pages.Account.Manage
          {
             FirstName = user.FirstName,
             LastName = user.LastName,
-            Gender = user.Gender,
             Email = user.Email,
             ProfilePicture = user.ProfilePicture
          };
@@ -108,13 +107,10 @@ namespace Mister_Robot.Areas.Identity.Pages.Account.Manage
                user.ProfilePicture = dataStream.ToArray();
             }
          }
-        
-
-
+         
          user.FirstName = Input.FirstName;
          user.LastName = Input.LastName;
-         user.Gender = Input.Gender;
-
+         
          var updateResult = await _userManager.UpdateAsync(user);
          if (!updateResult.Succeeded)
          {

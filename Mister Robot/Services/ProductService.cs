@@ -9,26 +9,25 @@ namespace Mister_Robot.Services
 		private readonly IRepositoryWrapper _repositoryWrapper;
 
 		public ProductService(IRepositoryWrapper repositoryWrapper)
-			 : base(repositoryWrapper.ProductRepository, repositoryWrapper)
+			: base(repositoryWrapper.ProductRepository, repositoryWrapper)
 		{
 			_repositoryWrapper = repositoryWrapper;
 		}
 
-		public List<Product> GetProductsByCategory(int categoryId)
+		public List<Product> GetProductsByCategory(string categoryId)
 		{
 			return _repositoryWrapper.ProductRepository.FindByCondition(p => p.ProductCategoryId == categoryId).ToList();
 		}
 
-      public IEnumerable<Product> SearchProducts(string searchTerm)
-      {
-         if (string.IsNullOrEmpty(searchTerm))
-         {
-            return _repositoryWrapper.ProductRepository.FindAll();
-         }
+		public IEnumerable<Product> SearchProducts(string searchTerm)
+		{
+			if (string.IsNullOrEmpty(searchTerm))
+			{
+				return _repositoryWrapper.ProductRepository.FindAll();
+			}
 
-         return _repositoryWrapper.ProductRepository
-             .FindByCondition(p => p.Name.Contains(searchTerm) || (p.Description != null && p.Description.Contains(searchTerm)));
-      }
-
-   }
+			return _repositoryWrapper.ProductRepository
+				.FindByCondition(p => p.Name.Contains(searchTerm) || (p.Description != null && p.Description.Contains(searchTerm)));
+		}
+	}
 }

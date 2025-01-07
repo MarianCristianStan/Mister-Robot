@@ -1,4 +1,16 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap");
+@font-face {
+	font-family: 'Poppins';
+	src: url('../assets/fonts/Poppins-Regular.woff2') format('woff2'), url('../assets/fonts/Poppins-Regular.woff') format('woff');
+	font-weight: 400;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Poppins';
+	src: url('../assets/fonts/Poppins-Bold.woff2') format('woff2'), url('../assets/fonts/Poppins-Bold.woff') format('woff');
+	font-weight: 700;
+	font-display: swap;
+}
 
 * {
 	box-sizing: border-box;
@@ -67,16 +79,6 @@
 		height: 96px;
 	}
 
-.header-nav a {
-	font-size: 1.6rem;
-	/* //color: #bbe1fa;*/
-	color: #FFD700;
-	text-decoration: none;
-	font-weight: 600;
-	margin-left: 1.5rem;
-	transition: 0.3s;
-	letter-spacing: 2px;
-}
 
 .header-nav .page-type {
 	font-size: 1.5rem;
@@ -87,11 +89,6 @@
 	letter-spacing: 1px;
 }
 
-.header-nav a:hover {
-	-webkit-text-stroke: 2px var(--green); 
-	color: var(--green); 
-	transition: color 0.3s, -webkit-text-stroke 0.3s;
-}
 
 .content a {
 	font-size: 24px;
@@ -233,4 +230,36 @@
 		font-size: 1.2rem;
 		padding: 0.6rem 1.5rem;
 	}
+}
+
+
+.nav-link {
+	display: inline-flex; 
+	align-items: center;
+	margin-left: 1.5rem;
+	font-size: 1.6rem; 
+	color: var(--yellow); 
+	text-decoration: none;
+	font-weight: 600; 
+	letter-spacing: 2.5px; 
+	transition: color 0.3s ease; 
+}
+
+	.nav-link:hover {
+		-webkit-text-stroke: 2px var(--green);
+		color: var(--green);
+		transition: color 0.3s, -webkit-text-stroke 0.3s;
+	}
+
+.nav-icon img {
+	width: 1em;
+	height: 1em;
+	margin-right: 8px; 
+	filter: brightness(0) invert(1); 
+	transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link:hover .nav-icon img {
+	filter: brightness(0.8) invert(0.5); 
+	transform: scale(1.1); 
 }

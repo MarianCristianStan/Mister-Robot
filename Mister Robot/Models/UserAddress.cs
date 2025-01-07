@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mister_Robot.Models
 {
    public class UserAddress
    {
       [Key]
-      public int UserAddressID { get; set; }
+		[MaxLength(50)]
+		public required string UserAddressId { get; set; }  = $"ADDRESS-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
 
-      [Required]
+		[Required]
       [MaxLength(50)]
       public required string City { get; set; }
 
@@ -24,10 +26,13 @@ namespace Mister_Robot.Models
       public required string PostalCode { get; set; }
 
       [Phone]
-      public string? PhoneNumber { get; set; }
+      [MaxLength(15)]
+		public string? PhoneNumber { get; set; }
 
       [Required]
-      public required string UserId { get; set; }
-      public User? User { get; set; }
+		public required string UserId { get; set; }
+
+      [ForeignKey("UserId")]
+		public User? User { get; set; }
    }
 }

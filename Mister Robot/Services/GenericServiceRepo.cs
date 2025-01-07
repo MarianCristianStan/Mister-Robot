@@ -22,7 +22,7 @@ namespace Mister_Robot.Services
 			return _repository.FindAll().ToList();
 		}
 
-		public T GetById(int id)
+		public T GetById(string id)
 		{
 			// Get the primary key name dynamically for the entity type
 			var primaryKeyProperty = typeof(T)
@@ -37,7 +37,7 @@ namespace Mister_Robot.Services
 			var primaryKeyName = primaryKeyProperty.Name;
 
 			// Find the entity by the primary key
-			return _repository.FindByCondition(e => EF.Property<int>(e, primaryKeyName) == id).FirstOrDefault();
+			return _repository.FindByCondition(e => EF.Property<string>(e, primaryKeyName) == id).FirstOrDefault();
 		}
 
 
@@ -53,7 +53,7 @@ namespace Mister_Robot.Services
 			_repositoryWrapper.Save();
 		}
 
-		public void Delete(int id)
+		public void Delete(string id)
 		{
 			
 			var primaryKeyProperty = typeof(T)
@@ -68,7 +68,7 @@ namespace Mister_Robot.Services
 			var primaryKeyName = primaryKeyProperty.Name;
 
 			
-			var entity = _repository.FindByCondition(e => EF.Property<int>(e, primaryKeyName) == id).FirstOrDefault();
+			var entity = _repository.FindByCondition(e => EF.Property<string>(e, primaryKeyName) == id).FirstOrDefault();
 
 			if (entity != null)
 			{

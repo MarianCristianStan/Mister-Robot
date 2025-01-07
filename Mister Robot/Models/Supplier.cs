@@ -5,18 +5,21 @@ namespace Mister_Robot.Models
    public class Supplier
    {
       [Key]
-      public int SupplierID { get; set; }
+      [MaxLength(50)]
+		public required string SupplierId { get; set; } = $"SUPPLIER-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
 
-      [Required]
+		[Required]
       [MaxLength(100)]
       public required string Name { get; set; }
 
       [Required]
       [Phone]
-      public required string ContactNumber { get; set; }
+      [MaxLength(15)]
+		public required string ContactNumber { get; set; }
 
       [EmailAddress]
-      public string? Email { get; set; }
+      [MaxLength(50)]
+		public string? Email { get; set; }
 
       [Required]
       [MaxLength(250)]

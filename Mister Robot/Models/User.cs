@@ -13,10 +13,15 @@ namespace Mister_Robot.Models
       [Required]
       [MaxLength(50)]
       public required string LastName { get; set; }
-      public string? Gender { get; set; }
+
       public byte[]? ProfilePicture { get; set; }
 
 		public UserAddress? UserAddress { get; set; }
-	}
+		public  Cart? Cart { get; set; }
+		public  Wishlist? Wishlist { get; set; }
 
+		public ICollection<Order>? Orders { get; set; }
+	}
 }
+
+

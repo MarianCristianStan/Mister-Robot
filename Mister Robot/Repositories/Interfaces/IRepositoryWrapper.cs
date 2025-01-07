@@ -7,10 +7,13 @@ namespace Mister_Robot.Repositories.Interfaces
 		IUserRepository UserRepository { get; }
 		IUserAddressRepository UserAddressRepository { get; }
 		IProductRepository ProductRepository { get; }
-		ICPURepository CPURepository { get; }
-		IGPURepository GPURepository { get; }
 		ISupplierRepository SupplierRepository { get; }
 		IProductCategoryRepository ProductCategoryRepository { get; }
+		IProductFeatureRepository ProductFeatureRepository { get; }
+		IOrderRepository OrderRepository { get; }
+		IWishlistRepository WishlistRepository { get; }
+		ICartRepository CartRepository { get; }
+		ICartProductRepository CartProductRepository { get; }
 		void Save();
 	}
 }

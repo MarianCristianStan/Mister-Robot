@@ -2,7 +2,7 @@
 
 namespace Mister_Robot.Repositories.Interfaces
 {
-   public interface ICPURepository : IRepositoryBase<CPU>
-   {
-   }
+	public interface ICartProductRepository : IRepositoryBase<CartProduct>
+	{
+	}
 }

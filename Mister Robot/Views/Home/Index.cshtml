@@ -1,5 +1,4 @@
 ﻿@{
-	ViewData["Title"] = "HomePage";
 	Layout = null;
 }
 <!DOCTYPE html>
@@ -8,21 +7,40 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"]</title>
-
+	<meta name="description" content="@ViewData["MetaDescription"]" />
+	<meta name="keywords" content="@ViewData["MetaKeywords"]" />
+	<link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")" />
 	<link rel="stylesheet" href="@Url.Content("~/css/homepage.css")" />
-	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-			rel="stylesheet" />
+
 </head>
 <body class="background-image">
 	<header class="header-nav">
 		<a href="@Url.Action("Index", "Home")" class="logo">
-			<img src="@Url.Content("~/assets/mr_robot_logo.png")"
+			<img src="@Url.Content("~/assets/mr_robot_logo.webp")" alt="Mr. Robot Logo" />
 		</a>
 
 		<nav class="navbar">
-			<a href="@Url.Action("Index", "Home")"><i class="bx bx-home-heart"></i>Home</a>
-			<a href="@Url.Action("Index", "Inventory")">  <i class="bx bx-box"></i>Inventory</a>
-			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })"><i class="bx bx-cog"></i>Settings</a>
+			<a href="@Url.Action("Index", "Home")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/bx-home-heart.svg")" alt="home icon" />
+				</i>
+				Home
+			</a>
+
+			<a href="@Url.Action("Index", "Inventory")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/bx-box.svg")" alt="inventory icon" />
+				</i>
+				Inventory
+			</a>
+
+			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
+				</i>
+
+				Settings
+			</a>
 
 		</nav>
 		<partial name="_LoginPartial" />
@@ -35,14 +53,14 @@
 
 		<div class="content text-center">
 			<h1 class="main-title">Hi, I'm <span class="highlight">Mr. Robot</span></h1>
-			<h1 class="sub-title">Your one-stop assistant for all your electronic needs!</h1>
+			<h1 class="sub-title">Your non-stop assistant for all your electronic needs!</h1>
 			<h1 class="page-type">
 				Discover the best <span class="highlight">CPUs</span>, <span class="highlight">GPUs</span>, and <span class="highlight">Accessories</span> for your setup.
-	      </h1>
+			</h1>
 			<a href="@Url.Action("Index", "Inventory")" class="btn-primary">Visit Inventory</a>
 		</div>
 	</div>
-	
+
 
 
 

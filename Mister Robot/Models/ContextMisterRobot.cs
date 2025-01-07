@@ -8,32 +8,49 @@ namespace Mister_Robot.Models
       public MisterRobotContext(DbContextOptions<MisterRobotContext> options) : base(options)
       {
       }
+		public DbSet<Product>? Products { get; set; }
+		public DbSet<ProductCategory>? ProductCategories { get; set; }
+		public DbSet<Supplier>? Suppliers { get; set; }
+		public DbSet<UserAddress>? UserAddresses { get; set; }
+		public DbSet<Cart>? Carts { get; set; }
+		public DbSet<Wishlist>? Wishlists { get; set; }
+		public DbSet<Order>? Orders { get; set; }
+		public DbSet<ProductFeature>? ProductFeatures { get; set; }
+		public DbSet<CartProduct> CartProducts { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder builder)
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			base.OnModelCreating(builder);
+			base.OnModelCreating(modelBuilder);
 
-			// Product to CPU (One-to-One)
-			builder.Entity<CPU>()
-				 .HasOne(cpu => cpu.Product)
-				 .WithOne(product => product.CPU)
-				 .HasForeignKey<CPU>(cpu => cpu.ProductID)
-				 .OnDelete(DeleteBehavior.Cascade);
+			
+			modelBuilder.Entity<CartProduct>()
+				.HasKey(cp => new { cp.CartId, cp.ProductId });
 
-			// Product to GPU (One-to-One)
-			builder.Entity<GPU>()
-				 .HasOne(gpu => gpu.Product)
-				 .WithOne(product => product.GPU)
-				 .HasForeignKey<GPU>(gpu => gpu.ProductID)
-				 .OnDelete(DeleteBehavior.Cascade);
+			modelBuilder.Entity<CartProduct>()
+				.HasOne(cp => cp.Cart)
+				.WithMany(c => c.CartProducts)
+				.HasForeignKey(cp => cp.CartId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<CartProduct>()
+				.HasOne(cp => cp.Product)
+				.WithMany(p => p.CartProducts)
+				.HasForeignKey(cp => cp.ProductId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<ProductFeature>()
+				.HasKey(pf => new { pf.ProductId, pf.FeatureName });
+
+			modelBuilder.Entity<ProductFeature>()
+				.HasOne(pf => pf.Product)
+				.WithMany(p => p.Features)
+				.HasForeignKey(pf => pf.ProductId);
+
+		
 		}
+	}
 
-	
-		public DbSet<Product> Products { get; set; }
-      public DbSet<ProductCategory> ProductCategories { get; set; }
-      public DbSet<Supplier> Suppliers { get; set; }
-      public DbSet<UserAddress> UserAddresses { get; set; }
-      public DbSet<CPU> CPUs { get; set; }
-      public DbSet<GPU> GPUS { get; set; }
-   }
+
+
 }

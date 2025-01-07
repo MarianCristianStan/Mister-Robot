@@ -57,7 +57,7 @@
 						@foreach (var product in Model)
 						{
 							<tr>
-								<td>@product.ProductID</td>
+								<td>@product.ProductId</td>
 								<td>
 									@if (product.Image != null)
 									{
@@ -74,9 +74,9 @@
 								<td>@product.StockQuantity</td>
 								<td>@product.ProductCategory?.Name</td>
 								<td>
-									<a href="@Url.Action("EditProduct", "Inventory", new { id = product.ProductID })" class="btn-edit">Edit</a>
+									<a href="@Url.Action("EditProduct", "Inventory", new { id = product.ProductId })" class="btn-edit">Edit</a>
 									<form asp-action="Delete" asp-controller="Inventory" method="post" class="inline-form">
-										<input type="hidden" name="id" value="@product.ProductID" />
+										<input type="hidden" name="id" value="@product.ProductId" />
 										<button type="submit" class="btn-delete">Delete</button>
 									</form>
 								</td>

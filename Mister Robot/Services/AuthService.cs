@@ -13,14 +13,18 @@ namespace Mister_Robot.Services
 		private readonly IUserStore<User> _userStore;
 		private readonly IUserEmailStore<User> _emailStore;
 		private readonly SignInManager<User> _signInManager;
-
-		public AuthService(UserManager<User> userManager, IUserStore<User> userStore, SignInManager<User> signInManager)
+		private readonly ICartService _cartService;
+		private readonly IWishlistService _wishlistService;
+		public AuthService(UserManager<User> userManager, IUserStore<User> userStore, SignInManager<User> signInManager, ICartService cartService,
+			IWishlistService wishlistService)
 		{
 			_userManager = userManager;
 			_userStore = userStore;
 			_emailStore = GetEmailStore();
 			_signInManager = signInManager;
 			_signInManager = signInManager;
+			_cartService = cartService;
+			_wishlistService = wishlistService;
 		}
 
       public async Task<IdentityResult> RegisterUserAsync(RegisterModel.InputModel inputModel)
@@ -39,7 +43,30 @@ namespace Mister_Robot.Services
          var defaultProfilePicturePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "default_user.png");
          user.ProfilePicture = await File.ReadAllBytesAsync(defaultProfilePicturePath);
 
-         return await _userManager.CreateAsync(user, inputModel.Password);
+			var result = await _userManager.CreateAsync(user, inputModel.Password);
+
+			if (result.Succeeded)
+			{
+				var cart = new Cart
+				{
+					CartId = Guid.NewGuid().ToString(),
+					UserId = user.Id
+				};
+				_cartService.Add(cart);
+
+				var wishlist = new Wishlist
+				{
+					WishlistId = Guid.NewGuid().ToString(),
+					UserId = user.Id
+				};
+				_wishlistService.Add(wishlist);
+
+				user.Cart = cart;
+				user.Wishlist = wishlist;
+				await _userManager.UpdateAsync(user); 
+			}
+
+			return result;
       }
 
       public async Task<IActionResult> HandleUserRegistrationAsync(string email, string returnUrl)

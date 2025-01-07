@@ -8,15 +8,18 @@ namespace Mister_Robot.Repositories
    {
       private MisterRobotContext _context;
 
-      private IUserRepository? _userRepository;
-      private IProductRepository? _productRepository;
-      private IProductCategoryRepository? _productCategoryRepository;
-      private ISupplierRepository? _supplierRepository;
-      private ICPURepository? _cpuRepository;
-      private IGPURepository? _gpuRepository;
-      private IUserAddressRepository? _userAddressRepository;
-
-      public RepositoryWrapper(MisterRobotContext context)
+		private IUserRepository? _userRepository;
+		private IProductRepository? _productRepository;
+		private IProductCategoryRepository? _productCategoryRepository;
+		private ISupplierRepository? _supplierRepository;
+		private IUserAddressRepository? _userAddressRepository;
+		private ICartRepository? _cartRepository;
+		private ICartProductRepository? _cartProductRepository;
+		private IWishlistRepository? _wishlistRepository;
+		private IOrderRepository? _orderRepository;
+		private IProductFeatureRepository? _productFeatureRepository;
+		
+		public RepositoryWrapper(MisterRobotContext context)
       {
          _context = context;
       }
@@ -69,30 +72,6 @@ namespace Mister_Robot.Repositories
          }
       }
 
-      public ICPURepository CPURepository
-      {
-         get
-         {
-            if (_cpuRepository == null)
-            {
-               _cpuRepository = new CPURepository(_context);
-            }
-            return _cpuRepository;
-         }
-      }
-
-      public IGPURepository GPURepository
-      {
-         get
-         {
-            if (_gpuRepository == null)
-            {
-               _gpuRepository = new GPURepository(_context);
-            }
-            return _gpuRepository;
-         }
-      }
-
 		public IUserAddressRepository UserAddressRepository
 		{
 			get
@@ -104,9 +83,65 @@ namespace Mister_Robot.Repositories
 				return _userAddressRepository;
 			}
 		}
+		public ICartRepository CartRepository
+		{
+			get
+			{
+				if (_cartRepository == null)
+				{
+					_cartRepository = new CartRepository(_context);
+				}
+				return _cartRepository;
+			}
+		}
 
-		
+		public ICartProductRepository CartProductRepository
+		{
+			get
+			{
+				if (_cartProductRepository == null)
+				{
+					_cartProductRepository = new CartProductRepository(_context);
+				}
+				return _cartProductRepository;
+			}
+		}
 
+		public IWishlistRepository WishlistRepository
+		{
+			get
+			{
+				if (_wishlistRepository == null)
+				{
+					_wishlistRepository = new WishlistRepository(_context);
+				}
+				return _wishlistRepository;
+			}
+		}
+
+		public IOrderRepository OrderRepository
+		{
+			get
+			{
+				if (_orderRepository == null)
+				{
+					_orderRepository = new OrderRepository(_context);
+				}
+				return _orderRepository;
+			}
+		}
+
+		public IProductFeatureRepository ProductFeatureRepository
+		{
+			get
+			{
+				if (_productFeatureRepository == null)
+				{
+					_productFeatureRepository = new ProductFeatureRepository(_context);
+				}
+				return _productFeatureRepository;
+			}
+		}
 		public void Save()
       {
          _context.SaveChanges();

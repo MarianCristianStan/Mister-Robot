@@ -48,7 +48,7 @@
 
 			<div class="form-group">
 				<label for="Price">Price ($)</label>
-				<input type="number" name="Price" id="Price" class="form-control" step="10" required placeholder="Enter product price" />
+				<input type="number" name="Price" id="Price" class="form-control" required placeholder="Enter product price" />
 			</div>
 
 			<div class="form-group">
@@ -68,7 +68,7 @@
 					<option value="" disabled selected>Select a category</option>
 					@foreach (var category in ViewBag.Categories)
 					{
-						<option value="@category.Id">@category.Name</option>
+						<option value="@category.CategoryId">@category.Name</option>
 					}
 				</select>
 			</div>
@@ -78,7 +78,7 @@
 					<option value="" disabled selected>Select a supplier</option>
 					@foreach (var supplier in ViewBag.Suppliers)
 					{
-						<option value="@supplier.SupplierID">@supplier.Name</option>
+						<option value="@supplier.SupplierId">@supplier.Name</option>
 					}
 				</select>
 			</div>

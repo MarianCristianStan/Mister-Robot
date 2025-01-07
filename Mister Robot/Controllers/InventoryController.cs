@@ -63,7 +63,7 @@ namespace Mister_Robot.Controllers
          foreach (var product in products)
          {
             product.ProductCategory = _productCategoryService.GetById(product.ProductCategoryId);
-            product.Supplier = _supplierService.GetById(product.SupplierID);
+            product.Supplier = _supplierService.GetById(product.SupplierId);
          }
          return View(products);
       }
@@ -106,7 +106,7 @@ namespace Mister_Robot.Controllers
       
       [Authorize(Roles = "Admin")]
       [HttpGet]
-      public IActionResult EditProduct(int id)
+      public IActionResult EditProduct(string id)
       {
          var product = _productService.GetById(id);
 
@@ -125,7 +125,7 @@ namespace Mister_Robot.Controllers
       public IActionResult EditProduct(Product product, IFormFile ImageFile = null)
       {
          
-         var existingProduct = _productService.GetById(product.ProductID);
+         var existingProduct = _productService.GetById(product.ProductId);
          if (existingProduct == null)
          {
             return NotFound();
@@ -165,7 +165,7 @@ namespace Mister_Robot.Controllers
       // Delete Product
       [Authorize(Roles = "Admin")]
       [HttpPost]
-      public IActionResult Delete(int id)
+      public IActionResult Delete(string id)
       {
          _productService.Delete(id);
          return RedirectToAction("Manage");

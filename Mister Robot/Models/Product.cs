@@ -7,9 +7,10 @@ namespace Mister_Robot.Models
    public class Product
    {
       [Key]
-      public int ProductID { get; set; }
+      [MaxLength(50)]
+		public required string ProductId { get; set; } = $"PRODUCT-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
 
-      [Required]
+		[Required]
       [MaxLength(100)]
       public required string Name { get; set; }
 
@@ -20,26 +21,37 @@ namespace Mister_Robot.Models
 		public byte[]? Image { get; set; }
 
       [MaxLength(500)]
-      public string? Description { get; set; } 
+      public string? Description { get; set; }
 
-		[Required]
-      [Range(0, double.MaxValue)]
-		[Precision(18, 2)]
-		public decimal Price { get; set; }
+      [Required(ErrorMessage = "Price is required.")]
+      [Range(0.01, double.MaxValue, ErrorMessage = "Price must be a positive value.")]
+      [Precision(18, 2)]
+      public decimal Price { get; set; }
+
 
       [Required]
       [Range(0, int.MaxValue)]
       public int StockQuantity { get; set; }
 
-      [Required]
-      public int SupplierID { get; set; }
-      public Supplier? Supplier { get; set; }
+		[Required]
+		[MaxLength(50)]
+		public required string SupplierId { get; set; }
 
-      public int ProductCategoryId { get; set; }
+		[ForeignKey("SupplierId")]
+		public Supplier? Supplier { get; set; }
 
-      public ProductCategory? ProductCategory { get; set; }
+		[Required]
+		[MaxLength(50)]
+		public required string ProductCategoryId { get; set; }
 
-		public CPU? CPU { get; set; }
-		public GPU? GPU { get; set; }
+		[ForeignKey("ProductCategoryId")]
+		public ProductCategory? ProductCategory { get; set; }
+
+		public ICollection<ProductFeature>? Features { get; set; }
+
+		public ICollection<CartProduct>? CartProducts { get; set; }
+		public ICollection<Wishlist>? Wishlists { get; set; }
+		public ICollection<Order>? Orders { get; set; }
+		
 	}
 }

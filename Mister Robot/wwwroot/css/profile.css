@@ -26,6 +26,7 @@
 		height: 30px;
 	}
 }
+
 .background-image {
 	position: relative;
 	width: 100%;
@@ -36,20 +37,21 @@
 	background-attachment: fixed;
 	z-index: -1;
 }
-	.header-nav {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		padding: 1.3rem 2rem;
-		display: flex;
-		justify-content: space-between;
-		background: rgba(0, 0, 0, 0.2);
-		backdrop-filter: blur(50px);
-		align-items: center;
-		z-index: 100;
-		text-align: center;
-	}
+
+.header-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 1.3rem 2rem;
+	display: flex;
+	justify-content: space-between;
+	background: rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(50px);
+	align-items: center;
+	z-index: 100;
+	text-align: center;
+}
 
 	.header-nav::after {
 		content: "";
@@ -85,9 +87,13 @@
 	border-radius: 50%;
 	margin-bottom: 1rem;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-	border: 4px solid var(--yellow);
+	border: 5px solid var(--yellow);
 }
-
+	.profile img:hover {
+		border-color: var(--green);
+		transition: border-color var(--transition);
+		transform: scale(1.05);
+	}
 .header-nav a {
 	font-size: 1.6rem;
 	/* //color: #bbe1fa;*/
@@ -187,7 +193,7 @@
 	.profile h1 {
 		font-family: "Montserrat", sans-serif;
 		color: #001f3f;
-		font-size: 2rem;
+		font-size: 2.1rem;
 		margin-top: 3rem;
 		margin-bottom: 1.5rem;
 		text-align: center;
@@ -207,19 +213,18 @@
 
 	.profile .form-control {
 		width: 100%;
-		padding: 10px;
+		padding: 12px;
 		margin-bottom: 15px;
 		border: 1px solid #ccc;
 		border-radius: 6px;
 		background-color: #f8f8f8;
 		transition: border-color 0.3s ease-in-out;
 		color: #555;
-		font-size: 1rem;
+		font-size: 1.2rem;
 	}
 
 		.profile .form-control:focus {
 			border: 1px solid var(--green);
-			
 			outline: none;
 			box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
 		}
@@ -290,7 +295,6 @@
 		font-family: "Montserrat", sans-serif;
 		font-size: 0.9rem;
 		padding: 10px 0;
-	
 	}
 
 .profile-settings-btn {
