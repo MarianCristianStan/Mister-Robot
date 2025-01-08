@@ -5,9 +5,9 @@ namespace Mister_Robot.Models
 {
 	public class Wishlist
 	{
-		[Key]
+        [Key]
 		[MaxLength(50)]
-		public required string WishlistId { get; set; } = $"WISHLIST-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
+		public string WishlistId { get; set; } = $"WISHLIST-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
 
 		[Required]
 		public required string UserId { get; set; }
@@ -15,6 +15,8 @@ namespace Mister_Robot.Models
 		[ForeignKey("UserId")]
 		public User? User { get; set; }
 
-		public ICollection<Product>? Products { get; set; }
-	}
+		public ICollection<WishlistProduct>? WishlistProducts { get; set; } = new List<WishlistProduct>();
+
+
+    }
 }

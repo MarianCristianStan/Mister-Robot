@@ -1,42 +1,30 @@
-﻿/* Custom styles for navbar items */
-.navbar-nav {
+﻿.navbar-nav {
 	list-style: none;
 	display: flex;
-	align-items: center; 
+	align-items: center;
+	gap: 1rem;
 }
 
 	.navbar-nav .nav-item {
-		margin-right: 10px; 
+		margin-right: 10px;
 	}
 
 #logout {
-	color: white;
-	background-color: transparent;
+	font-size: 1rem;
+	color: var(--white);
+	padding: 0.3rem 1.5rem;
 	border: none;
-	border-radius: 70%;
-	width: 60px;
-	height: 60px;
+	border-radius: 8px;
+	text-decoration: none;
+	background: linear-gradient(135deg, #232526, #414345);
+	font-weight: bold;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
 	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	transition: background-color 0.3s ease;
+	transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 	#logout:hover {
-		background-color: rgba(52, 152, 219, 0.1);
-		box-shadow: 0 0 10px rgb(255, 216, 0); 
+		transform: scale(1.1);
+		box-shadow: 0 0 40px rgba(255, 215, 0, 1);
+		background: linear-gradient(135deg, #1f4037, #99f2c8);
 	}
-
-	/* Icon styles */
-	#logout i {
-		color: white; 
-		font-size: 18px; 
-		transition: transform 0.3s ease; 
-	}
-
-	#logout:hover i {
-		transform: scale(1.2); 
-	}
-
-

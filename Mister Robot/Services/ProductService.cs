@@ -29,5 +29,8 @@ namespace Mister_Robot.Services
 			return _repositoryWrapper.ProductRepository
 				.FindByCondition(p => p.Name.Contains(searchTerm) || (p.Description != null && p.Description.Contains(searchTerm)));
 		}
-	}
+
+      
+
+    }
 }

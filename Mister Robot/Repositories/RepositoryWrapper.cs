@@ -18,8 +18,9 @@ namespace Mister_Robot.Repositories
 		private IWishlistRepository? _wishlistRepository;
 		private IOrderRepository? _orderRepository;
 		private IProductFeatureRepository? _productFeatureRepository;
-		
-		public RepositoryWrapper(MisterRobotContext context)
+        private IWishlistProductRepository? _wishlistProductRepository;
+        private IOrderProductRepository? _orderProductRepository;
+        public RepositoryWrapper(MisterRobotContext context)
       {
          _context = context;
       }
@@ -106,8 +107,30 @@ namespace Mister_Robot.Repositories
 				return _cartProductRepository;
 			}
 		}
+        public IWishlistProductRepository WishlistProductRepository
+        {
+            get
+            {
+                if (_wishlistProductRepository == null)
+                {
+                    _wishlistProductRepository = new WishlistProductRepository(_context);
+                }
+                return _wishlistProductRepository;
+            }
+        }
 
-		public IWishlistRepository WishlistRepository
+        public IOrderProductRepository OrderProductRepository
+        {
+            get
+            {
+                if (_orderProductRepository == null)
+                {
+                    _orderProductRepository = new OrderProductRepository(_context);
+                }
+                return _orderProductRepository;
+            }
+        }
+        public IWishlistRepository WishlistRepository
 		{
 			get
 			{

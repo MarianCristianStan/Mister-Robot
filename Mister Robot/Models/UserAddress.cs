@@ -7,7 +7,7 @@ namespace Mister_Robot.Models
    {
       [Key]
 		[MaxLength(50)]
-		public required string UserAddressId { get; set; }  = $"ADDRESS-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
+		public string UserAddressId { get; set; }  = $"ADDRESS-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
 
 		[Required]
       [MaxLength(50)]

@@ -20,6 +20,6 @@ namespace Mister_Robot.Models
 		public required string FeatureValue { get; set; }
 
 		[ForeignKey("ProductId")]
-		public required Product Product { get; set; }
+		public Product? Product { get; set; }
 	}
 }

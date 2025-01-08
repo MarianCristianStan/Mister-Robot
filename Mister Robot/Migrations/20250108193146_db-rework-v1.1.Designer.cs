@@ -12,8 +12,8 @@ using Mister_Robot.Models;
 namespace Mister_Robot.Migrations
 {
     [DbContext(typeof(MisterRobotContext))]
-    [Migration("20250107175710_db-rework-v1")]
-    partial class dbreworkv1
+    [Migration("20250108193146_db-rework-v1.1")]
+    partial class dbreworkv11
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,7 +197,7 @@ namespace Mister_Robot.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartProducts");
+                    b.ToTable("CartProduct");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.Order", b =>
@@ -209,8 +209,13 @@ namespace Mister_Robot.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("TotalAmount")
-                        .HasColumnType("float");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -221,6 +226,23 @@ namespace Mister_Robot.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.OrderProduct", b =>
+                {
+                    b.Property<string>("OrderId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderProduct");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.Product", b =>
@@ -246,8 +268,9 @@ namespace Mister_Robot.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductCategoryId")
                         .IsRequired()
@@ -487,34 +510,21 @@ namespace Mister_Robot.Migrations
                     b.ToTable("Wishlists");
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
+            modelBuilder.Entity("Mister_Robot.Models.WishlistProduct", b =>
                 {
-                    b.Property<string>("OrdersOrderId")
+                    b.Property<string>("WishlistId")
+                        .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("ProductsProductId")
+                    b.Property<string>("ProductId")
+                        .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("OrdersOrderId", "ProductsProductId");
+                    b.HasKey("WishlistId", "ProductId");
 
-                    b.HasIndex("ProductsProductId");
+                    b.HasIndex("ProductId");
 
-                    b.ToTable("OrderProduct");
-                });
-
-            modelBuilder.Entity("ProductWishlist", b =>
-                {
-                    b.Property<string>("ProductsProductId")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("WishlistsWishlistId")
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("ProductsProductId", "WishlistsWishlistId");
-
-                    b.HasIndex("WishlistsWishlistId");
-
-                    b.ToTable("ProductWishlist");
+                    b.ToTable("WishlistProduct");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -590,7 +600,7 @@ namespace Mister_Robot.Migrations
                     b.HasOne("Mister_Robot.Models.Product", "Product")
                         .WithMany("CartProducts")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cart");
@@ -607,6 +617,25 @@ namespace Mister_Robot.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.OrderProduct", b =>
+                {
+                    b.HasOne("Mister_Robot.Models.Order", "Order")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mister_Robot.Models.Product", "Product")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.Product", b =>
@@ -670,34 +699,23 @@ namespace Mister_Robot.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
+            modelBuilder.Entity("Mister_Robot.Models.WishlistProduct", b =>
                 {
-                    b.HasOne("Mister_Robot.Models.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersOrderId")
+                    b.HasOne("Mister_Robot.Models.Product", "Product")
+                        .WithMany("WishlistProducts")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Mister_Robot.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ProductWishlist", b =>
-                {
-                    b.HasOne("Mister_Robot.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductId")
+                    b.HasOne("Mister_Robot.Models.Wishlist", "Wishlist")
+                        .WithMany("WishlistProducts")
+                        .HasForeignKey("WishlistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Mister_Robot.Models.Wishlist", null)
-                        .WithMany()
-                        .HasForeignKey("WishlistsWishlistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Product");
+
+                    b.Navigation("Wishlist");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.Cart", b =>
@@ -705,11 +723,20 @@ namespace Mister_Robot.Migrations
                     b.Navigation("CartProducts");
                 });
 
+            modelBuilder.Entity("Mister_Robot.Models.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
+                });
+
             modelBuilder.Entity("Mister_Robot.Models.Product", b =>
                 {
                     b.Navigation("CartProducts");
 
                     b.Navigation("Features");
+
+                    b.Navigation("OrderProducts");
+
+                    b.Navigation("WishlistProducts");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.ProductCategory", b =>
@@ -733,6 +760,11 @@ namespace Mister_Robot.Migrations
                     b.Navigation("UserAddress");
 
                     b.Navigation("Wishlist");
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.Wishlist", b =>
+                {
+                    b.Navigation("WishlistProducts");
                 });
 #pragma warning restore 612, 618
         }

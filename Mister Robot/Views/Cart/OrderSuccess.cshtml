@@ -1,0 +1,25 @@
+﻿@{
+	ViewData["Title"] = "Order Success";
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+	<link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/checkoutResponse.css")" />
+
+</head>
+
+<body>
+	
+<div class="container">
+	<h1>🎉 Order Successful!</h1>
+	<p>Thank you for your purchase. Your order has been processed successfully.</p>
+	<a href="@Url.Action("Index", "Inventory")" class="btn-primary">Back to Shop</a>
+</div>
+
+</body>

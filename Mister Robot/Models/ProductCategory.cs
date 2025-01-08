@@ -7,7 +7,7 @@ namespace Mister_Robot.Models
 	{
 		[Key]
 		[MaxLength(50)]
-		public required string CategoryId { get; set; } = $"CATEGORY-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
+		public string CategoryId { get; set; } = $"CATEGORY-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
 
 		[Required]
 		[MaxLength(50)]
@@ -16,7 +16,7 @@ namespace Mister_Robot.Models
 		[MaxLength(500)]
 		public string? Description { get; set; }
 
-		public ICollection<Product>? Products { get; set; }
+		public ICollection<Product>? Products { get; set; } = new List<Product>();
 
 		[MaxLength(50)]
 		public string? ParentCategoryId { get; set; }

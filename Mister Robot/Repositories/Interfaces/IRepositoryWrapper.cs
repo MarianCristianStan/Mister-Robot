@@ -14,6 +14,9 @@ namespace Mister_Robot.Repositories.Interfaces
 		IWishlistRepository WishlistRepository { get; }
 		ICartRepository CartRepository { get; }
 		ICartProductRepository CartProductRepository { get; }
+		IWishlistProductRepository WishlistProductRepository { get; }
+		IOrderProductRepository OrderProductRepository { get; }
+
 		void Save();
 	}
 }

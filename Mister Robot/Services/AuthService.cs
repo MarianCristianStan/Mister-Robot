@@ -49,14 +49,12 @@ namespace Mister_Robot.Services
 			{
 				var cart = new Cart
 				{
-					CartId = Guid.NewGuid().ToString(),
 					UserId = user.Id
 				};
 				_cartService.Add(cart);
 
 				var wishlist = new Wishlist
 				{
-					WishlistId = Guid.NewGuid().ToString(),
 					UserId = user.Id
 				};
 				_wishlistService.Add(wishlist);

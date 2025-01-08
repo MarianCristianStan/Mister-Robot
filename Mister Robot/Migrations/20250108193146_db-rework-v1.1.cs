@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Mister_Robot.Migrations
 {
     /// <inheritdoc />
-    public partial class dbreworkv1 : Migration
+    public partial class dbreworkv11 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -218,7 +218,8 @@ namespace Mister_Robot.Migrations
                     OrderId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalAmount = table.Column<double>(type: "float", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -281,7 +282,7 @@ namespace Mister_Robot.Migrations
                     Brand = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Price = table.Column<double>(type: "float", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     StockQuantity = table.Column<int>(type: "int", nullable: false),
                     SupplierId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ProductCategoryId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
@@ -304,7 +305,7 @@ namespace Mister_Robot.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CartProducts",
+                name: "CartProduct",
                 columns: table => new
                 {
                     CartId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -313,40 +314,40 @@ namespace Mister_Robot.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartProducts", x => new { x.CartId, x.ProductId });
+                    table.PrimaryKey("PK_CartProduct", x => new { x.CartId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_CartProducts_Carts_CartId",
+                        name: "FK_CartProduct_Carts_CartId",
                         column: x => x.CartId,
                         principalTable: "Carts",
                         principalColumn: "CartId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CartProducts_Products_ProductId",
+                        name: "FK_CartProduct_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "OrderProduct",
                 columns: table => new
                 {
-                    OrdersOrderId = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    ProductsProductId = table.Column<string>(type: "nvarchar(50)", nullable: false)
+                    OrderId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderProduct", x => new { x.OrdersOrderId, x.ProductsProductId });
+                    table.PrimaryKey("PK_OrderProduct", x => new { x.OrderId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_OrderProduct_Orders_OrdersOrderId",
-                        column: x => x.OrdersOrderId,
+                        name: "FK_OrderProduct_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderProduct_Products_ProductsProductId",
-                        column: x => x.ProductsProductId,
+                        name: "FK_OrderProduct_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
@@ -372,24 +373,24 @@ namespace Mister_Robot.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductWishlist",
+                name: "WishlistProduct",
                 columns: table => new
                 {
-                    ProductsProductId = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    WishlistsWishlistId = table.Column<string>(type: "nvarchar(50)", nullable: false)
+                    WishlistId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ProductId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductWishlist", x => new { x.ProductsProductId, x.WishlistsWishlistId });
+                    table.PrimaryKey("PK_WishlistProduct", x => new { x.WishlistId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_ProductWishlist_Products_ProductsProductId",
-                        column: x => x.ProductsProductId,
+                        name: "FK_WishlistProduct_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductWishlist_Wishlists_WishlistsWishlistId",
-                        column: x => x.WishlistsWishlistId,
+                        name: "FK_WishlistProduct_Wishlists_WishlistId",
+                        column: x => x.WishlistId,
                         principalTable: "Wishlists",
                         principalColumn: "WishlistId",
                         onDelete: ReferentialAction.Cascade);
@@ -435,8 +436,8 @@ namespace Mister_Robot.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartProducts_ProductId",
-                table: "CartProducts",
+                name: "IX_CartProduct_ProductId",
+                table: "CartProduct",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -446,9 +447,9 @@ namespace Mister_Robot.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderProduct_ProductsProductId",
+                name: "IX_OrderProduct_ProductId",
                 table: "OrderProduct",
-                column: "ProductsProductId");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -471,15 +472,15 @@ namespace Mister_Robot.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductWishlist_WishlistsWishlistId",
-                table: "ProductWishlist",
-                column: "WishlistsWishlistId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserAddresses_UserId",
                 table: "UserAddresses",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WishlistProduct_ProductId",
+                table: "WishlistProduct",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Wishlists_UserId",
@@ -507,7 +508,7 @@ namespace Mister_Robot.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CartProducts");
+                name: "CartProduct");
 
             migrationBuilder.DropTable(
                 name: "OrderProduct");
@@ -516,10 +517,10 @@ namespace Mister_Robot.Migrations
                 name: "ProductFeatures");
 
             migrationBuilder.DropTable(
-                name: "ProductWishlist");
+                name: "UserAddresses");
 
             migrationBuilder.DropTable(
-                name: "UserAddresses");
+                name: "WishlistProduct");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

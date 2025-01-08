@@ -36,9 +36,6 @@ namespace Mister_Robot.Areas.Identity.Pages.Account.Manage
          [Display(Name = "Last Name")]
          public string LastName { get; set; }
 
-         [Display(Name = "Gender")]
-         public string Gender { get; set; }
-
          [EmailAddress]
          [Display(Name = "Email")]
          public string Email { get; set; }

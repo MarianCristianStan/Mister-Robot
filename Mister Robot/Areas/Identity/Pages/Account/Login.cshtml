@@ -11,7 +11,9 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"]</title>
-	<link rel="stylesheet" href="~/css/register_login.css" />
+	<link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/register_login.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 	<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
@@ -20,12 +22,23 @@
 
 	<header class="header-nav">
 		<a href="@Url.Action("Index", "Home")" class="logo">
-			<img src="@Url.Content("~/assets/mr_robot_logo.png")" />
+			<img src="@Url.Content("~/assets/mr_robot_logo.webp")" alt="Mr. Robot Logo" />
 		</a>
+
 		<nav class="navbar">
-			<a href="@Url.Action("Index", "Home")"><i class="bx bx-home-heart"></i>Home</a>
-			<a href="@Url.Action("Index", "Inventory")">  <i class="bx bx-box"></i>Inventory</a>
-			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })"><i class="bx bx-cog"></i>Settings</a>
+			<a href="@Url.Action("Index", "Home")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/bx-home-heart.svg")" alt="home icon" />
+				</i>
+				Home
+			</a>
+
+			<a href="@Url.Action("Index", "Inventory")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/bx-box.svg")" alt="inventory icon" />
+				</i>
+				Inventory
+			</a>
 		</nav>
 		<partial name="_LoginPartial" />
 	</header>

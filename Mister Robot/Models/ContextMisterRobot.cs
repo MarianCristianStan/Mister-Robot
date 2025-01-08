@@ -17,14 +17,15 @@ namespace Mister_Robot.Models
 		public DbSet<Order>? Orders { get; set; }
 		public DbSet<ProductFeature>? ProductFeatures { get; set; }
 		public DbSet<CartProduct> CartProducts { get; set; }
+        public DbSet<CartProduct> WishlistProducts { get; set; }
 
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 
-			
-			modelBuilder.Entity<CartProduct>()
+            // CarttProduct Configuration
+            modelBuilder.Entity<CartProduct>()
 				.HasKey(cp => new { cp.CartId, cp.ProductId });
 
 			modelBuilder.Entity<CartProduct>()
@@ -37,9 +38,42 @@ namespace Mister_Robot.Models
 				.HasOne(cp => cp.Product)
 				.WithMany(p => p.CartProducts)
 				.HasForeignKey(cp => cp.ProductId)
-				.OnDelete(DeleteBehavior.Restrict);
+				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<ProductFeature>()
+            // WishlistProduct Configuration
+            modelBuilder.Entity<WishlistProduct>()
+                .HasKey(wp => new { wp.WishlistId, wp.ProductId });
+
+            modelBuilder.Entity<WishlistProduct>()
+                .HasOne(wp => wp.Wishlist)
+                .WithMany(w => w.WishlistProducts)
+                .HasForeignKey(wp => wp.WishlistId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<WishlistProduct>()
+                .HasOne(wp => wp.Product)
+                .WithMany(p => p.WishlistProducts)
+                .HasForeignKey(wp => wp.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // OrderProduct Configuration
+            modelBuilder.Entity<OrderProduct>()
+                .HasKey(op => new { op.OrderId, op.ProductId });
+
+            modelBuilder.Entity<OrderProduct>()
+                .HasOne(op => op.Order)
+                .WithMany(o => o.OrderProducts)
+                .HasForeignKey(op => op.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OrderProduct>()
+                .HasOne(op => op.Product)
+                .WithMany(p => p.OrderProducts)
+                .HasForeignKey(op => op.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<ProductFeature>()
 				.HasKey(pf => new { pf.ProductId, pf.FeatureName });
 
 			modelBuilder.Entity<ProductFeature>()
@@ -47,8 +81,7 @@ namespace Mister_Robot.Models
 				.WithMany(p => p.Features)
 				.HasForeignKey(pf => pf.ProductId);
 
-		
-		}
+        }
 	}
 
 

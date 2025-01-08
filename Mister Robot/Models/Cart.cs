@@ -8,7 +8,7 @@ namespace Mister_Robot.Models
 	{
 		[Key]
 		[MaxLength(50)]
-		public required string CartId { get; set; } = $"CART-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
+		public string CartId { get; set; } = $"CART-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
 
 		[Required]
 		public required string UserId { get; set; }
@@ -16,11 +16,11 @@ namespace Mister_Robot.Models
 		[ForeignKey("UserId")]
 		public User? User { get; set; }
 
-		public ICollection<CartProduct>? CartProducts { get; set; }
+		public ICollection<CartProduct>? CartProducts { get; set; } = new List<CartProduct>();
 
-		[NotMapped]
-      [Precision(18, 2)]
-      public decimal TotalPrice => CartProducts?.Sum(cp => cp.Quantity * cp.Product.Price) ?? 0; // Dynamically calculate total price
+        [NotMapped]
+        [Precision(18, 2)]
+        public decimal TotalPrice => CartProducts?.Sum(cp => cp.Quantity * cp.Product.Price) ?? 0; // Dynamically calculate total price
 	}
 
 }

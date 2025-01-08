@@ -1,0 +1,132 @@
+﻿:root {
+   --primary: #ffd700;
+   --dark: #121212;
+   --white: #ffffff;
+   --hover-yellow: #ffdd57;
+   --border-radius: 15px;
+   --shadow: rgba(0, 0, 0, 0.8);
+}
+
+.background-image {
+   position: relative;
+   width: 100%;
+   min-height: 100vh;
+   background-image: url('/assets/background/background_site.jpg');
+   background-size: cover;
+   background-position: center;
+   background-attachment: fixed;
+   z-index: -1;
+}
+
+.wishlist-container {
+   max-width: 75rem;
+   margin: 200px auto;
+   margin-top: 12rem;
+   padding: 40px;
+   background: rgba(0, 0, 0, 0.95);
+   border-radius: var(--border-radius);
+   box-shadow: 0 0 20px var(--shadow);
+   border: 1px solid var(--primary);
+   text-align: center;
+   transition: box-shadow 0.3s ease-in-out;
+   color: var(--white);
+}
+
+   .wishlist-container:hover {
+      box-shadow: 0 0 35px rgba(255, 215, 0, 0.8);
+   }
+
+h1.main-title {
+   font-size: 3rem;
+   color: var(--primary);
+   margin-bottom: 10px;
+   text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+.wishlist-item {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 10px;
+}
+
+.wishlist-table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 20px;
+   border-radius: var(--border-radius);
+   overflow: hidden;
+   box-shadow: 0 0 20px var(--shadow);
+}
+
+   .wishlist-table thead {
+      background: var(--primary);
+      color: var(--dark);
+   }
+
+   .wishlist-table th {
+      padding: 15px;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 1.1rem;
+   }
+
+   .wishlist-table td {
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--primary);
+      vertical-align: middle;
+      white-space: nowrap;
+   }
+
+.wishlist-thumbnail {
+   width: 80px;
+   border-radius: var(--border-radius);
+   border: 2px solid var(--primary);
+   transition: transform 0.3s;
+}
+
+   .wishlist-thumbnail:hover {
+      transform: scale(1.1);
+   }
+
+.btn-remove {
+   background: none;
+   border: none;
+   cursor: pointer;
+   transition: transform 0.2s, filter 0.2s;
+}
+
+   .btn-remove img {
+      width: 30px;
+      filter: invert(38%) sepia(97%) saturate(7493%) hue-rotate(350deg) brightness(105%) contrast(107%);
+   }
+
+   .btn-remove:hover {
+      transform: scale(1.5);
+      filter: brightness(1.5);
+   }
+
+@media (max-width: 768px) {
+   .wishlist-container {
+      width: 95%;
+      padding: 20px;
+   }
+
+   .wishlist-table td {
+      padding: 10px;
+   }
+
+   .wishlist-thumbnail {
+      width: 60px;
+   }
+}
+
+.wishlist-container h1.main-title {
+   color: var(--hover-yellow);
+}
+
+.wishlist-table thead {
+   background: var(--hover-yellow);
+   color: var(--dark);
+}

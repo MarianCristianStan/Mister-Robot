@@ -16,11 +16,11 @@ namespace Mister_Robot.Models
 
       public byte[]? ProfilePicture { get; set; }
 
-		public UserAddress? UserAddress { get; set; }
-		public  Cart? Cart { get; set; }
-		public  Wishlist? Wishlist { get; set; }
+      public UserAddress? UserAddress { get; set; }
+      public  Cart? Cart { get; set; }
+      public  Wishlist? Wishlist { get; set; }
 
-		public ICollection<Order>? Orders { get; set; }
+      public ICollection<Order>? Orders { get; set; } = new List<Order>();
 	}
 }
 

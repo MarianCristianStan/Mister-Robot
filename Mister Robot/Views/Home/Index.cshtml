@@ -10,9 +10,10 @@
 	<meta name="description" content="@ViewData["MetaDescription"]" />
 	<meta name="keywords" content="@ViewData["MetaKeywords"]" />
 	<link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
 	<link rel="stylesheet" href="@Url.Content("~/css/homepage.css")" />
-
 </head>
+
 <body class="background-image">
 	<header class="header-nav">
 		<a href="@Url.Action("Index", "Home")" class="logo">
@@ -34,6 +35,21 @@
 				Inventory
 			</a>
 
+			<a href="@Url.Action("Index", "Cart")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/cart-regular-24.svg")" alt="cart icon" />
+					@* <span class="cart-badge">3</span> *@
+				</i>
+				Cart
+			</a>
+
+			<a href="@Url.Action("Index", "Wishlist")" class="nav-link active">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/bx-heart-circle.svg")" alt="wishlist icon" />
+				</i>
+				Wishlist
+			</a>
+
 			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
 				<i class="nav-icon">
 					<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
@@ -41,6 +57,7 @@
 
 				Settings
 			</a>
+			
 
 		</nav>
 		<partial name="_LoginPartial" />
@@ -57,11 +74,9 @@
 			<h1 class="page-type">
 				Discover the best <span class="highlight">CPUs</span>, <span class="highlight">GPUs</span>, and <span class="highlight">Accessories</span> for your setup.
 			</h1>
-			<a href="@Url.Action("Index", "Inventory")" class="btn-primary">Visit Inventory</a>
+			<a href="@Url.Action("Index", "Inventory")" class="btn-explore">Explore Inventory</a>
 		</div>
 	</div>
-
-
 
 
 </body>

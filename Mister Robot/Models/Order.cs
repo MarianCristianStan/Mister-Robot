@@ -8,7 +8,7 @@ namespace Mister_Robot.Models
 	{
 		[Key]
 		[MaxLength(50)]
-		public required string OrderId { get; set; } = $"ORDER-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
+		public string OrderId { get; set; } = $"ORDER-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
 
 		[Required]
 		public required string UserId { get; set; }
@@ -17,11 +17,13 @@ namespace Mister_Robot.Models
 		public User? User { get; set; }
 
 		[Required]
-		public DateTime OrderDate { get; set; }
+		public DateTime OrderDate { get; set; } = DateTime.UtcNow;
 
-		public ICollection<Product>? Products { get; set; }
-      [Precision(18, 2)]
-      public decimal TotalAmount { get; set; }
+        [Required] public required string Status { get; set; } = "Pending";
+
+		public ICollection<OrderProduct>? OrderProducts { get; set; } = new List<OrderProduct>();
+        [Precision(18, 2)]
+        public decimal TotalAmount { get; set; }
 	}
 
 }
