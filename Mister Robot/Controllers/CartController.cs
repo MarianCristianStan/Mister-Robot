@@ -1,21 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Mister_Robot.Models;
 using Mister_Robot.Services;
 using Mister_Robot.Services.Interfaces;
 
 namespace Mister_Robot.Controllers
 {
-   public class CartController : Controller
+	[Authorize]
+	public class CartController : Controller
    {
       private readonly IStripeService _stripeService;
       private readonly ICartService _cartService;
       private readonly IProductService _productService;
+      private readonly IOrderService _orderService;
+		private readonly IUserService _userService;
 
-		public CartController(IStripeService stripeService, ICartService cartService, IProductService productService)
+      public CartController(IStripeService stripeService, ICartService cartService, IProductService productService, IOrderService orderService, IUserService userService)
       {
          _stripeService = stripeService;
          _cartService = cartService;
          _productService = productService;
+         _orderService = orderService;
+			_userService = userService;
       }
       [Authorize]
 		public IActionResult Index()
@@ -87,6 +93,7 @@ namespace Mister_Robot.Controllers
 					ProductData = new Stripe.Checkout.SessionLineItemPriceDataProductDataOptions
 					{
 						Name = cartItem.Product.Name
+						
 					},
 					UnitAmount = (long)(cartItem.Product.Price * 100)
 				},
@@ -102,10 +109,39 @@ namespace Mister_Robot.Controllers
 
 
 		[Authorize]
-		public IActionResult OrderSuccess()
+      public IActionResult OrderSuccess()
       {
-			_cartService.ClearCart();
+         var user = _userService.GetCurrentUser();
+         var cartItems = _cartService.GetCartItems().Select(cp =>
+         {
+            cp.Product = _productService.GetById(cp.ProductId);
+            return cp;
+         }).ToList();
+
+         var newOrder = new Order
+         {
+            UserId = user.Id,
+            OrderDate = DateTime.UtcNow,
+            Status = "Pending",
+            TotalAmount = cartItems.Sum(cp => cp.Quantity * cp.Product.Price),
+            OrderProducts = cartItems.Select(cp => new OrderProduct
+            {
+               OrderId = Guid.NewGuid().ToString(), // This will be overwritten when saved
+               ProductId = cp.ProductId,
+               Quantity = cp.Quantity
+            }).ToList()
+         };
+         _orderService.CreateOrder(newOrder);
+         _cartService.ClearCart();
+
 			return View();
       }
-	}
+
+    /*  [Authorize]
+      public IActionResult OrderSuccess()
+      {
+         _cartService.ClearCart();
+         return View();
+      }*/
+   }
 }

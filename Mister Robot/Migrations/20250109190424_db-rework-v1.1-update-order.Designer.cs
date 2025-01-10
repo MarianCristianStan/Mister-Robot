@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mister_Robot.Models;
 
@@ -11,9 +12,11 @@ using Mister_Robot.Models;
 namespace Mister_Robot.Migrations
 {
     [DbContext(typeof(MisterRobotContext))]
-    partial class MisterRobotContextModelSnapshot : ModelSnapshot
+    [Migration("20250109190424_db-rework-v1.1-update-order")]
+    partial class dbreworkv11updateorder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

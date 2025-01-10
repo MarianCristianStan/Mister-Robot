@@ -19,6 +19,8 @@ namespace Mister_Robot.Models
 		[ForeignKey("ProductId")]
 		public Product? Product { get; set; }
 
-		
-	}
+      [Required]
+      [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1.")]
+      public int Quantity { get; set; }
+   }
 }

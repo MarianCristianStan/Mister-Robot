@@ -1,7 +1,11 @@
 ﻿:root {
    --primary: #ffd700;
    --dark: #121212;
+   --green: #4caf50;
+   --danger: #ff4d4d;
    --white: #ffffff;
+   --blue: #007bff;
+   --gray: #333;
    --hover-yellow: #ffdd57;
    --border-radius: 15px;
    --shadow: rgba(0, 0, 0, 0.8);
@@ -43,6 +47,12 @@ h1.main-title {
    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
 }
 
+.wishlist-info {
+   font-size: 1.2rem;
+   margin-bottom: 30px;
+   color: var(--white);
+}
+
 .wishlist-item {
    display: flex;
    align-items: center;
@@ -75,10 +85,17 @@ h1.main-title {
       padding: 20px;
       text-align: center;
       border-bottom: 1px solid var(--primary);
+      border-right: 1px solid var(--dark);
       vertical-align: middle;
       white-space: nowrap;
    }
+   .wishlist-table tr:hover {
+      background-color: rgba(255, 215, 0, 0.2);
+   }
 
+   .wishlist-table th:last-child, .order-table td:last-child {
+      border-right: none;
+   }
 .wishlist-thumbnail {
    width: 80px;
    border-radius: var(--border-radius);
@@ -130,3 +147,22 @@ h1.main-title {
    background: var(--hover-yellow);
    color: var(--dark);
 }
+
+
+.btn-continue-shopping {
+   padding: 15px 30px;
+   border-radius: var(--border-radius);
+   background: var(--blue);
+   color: var(--white);
+   text-decoration: none;
+   font-size: 1.2rem;
+   box-shadow: 0 0 15px var(--blue);
+   transition: background 0.3s ease, transform 0.3s ease;
+   display: inline-block;
+   max-width: 300px;
+}
+
+   .btn-continue-shopping:hover {
+      background: var(--green);
+      transform: scale(1.1);
+   }

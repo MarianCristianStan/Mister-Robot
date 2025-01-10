@@ -59,6 +59,13 @@
 				</i>
 				Wishlist
 			</a>
+         
+			<a href="@Url.Action("Index", "Order")" class="nav-link active">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/bx-doughnut-chart.svg")" alt="order icon" />
+				</i>
+				Orders
+			</a>
 			@if (User.IsInRole("Admin"))
 			{
 				<a href="@Url.Action("Manage", "Inventory")" class="nav-link">

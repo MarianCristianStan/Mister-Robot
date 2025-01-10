@@ -1,17 +1,18 @@
-﻿@{
+﻿@model IEnumerable<Mister_Robot.Models.Order>
+@{
+	ViewData["Title"] = "My Orders";
 	Layout = null;
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@ViewData["Title"]</title>
-	<meta name="description" content="@ViewData["MetaDescription"]" />
-	<meta name="keywords" content="@ViewData["MetaKeywords"]" />
 	<link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")" />
 	<link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
-	<link rel="stylesheet" href="@Url.Content("~/css/homepage.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/order.css")" />
 </head>
 
 <body class="background-image">
@@ -34,15 +35,12 @@
 				</i>
 				Inventory
 			</a>
-
 			<a href="@Url.Action("Index", "Cart")" class="nav-link">
 				<i class="nav-icon">
 					<img src="@Url.Content("~/assets/boxicons/cart-regular-24.svg")" alt="cart icon" />
-					@* <span class="cart-badge">3</span> *@
 				</i>
 				Cart
 			</a>
-
 			<a href="@Url.Action("Index", "Wishlist")" class="nav-link active">
 				<i class="nav-icon">
 					<img src="@Url.Content("~/assets/boxicons/bx-heart-circle.svg")" alt="wishlist icon" />
@@ -55,34 +53,53 @@
 				</i>
 				Orders
 			</a>
+			@if (User.IsInRole("Admin"))
+			{
+				<a href="@Url.Action("Manage", "Inventory")" class="nav-link">
+					<i class="nav-icon">
+						<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
+					</i>
+					Manage
+				</a>
+			}
 			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
 				<i class="nav-icon">
 					<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
 				</i>
-
 				Settings
 			</a>
-			
-
 		</nav>
 		<partial name="_LoginPartial" />
 	</header>
 
-	<div class="showcase">
-		<video class="background-video" autoplay loop muted plays-inline>
-			<source src="@Url.Content("~/assets/background/bg_world_loop.mp4")" />
-		</video>
+	<div class="order-summary-container">
+		<h1 class="order-title">📦 Your Order Summary</h1>
+		<p class="order-info">Review your order details below.</p>
 
-		<div class="content text-center">
-			<h1 class="main-title">Hi, I'm <span class="highlight">Mr. Robot</span></h1>
-			<h1 class="sub-title">Your non-stop assistant for all your electronic needs!</h1>
-			<h1 class="page-type">
-				Discover the best <span class="highlight">CPUs</span>, <span class="highlight">GPUs</span>, and <span class="highlight">Accessories</span> for your setup.
-			</h1>
-			<a href="@Url.Action("Index", "Inventory")" class="btn-explore">Explore Inventory</a>
-		</div>
+		<table class="table order-table">
+			<thead>
+				<tr>
+					<th>Order ID</th>
+					<th>Order Date</th>
+					<th>Status</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var order in Model)
+				{
+					<tr>
+						<td>@order.OrderId</td>
+						<td>@order.OrderDate.ToShortDateString()</td>
+						<td>@order.Status</td>
+						<td>
+							<a href="@Url.Action("OrderDetails", "Order", new { orderId = order.OrderId })" class="btn-view">View Details</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
 	</div>
-
-
 </body>
 </html>

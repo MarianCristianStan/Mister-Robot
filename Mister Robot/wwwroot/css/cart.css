@@ -81,6 +81,7 @@ h1.main-title {
       text-transform: uppercase;
       font-weight: bold;
       font-size: 1.1rem;
+      border-right: 2px solid var(--dark);
    }
 
    .cart-table td {
@@ -90,6 +91,13 @@ h1.main-title {
       vertical-align: middle;
       white-space: nowrap;
    }
+   .cart-table tr:hover {
+      background-color: rgba(255, 215, 0, 0.2);
+   }
+
+      .cart-table th:last-child, .cart-table td:last-child {
+         border-right: none;
+      }
 
 .cart-thumbnail {
    width: 80px;
@@ -157,14 +165,17 @@ h1.main-title {
    border-radius: var(--border-radius);
    background: var(--blue);
    color: var(--white);
+   text-decoration: none;
    font-size: 1.2rem;
-   border: none;
-   cursor: pointer;
+   box-shadow: 0 0 15px var(--blue);
+   transition: background 0.3s ease, transform 0.3s ease;
+   display: inline-block;
+   max-width: 300px;
 }
 
    .btn-checkout:hover {
-      background: var(--hover-yellow);
-      color: var(--dark);
+      background: var(--green);
+      transform: scale(1.1);
    }
 
 
@@ -183,6 +194,24 @@ h1.main-title {
    .btn-remove:hover {
       transform: scale(1.4);
       filter: brightness(2);
+   }
+
+.btn-continue-shopping {
+   padding: 15px 30px;
+   border-radius: var(--border-radius);
+   background: var(--blue);
+   color: var(--white);
+   text-decoration: none;
+   font-size: 1.2rem;
+   box-shadow: 0 0 15px var(--blue);
+   transition: background 0.3s ease, transform 0.3s ease;
+   display: inline-block;
+   max-width: 300px;
+}
+
+   .btn-continue-shopping:hover {
+      background: var(--green);
+      transform: scale(1.1);
    }
 
 
@@ -254,5 +283,6 @@ h1.main-title {
    .btn-checkout {
       font-size: 1rem;
       padding: 10px 15px;
+      max-width: 100%;
    }
 }

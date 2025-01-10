@@ -5,7 +5,8 @@ using System.Security.Claims;
 
 namespace Mister_Robot.Controllers
 {
-   public class WishlistController : Controller
+	[Authorize]
+	public class WishlistController : Controller
    {
       private readonly IWishlistService _wishlistService;
       private readonly IProductService _productService;

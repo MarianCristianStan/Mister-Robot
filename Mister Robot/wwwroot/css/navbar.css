@@ -83,8 +83,12 @@
 
 	.logo img {
 		height: 70px;
+		transition: transform 0.3s ease;
 	}
 
+		.logo img:hover {
+			transform: rotate(10deg);
+		}
 
 .header-nav .page-type {
 	font-size: 1.5rem;
@@ -163,3 +167,4 @@
 		justify-content: center;
 	}
 }
+
