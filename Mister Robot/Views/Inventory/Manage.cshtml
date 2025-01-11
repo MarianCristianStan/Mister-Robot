@@ -35,20 +35,14 @@
 				</i>
 				Inventory
 			</a>
-			<a href="@Url.Action("Index", "Cart")" class="nav-link">
-				<i class="nav-icon">
-					<img src="@Url.Content("~/assets/boxicons/cart-regular-24.svg")" alt="cart icon" />
-					@* <span class="cart-badge">3</span> *@
-				</i>
-				Cart
-			</a>
+
 			@if (User.IsInRole("Admin"))
 			{
-				<a href="@Url.Action("Manage", "Inventory")" class="nav-link">
+				<a href="@Url.Action("index", "Admin")" class="nav-link">
 					<i class="nav-icon">
 						<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
 					</i>
-					Manage
+					Admin Panel
 				</a>
 			}
 			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
@@ -107,11 +101,14 @@
 								<td>@product.StockQuantity</td>
 								<td>@product.ProductCategory?.Name</td>
 								<td>
+									<div class="button-group">
 									<a href="@Url.Action("EditProduct", "Inventory", new { id = product.ProductId })" class="btn-edit">Edit</a>
+									<a href="@Url.Action("LinkProductFeatures", "Inventory", new { id = product.ProductId })" class="btn-link">Link Features</a>
 									<form asp-action="Delete" asp-controller="Inventory" method="post" class="inline-form">
-										<input type="hidden" name="id" value="@product.ProductId" />
+										<input type="hidden" name="id" value="@product.ProductId"/>
 										<button type="submit" class="btn-delete">Delete</button>
 									</form>
+									</div>
 								</td>
 							</tr>
 						}

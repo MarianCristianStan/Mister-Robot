@@ -1,20 +1,19 @@
 ﻿@{
+	ViewData["Title"] = "Product Comparison";
 	Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"]</title>
-	<meta name="description" content="@ViewData["MetaDescription"]" />
-	<meta name="keywords" content="@ViewData["MetaKeywords"]" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Product Comparison</title>
 	<link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/comparisonProducts.css")" />
 	<link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
-	<link rel="stylesheet" href="@Url.Content("~/css/homepage.css")" />
 </head>
-
 <body class="background-image">
+
 	<header class="header-nav">
 		<a href="@Url.Action("Index", "Home")" class="logo">
 			<img src="@Url.Content("~/assets/mr_robot_logo.webp")" alt="Mr. Robot Logo" />
@@ -55,17 +54,8 @@
 				</i>
 				Orders
 			</a>
-			
-			@if (User.IsInRole("Admin"))
-			{
-				<a href="@Url.Action("index", "Admin")" class="nav-link">
-					<i class="nav-icon">
-						<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
-					</i>
-					Admin Panel
-				</a>
-			}
-			
+
+
 
 			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
 				<i class="nav-icon">
@@ -73,27 +63,59 @@
 				</i>
 				Settings
 			</a>
-			
+
 
 		</nav>
 		<partial name="_LoginPartial" />
 	</header>
 
-	<div class="showcase">
-		<video class="background-video" autoplay loop muted plays-inline>
-			<source src="@Url.Content("~/assets/background/bg_world_loop.mp4")" />
-		</video>
+	<div class="container">
+		<h1 class="main-title">Compare Products</h1>
 
-		<div class="content text-center">
-			<h1 class="main-title">Hi, I'm <span class="highlight">Mr. Robot</span></h1>
-			<h1 class="sub-title">Your non-stop assistant for all your electronic needs!</h1>
-			<h1 class="page-type">
-				Discover the best <span class="highlight">CPUs</span>, <span class="highlight">GPUs</span>, and <span class="highlight">Accessories</span> for your setup.
-			</h1>
-			<a href="@Url.Action("Index", "Inventory")" class="btn-explore">Explore Inventory</a>
+		<!-- Product Comparison Section -->
+		<div class="product-comparison">
+			<!-- Product 1 Card -->
+			<div class="product-card">
+				<img src="data:image/png;base64,@(Convert.ToBase64String(ViewBag.Product1.Image))" alt="@ViewBag.Product1.Name" class="product-image" />
+				<h3 class="product-title">@ViewBag.Product1.Name</h3>
+				<p><strong>Brand:</strong> @ViewBag.Product1.Brand</p>
+				<p><strong>Price:</strong> $@ViewBag.Product1.Price</p>
+			</div>
+
+			<!-- Product 2 Card -->
+			<div class="product-card">
+				<img src="data:image/png;base64,@(Convert.ToBase64String(ViewBag.Product2.Image))" alt="@ViewBag.Product2.Name" class="product-image" />
+				<h3 class="product-title">@ViewBag.Product2.Name</h3>
+				<p><strong>Brand:</strong> @ViewBag.Product2.Brand</p>
+				<p><strong>Price:</strong> $@ViewBag.Product2.Price</p>
+			</div>
+		</div>
+
+		<!-- Features Comparison Table -->
+		<table class="comparison-table">
+			<thead>
+				<tr>
+					<th>Feature</th>
+					<th>@ViewBag.Product1.Name</th>
+					<th>@ViewBag.Product2.Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in ViewBag.ComparisonResult)
+				{
+					<tr>
+						<td class="feature-name">@item.FeatureName</td>
+						<td class="feature-value">@item.Product1Value</td>
+						<td class="feature-value">@item.Product2Value</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+		<!-- Back Button -->
+		<div class="button-group">
+			<a href="@Url.Action("Index", "Inventory")" class="btn-primary">Back to Inventory</a>
 		</div>
 	</div>
-
-
 </body>
 </html>

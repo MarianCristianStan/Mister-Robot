@@ -5,21 +5,25 @@ namespace Mister_Robot.Models
 {
 	public class ProductFeature
 	{
-		[Key]
-		[Column(Order = 0)]
+		[Required]
 		[MaxLength(50)]
 		public required string ProductId { get; set; }
 
-		[Key]
-		[Column(Order = 1)]
-		[MaxLength(100)]
-		public required string FeatureName { get; set; }
+		[ForeignKey("ProductId")]
+		public Product? Product { get; set; }
+
+		[Required]
+		[MaxLength(50)]
+		public required string FeatureId { get; set; }
+
+		[ForeignKey("FeatureId")]
+		public Feature? Feature { get; set; }
 
 		[Required]
 		[MaxLength(100)]
 		public required string FeatureValue { get; set; }
 
-		[ForeignKey("ProductId")]
-		public Product? Product { get; set; }
+	
+		
 	}
 }

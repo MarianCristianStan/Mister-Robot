@@ -35,21 +35,13 @@
 				</i>
 				Inventory
 			</a>
-			<a href="@Url.Action("Index", "Cart")" class="nav-link">
-				<i class="nav-icon">
-					<img src="@Url.Content("~/assets/boxicons/cart-regular-24.svg")" alt="cart icon" />
-					@* <span class="cart-badge">3</span> *@
-				</i>
-				Cart
-			</a>
-				
 			@if (User.IsInRole("Admin"))
 			{
 				<a href="@Url.Action("Manage", "Inventory")" class="nav-link">
 					<i class="nav-icon">
 						<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
 					</i>
-					Manage
+               Products
 				</a>
 			}
 			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">

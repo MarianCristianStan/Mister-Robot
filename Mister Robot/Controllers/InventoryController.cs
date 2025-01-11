@@ -13,13 +13,18 @@ namespace Mister_Robot.Controllers
       private readonly IProductCategoryService _productCategoryService;
       private readonly IUserService _userService;
       private readonly ISupplierService _supplierService;
+      private readonly IFeatureService _featureService;
+      private readonly IProductFeatureService _productFeatureService;
 
-      public InventoryController(IProductService productService, IUserService userService, IProductCategoryService productCategoryService, ISupplierService supplierService)
+		public InventoryController(IProductService productService, IUserService userService, IProductCategoryService productCategoryService, ISupplierService supplierService,IFeatureService featureService, IProductFeatureService productFeatureService )
       {
          _productService = productService;
          _userService = userService;
          _productCategoryService = productCategoryService;
          _supplierService = supplierService;
+         _featureService = featureService;
+         _productFeatureService = productFeatureService;
+
       }
       public IActionResult Index(string search = null, string category = null)
       {
@@ -171,5 +176,74 @@ namespace Mister_Robot.Controllers
          return RedirectToAction("Manage");
       }
 
-   }
+
+      [HttpGet]
+      public IActionResult LinkProductFeatures(string id)
+      {
+	      var product = _productService.GetById(id);
+	      if (product == null)
+	      {
+		      return NotFound();
+	      }
+
+	      ViewBag.Features = _featureService.GetAll();
+	      return View(product);
+      }
+
+		/*[HttpPost]
+		[Authorize(Roles = "Admin")]
+		public IActionResult LinkProductFeatures(string productId, string featureId, string featureValue)
+		{
+			if (string.IsNullOrEmpty(productId) || string.IsNullOrEmpty(featureId) || string.IsNullOrEmpty(featureValue))
+			{
+				ModelState.AddModelError("", "All fields are required");
+				return RedirectToAction("Manage");
+			}
+
+			var productFeature = new ProductFeature
+			{
+				ProductId = productId,
+				FeatureId = featureId,
+				FeatureValue = featureValue
+			};
+
+			_productFeatureService.Add(productFeature);
+			return RedirectToAction("Manage");
+		}*/
+
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
+		public IActionResult LinkProductFeatures(string productId, string featureId, string featureValue)
+		{
+			// Check if the feature already exists for the product
+			var existingLink = _productFeatureService.GetAll()
+				.FirstOrDefault(pf => pf.ProductId == productId && pf.FeatureId == featureId);
+
+			if (existingLink != null)
+			{
+				// Return the view with an error message without redirecting
+				ViewBag.ErrorMessage = "This feature is already linked to the product.";
+				var product = _productService.GetById(productId);
+				ViewBag.Features = _featureService.GetAll().Where(f => f.ProductCategoryId == product.ProductCategoryId).ToList();
+				return View(product);
+			}
+
+			// If no conflict, add the new feature
+			var productFeature = new ProductFeature
+			{
+				ProductId = productId,
+				FeatureId = featureId,
+				FeatureValue = featureValue
+			};
+
+			_productFeatureService.Add(productFeature);
+
+			// Return to the same page with a success message
+			ViewBag.SuccessMessage = "Feature successfully linked!";
+			var updatedProduct = _productService.GetById(productId);
+			ViewBag.Features = _featureService.GetAll().Where(f => f.ProductCategoryId == updatedProduct.ProductCategoryId).ToList();
+			return View(updatedProduct);
+		}
+
+	}
 }

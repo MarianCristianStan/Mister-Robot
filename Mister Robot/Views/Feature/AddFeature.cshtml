@@ -1,0 +1,83 @@
+﻿@model Mister_Robot.Models.Feature
+@{
+   ViewData["Title"] = "Add Feature";
+   Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>@ViewData["Title"]</title>
+   <link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/feature.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/dashboard.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
+
+</head>
+<body class="background-image">
+   <header class="header-nav">
+      <a href="@Url.Action("Index", "Home")" class="logo">
+         <img src="@Url.Content("~/assets/mr_robot_logo.webp")" alt="Mr. Robot Logo" />
+      </a>
+
+      <nav class="navbar">
+         <a href="@Url.Action("Index", "Home")" class="nav-link">
+            <i class="nav-icon">
+               <img src="@Url.Content("~/assets/boxicons/bx-home-heart.svg")" alt="home icon" />
+            </i>
+            Home
+         </a>
+
+         <a href="@Url.Action("Index", "Inventory")" class="nav-link">
+            <i class="nav-icon">
+               <img src="@Url.Content("~/assets/boxicons/bx-box.svg")" alt="inventory icon" />
+            </i>
+            Inventory
+         @if (User.IsInRole("Admin"))
+         {
+	         <a href="@Url.Action("Manage", "Feature")" class="nav-link">
+		         <i class="nav-icon">
+			         <img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
+		         </i>
+		         Features
+	         </a>
+         }
+         <a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
+            <i class="nav-icon">
+               <img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
+            </i>
+            Settings
+         </a>
+      </nav>
+      <partial name="_LoginPartial" />
+   </header>
+
+   <div class="container add-product-container">
+      <h1 class="main-title">Add New Feature</h1>
+
+      <form asp-action="AddFeature" method="post" class="form-container styled-form">
+         <div class="form-group">
+            <label for="Name">Feature Name</label>
+            <input type="text" name="Name" id="Name" class="form-control" required placeholder="Enter feature name" />
+         </div>
+
+         <div class="form-group">
+            <label for="ProductCategoryId">Category</label>
+            <select name="ProductCategoryId" id="ProductCategoryId" class="form-control" required>
+               <option value="" disabled selected>Select a category</option>
+               @foreach (var category in ViewBag.Categories)
+               {
+                  <option value="@category.CategoryId">@category.Name</option>
+               }
+            </select>
+         </div>
+
+         <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Add Feature</button>
+            <a href="@Url.Action("Manage", "Feature")" class="btn btn-secondary">Cancel</a>
+         </div>
+      </form>
+   </div>
+</body>
+</html>

@@ -45,8 +45,7 @@ public class Product
     [ForeignKey("ProductCategoryId")] 
     public ProductCategory? ProductCategory { get; set; }
 
-    public ICollection<ProductFeature>? Features { get; set; } = new List<ProductFeature>();
-
+    public ICollection<ProductFeature>? ProductFeatures { get; set; } = new List<ProductFeature>();
     public ICollection<CartProduct>? CartProducts { get; set; } = new List<CartProduct>();
     public ICollection<WishlistProduct>? WishlistProducts { get; set; } = new List<WishlistProduct>();
     public ICollection<OrderProduct>? OrderProducts { get; set; } = new List<OrderProduct>();

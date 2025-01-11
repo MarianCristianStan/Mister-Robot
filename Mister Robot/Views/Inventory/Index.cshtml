@@ -68,11 +68,11 @@
 			</a>
 			@if (User.IsInRole("Admin"))
 			{
-				<a href="@Url.Action("Manage", "Inventory")" class="nav-link">
+				<a href="@Url.Action("index", "Admin")" class="nav-link">
 					<i class="nav-icon">
 						<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
 					</i>
-					Manage
+					Admin Panel
 				</a>
 			}
 			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
@@ -115,50 +115,51 @@
       <div class="row">
          @foreach (var product in Model)
          {
-            <div class="card product-card">
-               <!-- Product Image -->
-               @if (product.Image != null)
-               {
-                  <img src="data:image/png;base64,@(Convert.ToBase64String(product.Image))" alt="@product.Name" />
-               }
-               else
-               {
-                  <img src="~/assets/default_product_img.jpg" alt="Default Image" />
-               }
+	         <div class="card product-card">
+					<a href="@Url.Action("Index", "Product", new { id = product.ProductId })" >
 
-               <!-- Card Body -->
-               <div class="card-body">
-                  <h5 class="card-title">@product.Name</h5>
-                  <p class="card-brand">@product.Brand</p>
-                  <p class="card-price">$@product.Price</p>
-                  @if (!string.IsNullOrEmpty(product.Description))
-                  {
-                     <p class="card-description">@product.Description</p>
-                  }
-                  <!-- Wishlist Button with Conditional Heart Icon -->
-                  <form asp-controller="Wishlist" asp-action="ToggleProductWishlist" method="post" class="wishlist-form">
-	                  <input type="hidden" name="productId" value="@product.ProductId" />
-    
-	                  @{
-		                  var userId = UserService.GetCurrentUser().Id;
-		                  var wishlist = WishlistService.GetWishlistByUserId(userId);
-		                  var isInWishlist = wishlist != null && wishlist.WishlistProducts.Any(wp => wp.ProductId == product.ProductId);
-	                  }
+		         @if (product.Image != null)
+		         {
+			         <img src="data:image/png;base64,@(Convert.ToBase64String(product.Image))" alt="@product.Name"/>
+		         }
+		         else
+		         {
+			         <img src="~/assets/default_product_img.jpg" alt="Default Image"/>
+		         }
+					</a>
+		         <!-- Card Body -->
+		         <div class="card-body">
+			         <h5 class="card-title">@product.Name</h5>
+			         <p class="card-brand">@product.Brand</p>
+			         <p class="card-price">$@product.Price</p>
+			         @if (!string.IsNullOrEmpty(product.Description))
+			         {
+				         <p class="card-description">@product.Description</p>
+			         }
+					
+			         <!-- Wishlist Button with Conditional Heart Icon -->
+			         <form asp-controller="Wishlist" asp-action="ToggleProductWishlist" method="post" class="wishlist-form">
+				         <input type="hidden" name="productId" value="@product.ProductId"/>
+				         @{
+					         var userId = UserService.GetCurrentUser().Id;
+					         var wishlist = WishlistService.GetWishlistByUserId(userId);
+					         var isInWishlist = wishlist != null && wishlist.WishlistProducts.Any(wp => wp.ProductId == product.ProductId);
+				         }
 
-	                  <button type="submit" class="wishlist-button" title="Toggle Wishlist">
-		                  <span class="heart-icon @(isInWishlist ? "in-wishlist" : "not-in-wishlist")">
-			                  ♥
-		                  </span>
-	                  </button>
-                  </form>
+				         <button type="submit" class="wishlist-button" title="Toggle Wishlist">
+					         <span class="heart-icon @(isInWishlist ? "in-wishlist" : "not-in-wishlist")">
+						         ♥
+					         </span>
+				         </button>
+			         </form>
 
-                  <!-- Add to Cart Button -->
-                  <form method="post" asp-controller="Cart" asp-action="AddToCart">
-	                  <input type="hidden" name="productId" value="@product.ProductId" />
-	                  <button type="submit" class="btn-add-to-cart">Add to Cart</button>
-                  </form>
-               </div>
-            </div>
+			         <!-- Add to Cart Button -->
+			         <form method="post" asp-controller="Cart" asp-action="AddToCart">
+				         <input type="hidden" name="productId" value="@product.ProductId"/>
+				         <button type="submit" class="btn-add-to-cart">Add to Cart</button>
+			         </form>
+		         </div>
+	         </div>
          }
       </div>
 

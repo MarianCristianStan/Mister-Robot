@@ -1,0 +1,76 @@
+﻿
+
+* {
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+   font-family: "Poppins", sans-serif;
+}
+
+:root {
+   --yellow: #ffd700;
+   --blue: #1b1a55;
+   --green: #4caf50;
+   --white: #ffffff;
+   --dark-bg: #121212;
+}
+
+
+.background-image {
+   position: relative;
+   width: 100%;
+   min-height: 100vh;
+   background-image: url('/assets/background/background_site.jpg');
+   background-size: cover;
+   background-position: center;
+   background-attachment: fixed;
+   z-index: -1;
+}
+
+
+.admin-card-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap;
+   gap: 30px;
+   margin-top: 150px;
+}
+
+.admin-card {
+   background: linear-gradient(145deg, #000000, #1a1a1a);
+   border: 2px solid var(--yellow);
+   padding: 25px;
+   border-radius: 20px;
+   text-align: center;
+   cursor: pointer;
+   transition: all 0.3s ease-in-out;
+   width: 250px;
+   height: 120px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   box-shadow: none; /* No glow by default */
+}
+
+   .admin-card:hover {
+      transform: translateY(-10px) scale(1.1);
+      box-shadow: 0 0 30px var(--yellow); /* Glow effect only on hover */
+   }
+
+   .admin-card a {
+      color: var(--yellow);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 20px;
+      text-transform: uppercase;
+   }
+
+.admin-title {
+   text-align: center;
+   color: var(--yellow);
+   margin-top: 50px;
+   font-size: 2.5rem;
+   text-shadow: 0 0 20px var(--dark-bg);
+   margin-top: 10rem;
+}

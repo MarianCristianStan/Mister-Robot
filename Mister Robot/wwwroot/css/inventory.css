@@ -354,6 +354,7 @@
 		border-bottom: 1px solid var(--yellow);
 	}
 
+
 	.dashboard-table th {
 		background-color: var(--yellow);
 		color: var(--dark-bg);
@@ -370,22 +371,41 @@
 }
 
 .btn-edit {
-	background-color: var(--yellow);
-	color: var(--dark-bg);
 	padding: 0.5rem 1rem;
 	border-radius: 5px;
-	text-decoration: none;
-	margin-right: 10px;
-}
-
-.btn-delete {
-	background-color: crimson;
-	color: var(--white);
-	padding: 0.5rem 1rem;
-	border-radius: 5px;
+	font-weight: bold;
 	border: none;
 	cursor: pointer;
+	color: var(--white);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	text-align: center;
+	text-decoration: none;
+	background-color: var(--yellow);
 }
+.btn-edit:hover {
+	transform: scale(1.1);
+	box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+	filter: brightness(1.1);
+}
+.btn-delete {
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	color: var(--white);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	text-align: center;
+	text-decoration: none;
+	background-color: crimson;
+
+}
+
+	.btn-delete:hover {
+		/*transform: scale(1.1);*/
+		box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+		filter: brightness(1.1);
+	}
 
 .inline-form {
 	display: inline-block;
@@ -438,8 +458,55 @@
 		filter: drop-shadow(0 0 10px red);
 	}
 
-/* Button Hover Animation */
+
 .wishlist-button:hover .heart-icon {
 	transform: scale(1.2);
 }
+
+.btn-link {
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	color: var(--white);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	text-align: center;
+	text-decoration: none;
+	background-color: var(--blue);
+}
+
+	.btn-link:hover {
+		transform: scale(1.1);
+		box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+		filter: brightness(1.1)
+	}
+
+/* Button Group Styling */
+.button-group {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+	.button-group {
+		flex-direction: column; /* Stack buttons vertically on smaller screens */
+		gap: 8px;
+		align-items: center;
+	}
+
+	.btn-edit, .btn-link, .btn-delete {
+		width: 100%;
+		max-width: 200px;
+	}
+
+	.dashboard-table th, .dashboard-table td {
+		font-size: 0.9rem;
+		padding: 8px;
+	}
+}
+
 

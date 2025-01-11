@@ -9,6 +9,7 @@ namespace Mister_Robot.Repositories.Interfaces
 		IProductRepository ProductRepository { get; }
 		ISupplierRepository SupplierRepository { get; }
 		IProductCategoryRepository ProductCategoryRepository { get; }
+		IFeatureRepository FeatureRepository { get; }
 		IProductFeatureRepository ProductFeatureRepository { get; }
 		IOrderRepository OrderRepository { get; }
 		IWishlistRepository WishlistRepository { get; }

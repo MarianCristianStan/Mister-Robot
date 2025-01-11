@@ -18,9 +18,9 @@ namespace Mister_Robot.Models
 
 		public ICollection<CartProduct>? CartProducts { get; set; } = new List<CartProduct>();
 
-        [NotMapped]
-        [Precision(18, 2)]
-        public decimal TotalPrice => CartProducts?.Sum(cp => cp.Quantity * cp.Product.Price) ?? 0; // Dynamically calculate total price
+		[NotMapped]
+		[Precision(18, 2)]
+		public decimal TotalPrice => CartProducts?.Sum(cp => cp.Quantity * cp.Product.Price) ?? 0; // Dynamically calculate total price
 	}
 
 }
