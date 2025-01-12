@@ -33,6 +33,16 @@ namespace Mister_Robot.Services
 
 			return (User)_userManager.FindByIdAsync(userId).Result;
 		}
+		public User GetByUserId(string userId)
+		{
+			if (string.IsNullOrEmpty(userId))
+			{
+				return null;
+			}
+
+			return _repositoryWrapper.UserRepository.FindByCondition(u => u.Id == userId).FirstOrDefault();
+		}
+
 		public async Task<bool> IsUserAdminAsync(User user)
 		{
 			if (user == null) return false;

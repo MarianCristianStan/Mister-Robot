@@ -57,7 +57,8 @@
 	font-weight: 700;
 	text-align: center;
 	margin-bottom: 1.5rem;
-	text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+	text-shadow: 0 0 20px var(--dark-bg);
+	margin-top:2rem;
 }
 
 .filter-form {
@@ -429,8 +430,10 @@
 
 
 .wishlist-button {
+	position: absolute;
 	border: none;
-	background: transparent;
+	background-color: #000;
+	margin-left:14rem;
 	cursor: pointer;
 	padding: 5px;
 	font-size: 1.8rem;
@@ -446,13 +449,12 @@
 	transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-	/* If Product is in Wishlist (Green Heart) */
+	
 	.heart-icon.in-wishlist {
 		color: green;
 		filter: drop-shadow(0 0 10px green);
 	}
 
-	/* If Product is Not in Wishlist (Red Heart) */
 	.heart-icon.not-in-wishlist {
 		color: red;
 		filter: drop-shadow(0 0 10px red);
@@ -489,11 +491,12 @@
 	gap: 10px;
 	flex-wrap: wrap;
 	align-items: center;
+	width:20rem;
 }
 
 @media screen and (max-width: 768px) {
 	.button-group {
-		flex-direction: column; /* Stack buttons vertically on smaller screens */
+		flex-direction: column; 
 		gap: 8px;
 		align-items: center;
 	}
@@ -508,5 +511,7 @@
 		padding: 8px;
 	}
 }
+
+
 
 

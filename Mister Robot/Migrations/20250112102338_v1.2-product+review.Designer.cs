@@ -12,8 +12,8 @@ using Mister_Robot.Models;
 namespace Mister_Robot.Migrations
 {
     [DbContext(typeof(MisterRobotContext))]
-    [Migration("20250110192652_db-rework-v1.2-update-product-feature")]
-    partial class dbreworkv12updateproductfeature
+    [Migration("20250112102338_v1.2-product+review")]
+    partial class v12productreview
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -368,6 +368,37 @@ namespace Mister_Robot.Migrations
                     b.ToTable("ProductFeatures");
                 });
 
+            modelBuilder.Entity("Mister_Robot.Models.Review", b =>
+                {
+                    b.Property<string>("ReviewId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ReviewId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("Mister_Robot.Models.Supplier", b =>
                 {
                     b.Property<string>("SupplierId")
@@ -720,6 +751,25 @@ namespace Mister_Robot.Migrations
                     b.Navigation("Feature");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.Review", b =>
+                {
+                    b.HasOne("Mister_Robot.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mister_Robot.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.UserAddress", b =>

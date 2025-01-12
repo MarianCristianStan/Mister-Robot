@@ -21,7 +21,8 @@ namespace Mister_Robot.Repositories
 		private IProductFeatureRepository? _productFeatureRepository;
 	   private IWishlistProductRepository? _wishlistProductRepository;
 	   private IOrderProductRepository? _orderProductRepository;
-
+	   private IReviewRepository? _reviewRepository;
+	   private IContactMessageRepository? _contactMessageRepository;
 
 	   public RepositoryWrapper(MisterRobotContext context)
       {
@@ -181,6 +182,35 @@ namespace Mister_Robot.Repositories
 				return _productFeatureRepository;
 			}
 		}
+
+		public IReviewRepository ReviewRepository
+		{
+
+			get
+			{
+				if (_reviewRepository == null)
+				{
+					_reviewRepository = new ReviewRepository(_context);
+				}
+
+				return _reviewRepository;
+			}
+		}
+		public IContactMessageRepository ContactMessageRepository
+		{
+
+			get
+			{
+				if (_contactMessageRepository == null)
+				{
+					_contactMessageRepository = new ContactMessageRepository(_context);
+				}
+
+				return _contactMessageRepository;
+			}
+		}
+
+
 		public void Save()
       {
          _context.SaveChanges();

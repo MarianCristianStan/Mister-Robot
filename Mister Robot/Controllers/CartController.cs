@@ -14,15 +14,18 @@ namespace Mister_Robot.Controllers
       private readonly IProductService _productService;
       private readonly IOrderService _orderService;
 		private readonly IUserService _userService;
+      private readonly IUserAddressService _userAddressService;
 
-      public CartController(IStripeService stripeService, ICartService cartService, IProductService productService, IOrderService orderService, IUserService userService)
+      public CartController(IStripeService stripeService, ICartService cartService, IProductService productService, IOrderService orderService, IUserService userService, IUserAddressService userAddressService)
       {
          _stripeService = stripeService;
          _cartService = cartService;
          _productService = productService;
          _orderService = orderService;
 			_userService = userService;
+         _userAddressService = userAddressService;
       }
+
       [Authorize]
 		public IActionResult Index()
       {
@@ -41,10 +44,12 @@ namespace Mister_Robot.Controllers
       {
          if (string.IsNullOrEmpty(productId))
          {
+            TempData["ErrorMessage"] = "Invalid product selected.";
             return BadRequest("Invalid product or quantity.");
          }
 
          _cartService.AddToCart(productId);
+         TempData["SuccessMessage"] = "Product added to cart successfully!";
          return RedirectToAction("Index", "Inventory");
       }
 
@@ -79,6 +84,20 @@ namespace Mister_Robot.Controllers
 		[Authorize]
 		public IActionResult Checkout()
 		{
+
+         var user = _userService.GetCurrentUser();
+         var userAddress = _userAddressService.GetFirstAddressByUserId(user.Id);
+
+			if (userAddress == null ||
+			    string.IsNullOrWhiteSpace(userAddress.City) || userAddress.City.Equals("None", StringComparison.OrdinalIgnoreCase) ||
+			    string.IsNullOrWhiteSpace(userAddress.Country) || userAddress.Country.Equals("None", StringComparison.OrdinalIgnoreCase) ||
+			    string.IsNullOrWhiteSpace(userAddress.PostalCode) || userAddress.PostalCode.Equals("None", StringComparison.OrdinalIgnoreCase))
+			{
+				TempData["ErrorMessage"] = "You must set your valid address details before checkout!";
+				return RedirectToAction("Index");
+			}
+
+
 			var cartItems = _cartService.GetCartItems().Select(cp =>
 			{
 				cp.Product = _productService.GetById(cp.ProductId);
@@ -101,7 +120,7 @@ namespace Mister_Robot.Controllers
 			}).ToList();
 
 			var successUrl = Url.Action("OrderSuccess", "Cart", null, Request.Scheme);
-			var cancelUrl = Url.Action("Index", "Cart", null, Request.Scheme);
+			var cancelUrl = Url.Action("OrderCancel", "Cart", null, Request.Scheme);
 
 			var checkoutSessionUrl = _stripeService.CreateCheckoutSession(lineItems, successUrl, cancelUrl);
 			return Redirect(checkoutSessionUrl);
@@ -118,11 +137,26 @@ namespace Mister_Robot.Controllers
             return cp;
          }).ToList();
 
+         foreach (var cartItem in cartItems)
+         {
+            var product = _productService.GetById(cartItem.ProductId);
+
+            if (product.StockQuantity >= cartItem.Quantity)
+            {
+               product.StockQuantity -= cartItem.Quantity;
+               _productService.Update(product); 
+            }
+            else
+            {
+               TempData["ErrorMessage"] = $"Insufficient stock for {product.Name}.";
+               return RedirectToAction("Index");
+            }
+         }
          var newOrder = new Order
          {
             UserId = user.Id,
             OrderDate = DateTime.UtcNow,
-            Status = "Pending",
+            Status = "Complete",
             TotalAmount = cartItems.Sum(cp => cp.Quantity * cp.Product.Price),
             OrderProducts = cartItems.Select(cp => new OrderProduct
             {
@@ -137,11 +171,12 @@ namespace Mister_Robot.Controllers
 			return View();
       }
 
-    /*  [Authorize]
-      public IActionResult OrderSuccess()
+      [Authorize]
+      public IActionResult OrderCancel()
       {
-         _cartService.ClearCart();
-         return View();
-      }*/
-   }
+	      return View();
+      }
+
+
+	}
 }

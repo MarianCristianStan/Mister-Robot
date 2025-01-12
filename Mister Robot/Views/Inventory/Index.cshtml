@@ -5,6 +5,7 @@
 
 @model IEnumerable<Mister_Robot.Models.Product>
 @inject IWishlistService WishlistService
+@inject IWishlistProductService WishlistProductService
 @inject IUserService UserService
 @{
    ViewData["Title"] = "Inventory";
@@ -22,6 +23,8 @@
 	<link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")" />
 	<link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
 	<link rel="stylesheet" href="@Url.Content("~/css/inventory.css")" />
+	<script defer src="@Url.Content("~/js/alert.js")"></script>
+	<script defer src="@Url.Content("~/js/wishlist.js")"></script>
 
 </head>
 
@@ -66,11 +69,17 @@
 				</i>
 				Orders
 			</a>
+			<a href="@Url.Action("Index", "Contact")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/contact-solid-24.svg")" alt="contact icon" />
+				</i>
+				Contact
+			</a>
 			@if (User.IsInRole("Admin"))
 			{
 				<a href="@Url.Action("index", "Admin")" class="nav-link">
 					<i class="nav-icon">
-						<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
+						<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="contact icon" />
 					</i>
 					Admin Panel
 				</a>
@@ -85,92 +94,121 @@
 		</nav>
 		<partial name="_LoginPartial" />
 	</header>
-	  
-   <div class="container">
-      <h1 class="main-title">Browse Our Inventory</h1>
+	
+<div class="container">
+	@if (TempData["ErrorMessage"] != null)
+	{
+		<div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+	}
 
-      <!-- Search Bar -->
-      <form method="get" class="filter-form">
-         <input type="text" name="search" value="@searchTerm" placeholder="Search for products..." />
-         <button type="submit">Search</button>
-      </form>
+	@if (TempData["SuccessMessage"] != null)
+	{
+		<div class="alert alert-success">@TempData["SuccessMessage"]</div>
+	}
+	<h1 class="main-title">Browse Our Inventory</h1>
 
-       <!-- Sidebar Category Menu -->
-      <div class="category-menu">
-         <h4>Categories</h4>
-         <ul>
-            @foreach (var category in ViewBag.Categories)
-            {
-               <li class="@(category.CategoryId.ToString() == ViewBag.SelectedCategory ? "active-category" : "")">
-                  <a href="@Url.Action("Index", new { category = category.CategoryId })">@category.Name</a>
-               </li>
-            }
-            <li class="@(string.IsNullOrEmpty(ViewBag.SelectedCategory) ? "active-category" : "")">
-               <a href="@Url.Action("Index")">All Products</a>
-            </li>
-         </ul>
-      </div>
+	<!-- Search Bar -->
+	<form method="get" class="filter-form">
+		<input type="text" name="search" value="@searchTerm" placeholder="Search for products..."/>
+		<button type="submit">Search</button>
+	</form>
 
-      <!-- Product Cards -->
-      <div class="row">
-         @foreach (var product in Model)
-         {
-	         <div class="card product-card">
-					<a href="@Url.Action("Index", "Product", new { id = product.ProductId })" >
+	<!-- Sidebar Category Menu -->
+	<div class="category-menu">
+		<h4>Categories</h4>
+		<ul>
+			@foreach (var category in ViewBag.Categories)
+			{
+				<li class="@(category.CategoryId.ToString() == ViewBag.SelectedCategory ? "active-category" : "")">
+					<a href="@Url.Action("Index", new { category = category.CategoryId })">@category.Name</a>
+				</li>
+			}
+			<li class="@(string.IsNullOrEmpty(ViewBag.SelectedCategory) ? "active-category" : "")">
+				<a href="@Url.Action("Index")">All Products</a>
+			</li>
+		</ul>
+	</div>
 
-		         @if (product.Image != null)
-		         {
-			         <img src="data:image/png;base64,@(Convert.ToBase64String(product.Image))" alt="@product.Name"/>
-		         }
-		         else
-		         {
-			         <img src="~/assets/default_product_img.jpg" alt="Default Image"/>
-		         }
-					</a>
-		         <!-- Card Body -->
-		         <div class="card-body">
-			         <h5 class="card-title">@product.Name</h5>
-			         <p class="card-brand">@product.Brand</p>
-			         <p class="card-price">$@product.Price</p>
-			         @if (!string.IsNullOrEmpty(product.Description))
-			         {
-				         <p class="card-description">@product.Description</p>
-			         }
-					
-			         <!-- Wishlist Button with Conditional Heart Icon -->
-			         <form asp-controller="Wishlist" asp-action="ToggleProductWishlist" method="post" class="wishlist-form">
-				         <input type="hidden" name="productId" value="@product.ProductId"/>
-				         @{
-					         var userId = UserService.GetCurrentUser().Id;
-					         var wishlist = WishlistService.GetWishlistByUserId(userId);
-					         var isInWishlist = wishlist != null && wishlist.WishlistProducts.Any(wp => wp.ProductId == product.ProductId);
-				         }
+	<!-- Product Cards -->
+	<div class="row">
+		@foreach (var product in Model)
+		{
+			<div class="card product-card">
+				
+				<form asp-controller="Wishlist" asp-action="ToggleProductWishlist" method="post" class="wishlist-form">
 
-				         <button type="submit" class="wishlist-button" title="Toggle Wishlist">
-					         <span class="heart-icon @(isInWishlist ? "in-wishlist" : "not-in-wishlist")">
-						         ♥
-					         </span>
-				         </button>
-			         </form>
+					<input type="hidden" name="productId" value="@product.ProductId"/>
 
-			         <!-- Add to Cart Button -->
-			         <form method="post" asp-controller="Cart" asp-action="AddToCart">
-				         <input type="hidden" name="productId" value="@product.ProductId"/>
-				         <button type="submit" class="btn-add-to-cart">Add to Cart</button>
-			         </form>
-		         </div>
-	         </div>
-         }
-      </div>
+					@if (User.Identity?.IsAuthenticated == true)
+					{
+						var userId = UserService.GetCurrentUser()?.Id;
+						var wishlist = userId != null ? WishlistService.GetWishlistByUserId(userId) : null;
+							
+						var isInWishlist = wishlist != null && WishlistProductService
+							.GetWishlistProductsByWishlistId(wishlist.WishlistId)
+							.Any(wp => wp.ProductId == product.ProductId);
 
-      @if (!Model.Any())
-      {
-         <div class="no-products-found">
-            <i class="bx bx-error"></i>
-            <p>No products found in this category.</p>
-         </div>
-      }
-   </div>
+
+						<button type="submit" class="wishlist-button" title="Toggle Wishlist">
+							@if (isInWishlist)
+							{
+								<span class="heart-icon in-wishlist">❤️</span>
+							}
+							else
+							{
+								<span class="heart-icon not-in-wishlist">♡</span>
+							}
+						</button>
+					}
+					else
+					{
+						<button type="submit" class="wishlist-button" title="Toggle Wishlist">
+							<span class="heart-icon not-in-wishlist">♡</span>
+						</button>
+					}
+				</form>
+
+				<a href="@Url.Action("Index", "Product", new { id = product.ProductId })">
+
+					@if (product.Image != null)
+					{
+						<img src="data:image/png;base64,@(Convert.ToBase64String(product.Image))" alt="@product.Name"/>
+					}
+					else
+					{
+						<img src="~/assets/default_product_img.jpg" alt="Default Image"/>
+					}
+				</a>
+				<!-- Card Body -->
+				<div class="card-body">
+					<h5 class="card-title">@product.Name</h5>
+					<p class="card-brand">@product.Brand</p>
+					<p class="card-price">$@product.Price</p>
+					@if (!string.IsNullOrEmpty(product.Description))
+					{
+						<p class="card-description">@product.Description</p>
+					}
+
+
+
+					<!-- Add to Cart Button -->
+					<form method="post" asp-controller="Cart" asp-action="AddToCart">
+						<input type="hidden" name="productId" value="@product.ProductId"/>
+						<button type="submit" class="btn-add-to-cart">Add to Cart</button>
+					</form>
+				</div>
+			</div>
+		}
+	</div>
+
+	@if (!Model.Any())
+	{
+		<div class="no-products-found">
+			<i class="bx bx-error"></i>
+			<p>No products found in this category.</p>
+		</div>
+	}
+</div>
 
 </body>
 </html>

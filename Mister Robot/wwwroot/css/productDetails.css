@@ -7,13 +7,17 @@
 }
 
 :root {
-   --yellow: #ffd700;
-   --blue: #1b1a55;
+   --primary: #ffd700;
+   --dark: #121212;
    --green: #4caf50;
+   --danger: #ff4d4d;
    --white: #ffffff;
-   --dark-bg: #121212;
+   --blue: #007bff;
+   --gray: #333;
+   --hover-yellow: #ffdd57;
+   --border-radius: 15px;
+   --shadow: rgba(0, 0, 0, 0.8);
 }
-
 /* Background and Container Styling */
 .background-image {
    position: relative;
@@ -30,47 +34,59 @@
    max-width: 1200px;
    margin: 8rem auto;
    padding: 20px;
+   max-height: none;
 }
 
-/* Product Details Section */
+
 .product-details {
    display: flex;
-   flex-wrap: wrap;
-   gap: 40px;
-   margin-top: 50px;
-   padding: 20px;
+   flex-wrap: nowrap;
+   gap: 50px;
+   margin-top: 2.5rem;
+   padding: 30px;
    background: rgba(0, 0, 0, 0.9);
    border-radius: 20px;
    color: var(--white);
-   box-shadow: var(--shadow);
    border: 2px solid var(--yellow);
+   align-items: flex-start; 
 }
 
 .product-image {
-   width: 20rem;
+   width: 20rem; 
+   height: 22rem; 
+   object-fit: cover; 
    border-radius: 20px;
    border: 2px solid var(--yellow);
    box-shadow: var(--shadow);
+   margin-bottom: 20px;
 }
-
 .details {
    flex: 1;
    display: flex;
    flex-direction: column;
-   justify-content: space-evenly;
+   justify-content: flex-start;
+   padding: 10px;
+  
 }
 
    .details h1 {
       color: var(--yellow);
       font-size: 2.5rem;
    }
+   .details h3 {
+      margin-top: 0.7rem;
+      
+   }
+   .details p {
+      color: var(--hover-yellow);
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      line-height: 1.1rem;
+   }
 
-details p {
-   margin: 5px 0;
-   font-size: 1.2rem;
-   font-weight: bold;
-}
-
+   .details strong {
+      color: var(--white);
+   }
 .no-features {
    color: red;
    font-weight: bold;
@@ -98,6 +114,16 @@ details p {
    }
 
 /* Comparison Section */
+
+.comparison-container {
+   margin-top: 3rem;
+   padding: 2rem;
+   background: rgba(0, 0, 0, 0.9);
+   border-radius: 12px;
+   border: 2px solid var(--yellow);
+   box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
 .comparison-section {
    margin-top: 40px;
    padding: 20px;
@@ -116,7 +142,39 @@ details p {
       margin-top: 10px;
       font-size: 1rem;
    }
+.comparison-form label {
+   color: var(--white);
+   font-size: 1.2rem;
+   margin-bottom: 1rem;
+}
 
+.comparison-dropdown {
+   padding: 0.8rem;
+   border-radius: 8px;
+   border: 2px solid var(--yellow);
+   margin-top: 1rem;
+}
+   .comparison-dropdown:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
+   }
+
+.btn-link {
+   margin-left: 1rem;
+   background: var(--blue);
+   color: var(--white);
+   padding: 0.8rem 2rem;
+   border-radius: 8px;
+   cursor: pointer;
+   font-size: 1rem;
+   margin-top: 1rem;
+}
+
+   .btn-link:hover {
+      background: var(--yellow);
+      transform: scale(1.03);
+   }
    .comparison-section h3 {
       color: var(--yellow);
       font-size: 1.8rem;
@@ -135,16 +193,15 @@ details p {
    flex-wrap: wrap;
    gap: 20px;
 }
-
-
 .feature-list {
    list-style: none;
-   padding: 0;
+   padding: 10px;
    margin-top: 10px;
    border-radius: 10px;
    border: 1px solid rgba(255, 255, 255, 0.2);
    background: rgba(0, 0, 0, 0.8);
-   overflow: hidden;
+   overflow: visible; 
+   max-height: none; 
 }
 
 .feature-item {
@@ -158,13 +215,15 @@ details p {
    transition: all 0.3s ease;
 }
 
+
+
    .feature-item:last-child {
       border-bottom: none;
    }
 
 .feature-value {
    font-weight: bold;
-   color: var(--green);
+   color: var(--hover-yellow);
    font-size: 1.1rem;
    letter-spacing: 0.5px;
 }
@@ -185,28 +244,232 @@ details p {
 
 
 
-
-/* Media Queries */
-@media (max-width: 768px) {
-   .product-details {
-      flex-direction: column;
-      text-align: center;
-   }
-
-   .product-image {
-      max-width: 100%;
-   }
-
-   .details {
-      text-align: center;
-      align-items: center;
-   }
-
-   .comparison-section {
-      margin-top: 30px;
-      text-align: center;
-   }
+.reviews-section {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   width: 100%;
+   max-width: 800px;
+   margin: 3rem auto;
+   padding: 2rem;
+   background: var(--dark-bg);
+   border-radius: 12px;
+   border: 2px solid var(--yellow);
+   box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
+
+
+.reviews-section h3 {
+   
+   font-size: 2.5rem;
+   color: var(--yellow);
+   margin-bottom: 2rem;
+   text-transform: uppercase;
+   letter-spacing: 1.2px;
+}
+   
+
+.review {
+   width: 100%;
+   padding: 1rem;
+   border: 2px solid var(--yellow);
+   border-radius: 10px;
+   margin-bottom: 1rem;
+   background: rgba(0, 0, 0, 0.85);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   transition: box-shadow 0.3s ease;
+}
+}
+
+.review-form {
+   margin-bottom: 2rem;
+   text-align: center;
+}
+
+   .review:hover {
+      background: rgba(255, 215, 0, 0.1);
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+      cursor: pointer;
+   }
+   .review-content {
+      flex-grow: 1;
+      padding: 0 1rem;
+      color: var(--white);
+      font-size: 1.2rem;
+   }
+
+
+   .review p {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+      color: var(--white);
+   }
+
+      .review p strong {
+         font-weight: bold;
+         color: var(--yellow);
+         font-size: 1.1rem;
+         ;
+      }
+.text-review {
+   width: 100%;
+   padding: 1rem;
+   margin-top: 1rem;
+   border: 2px solid var(--yellow);
+   border-radius: 10px;
+   background: rgba(0, 0, 0, 0.8);
+   color: var(--white);
+   font-size: 1rem;
+   resize: none;
+}
+
+
+text-review:focus {
+   border-color: var(--green);
+   outline: none;
+   box-shadow: 0 0 10px rgba(76, 175, 80, 0.8);
+}
+
+
+.btn.submit {
+   margin-top: 1rem;
+   padding: 0.8rem 2rem;
+   background: var(--green);
+   border: none;
+   border-radius: 10px;
+   cursor: pointer;
+   font-size: 1.2rem;
+   font-weight: bold;
+   transition: background 0.3s, transform 0.3s;
+   color:whitesmoke;
+}
+
+   .btn.submit:hover {
+      background: var(--yellow);
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+   }
+
+
+
+.no-reviews {
+   font-size: 1.2rem;
+   color: var(--yellow);
+   padding: 1rem;
+   border: 1px solid var(--yellow);
+   border-radius: 8px;
+   background: rgba(0, 0, 0, 0.85);
+   text-align: center;
+   font-weight: bold;
+   margin-top: 1rem;
+}
+
+   .no-reviews:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 215, 0, 1);
+   }
+
+
+.rating {
+   display: flex;
+   justify-content: center;
+   gap: 5px;
+   margin: 0;
+}
+
+   .rating .star {
+      font-size: 2.2rem;
+      cursor: pointer;
+      transition: transform 0.2s ease
+   }
+
+   .rating .bxs-star {
+      color: #ffd700;
+   }
+
+   .rating .bx-star {
+      color: #ddd;
+   }
+
+   .rating .star:hover, .rating .star.active {
+      color: var(--yellow);
+      transform: scale(1.2);
+   }
+
+.review-author {
+   font-size: 1rem;
+   font-weight: bold;
+   color: var(--yellow);
+}
+
+.btn.remove-btn {
+   background: none;
+   border: none;
+   cursor: pointer;
+   transition: transform 0.2s, filter 0.2s;
+   margin-bottom:3.5rem;
+   
+}
+
+   .btn.remove-btn:hover {
+      transform: scale(1.5);
+      filter: brightness(1.5);
+   }
+
+
+   /* Media Queries */
+   @media (max-width: 768px) {
+      .product-details {
+         flex-direction: column;
+         text-align: center;
+      }
+
+      .product-image {
+         max-width: 100%;
+      }
+
+      .details {
+         text-align: center;
+         align-items: center;
+      }
+
+      .comparison-section {
+         margin-top: 30px;
+         text-align: center;
+      }
+   }
+
+.section-title {
+   text-align: center;
+   color: var(--yellow);
+   margin-top: 50px;
+   font-size: 2.5rem;
+   text-shadow: 0 0 20px var(--dark-bg);
+   margin-top: 10rem;
+}
+
+
+
+@media (max-width: 768px) {
+   .reviews-section {
+      padding: 1rem;
+   }
+
+   .review {
+      padding: 1rem;
+   }
+
+   .text-review {
+      font-size: 1rem;
+   }
+
+   .btn.submit {
+      font-size: 1rem;
+   }
+}
 
 

@@ -1,24 +1,83 @@
-﻿.container {
-   max-width: 800px;
-   margin: 100px auto;
-   padding: 20px;
-   text-align: center;
+﻿
+* {
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+   font-family: "Poppins", sans-serif;
 }
 
-h1 {
-   font-size: 2.5rem;
-   color: green;
+:root {
+   --yellow: #ffd700;
+   --blue: #1b1a55;
+   --green: #4caf50;
+   --white: #ffffff;
+   --dark-bg: #121212;
+}
+
+
+.container {
+   max-width: 800px;
+   margin: 100px auto;
+   padding: 40px;
+   text-align: center;
+   background: linear-gradient(135deg, #1e1e2f, #282c36);
+   border-radius: 20px;
+   box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+   color: white;
+   border: 2px solid var(--yellow);
+}
+
+h1.success {
+   font-size: 3rem;
+   color: #4caf50;
+   text-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+}
+
+h1.cancel {
+   font-size: 3rem;
+   color: #ff4c4c;
+   text-shadow: 0 0 20px rgba(255, 76, 76, 0.8);
+}
+
+p {
+   font-size: 1.5rem;
+   margin-bottom: 20px;
+   color: #ddd;
 }
 
 .btn-primary {
-   padding: 10px 20px;
-   border-radius: 8px;
-   background-color: #4caf50;
-   color: white;
-   text-decoration: none;
+   padding: 0.8rem 1.5rem;
    font-size: 1.2rem;
+   font-weight: bold;
+   border-radius: 12px;
+   border: none;
+   background: linear-gradient(135deg, #4caf50, #45a049);
+   color: white;
+   cursor: pointer;
+   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+   transition: all 0.3s ease-in-out;
+   text-decoration: none;
 }
 
    .btn-primary:hover {
-      background-color: #45a049;
+      background: linear-gradient(135deg, #ffd700, #ffcc00);
+      color: #000;
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.7);
+      transform: scale(1.1);
    }
+
+   .btn-primary:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+   }
+
+.background-image {
+   position: relative;
+   width: 100%;
+   min-height: 100vh;
+   background-image: url('/assets/background/background_site.jpg');
+   background-size: cover;
+   background-position: center;
+   background-attachment: fixed;
+   z-index: -1;
+}

@@ -1,0 +1,134 @@
+﻿@model Mister_Robot.Models.ContactMessage
+@{
+   ViewData["Title"] = "Contact Us";
+   Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>@ViewData["Title"]</title>
+   <link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/contact.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/dashboard.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
+   <script defer src="@Url.Content("~/js/alert.js")"></script>
+
+</head>
+<body class="background-image">
+<header class="header-nav">
+	<a href="@Url.Action("Index", "Home")" class="logo">
+		<img src="@Url.Content("~/assets/mr_robot_logo.webp")" alt="Mr. Robot Logo" />
+	</a>
+
+	<nav class="navbar">
+		<a href="@Url.Action("Index", "Home")" class="nav-link">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/bx-home-heart.svg")" alt="home icon" />
+			</i>
+			Home
+		</a>
+
+		<a href="@Url.Action("Index", "Inventory")" class="nav-link">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/bx-box.svg")" alt="inventory icon" />
+			</i>
+			Inventory
+		</a>
+
+		<a href="@Url.Action("Index", "Cart")" class="nav-link">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/cart-regular-24.svg")" alt="cart icon" />
+				@* <span class="cart-badge">3</span> *@
+			</i>
+			Cart
+		</a>
+
+		<a href="@Url.Action("Index", "Wishlist")" class="nav-link active">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/bx-heart-circle.svg")" alt="wishlist icon" />
+			</i>
+			Wishlist
+		</a>
+		<a href="@Url.Action("Index", "Order")" class="nav-link active">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/bx-doughnut-chart.svg")" alt="order icon" />
+			</i>
+			Orders
+		</a>
+			<a href="@Url.Action("Index", "Contact")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/contact-solid-24.svg")" alt="contact icon" />
+				</i>
+				Contact
+			</a>
+		@if (User.IsInRole("Basic"))
+		{
+				<a href="@Url.Action("UserMessages", "Contact")" class="nav-link">
+				<i class="nav-icon">
+						<img src="@Url.Content("~/assets/boxicons/message-rounded-regular-24.svg")" alt="dashboard icon" />
+				</i>
+				Your Messages
+			</a>
+		}
+
+		@if (User.IsInRole("Admin"))
+		{
+			<a href="@Url.Action("index", "Admin")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
+				</i>
+				Admin Panel
+			</a>
+		}
+
+		<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
+			</i>
+			Settings
+		</a>
+
+
+	</nav>
+	<partial name="_LoginPartial" />
+</header>
+
+	@if (TempData["ErrorMessage"] != null)
+	{
+		<div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+	}
+	@if (TempData["SuccessMessage"] != null)
+	{
+		<div class="alert alert-success">@TempData["SuccessMessage"]</div>
+	}
+
+	<div class="container contact-container">
+      <h1 class="main-title">Contact Us</h1>
+
+      <form asp-controller="Contact" asp-action="SubmitMessage" method="post" class="form-container styled-form">
+         <div class="form-group">
+            <label for="Name">Your Name</label>
+            <input type="text" name="Name" id="Name" class="form-control" required placeholder="Enter your name" />
+         </div>
+
+         <div class="form-group">
+            <label for="Email">Your Email</label>
+            <input type="email" name="Email" id="Email" class="form-control" required placeholder="Enter your email" />
+         </div>
+
+         <div class="form-group">
+            <label for="Message">Your Message</label>
+            <textarea name="Message" id="Message" class="form-control" rows="5" required placeholder="Type your message here..."></textarea>
+         </div>
+
+         <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Send Message</button>
+            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
+         </div>
+      </form>
+   </div>
+</body>
+</html>

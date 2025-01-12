@@ -1,45 +1,50 @@
-﻿@model Mister_Robot.Models.Product
-@inject Mister_Robot.Services.Interfaces.IFeatureService _featureService
+﻿@using Mister_Robot.Services.Interfaces
+@model Product
+@inject IFeatureService _featureService
+@inject IUserService _userService
 @{
-   ViewData["Title"] = "Product Details";
-   Layout = null;
+	ViewData["Title"] = "Product Details";
+	Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>@Model.Name Details</title>
-   <link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")" />
-   <link rel="stylesheet" href="@Url.Content("~/css/productDetails.css")" />
-   <link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@Model.Name Details</title>
+	<link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")"/>
+	<link rel="stylesheet" href="@Url.Content("~/css/productDetails.css")"/>
+	<link rel="stylesheet" href="@Url.Content("~/css/navbar.css")"/>
+	<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css">
+	<script defer src="@Url.Content("~/js/alert.js")"></script>
+
 
 </head>
 <body class="background-image">
 
 <header class="header-nav">
 	<a href="@Url.Action("Index", "Home")" class="logo">
-		<img src="@Url.Content("~/assets/mr_robot_logo.webp")" alt="Mr. Robot Logo" />
+		<img src="@Url.Content("~/assets/mr_robot_logo.webp")" alt="Mr. Robot Logo"/>
 	</a>
 
 	<nav class="navbar">
 		<a href="@Url.Action("Index", "Home")" class="nav-link">
 			<i class="nav-icon">
-				<img src="@Url.Content("~/assets/boxicons/bx-home-heart.svg")" alt="home icon" />
+				<img src="@Url.Content("~/assets/boxicons/bx-home-heart.svg")" alt="home icon"/>
 			</i>
 			Home
 		</a>
 
 		<a href="@Url.Action("Index", "Inventory")" class="nav-link">
 			<i class="nav-icon">
-				<img src="@Url.Content("~/assets/boxicons/bx-box.svg")" alt="inventory icon" />
+				<img src="@Url.Content("~/assets/boxicons/bx-box.svg")" alt="inventory icon"/>
 			</i>
 			Inventory
 		</a>
 
 		<a href="@Url.Action("Index", "Cart")" class="nav-link">
 			<i class="nav-icon">
-				<img src="@Url.Content("~/assets/boxicons/cart-regular-24.svg")" alt="cart icon" />
+				<img src="@Url.Content("~/assets/boxicons/cart-regular-24.svg")" alt="cart icon"/>
 				@* <span class="cart-badge">3</span> *@
 			</i>
 			Cart
@@ -47,92 +52,163 @@
 
 		<a href="@Url.Action("Index", "Wishlist")" class="nav-link active">
 			<i class="nav-icon">
-				<img src="@Url.Content("~/assets/boxicons/bx-heart-circle.svg")" alt="wishlist icon" />
+				<img src="@Url.Content("~/assets/boxicons/bx-heart-circle.svg")" alt="wishlist icon"/>
 			</i>
 			Wishlist
 		</a>
 		<a href="@Url.Action("Index", "Order")" class="nav-link active">
 			<i class="nav-icon">
-				<img src="@Url.Content("~/assets/boxicons/bx-doughnut-chart.svg")" alt="order icon" />
+				<img src="@Url.Content("~/assets/boxicons/bx-doughnut-chart.svg")" alt="order icon"/>
 			</i>
 			Orders
 		</a>
 
-			
 
 		<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
 			<i class="nav-icon">
-				<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
+				<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon"/>
 			</i>
 			Settings
 		</a>
-			
+
 
 	</nav>
-	<partial name="_LoginPartial" />
+	<partial name="_LoginPartial"/>
 </header>
 
-   <div class="container">
-      <div class="product-details">
-         <img src="data:image/png;base64,@(Convert.ToBase64String(Model.Image))" alt="@Model.Name" class="product-image" />
-         <div class="details">
-            <h1>@Model.Name</h1>
-            <p><strong>Brand:</strong> @Model.Brand</p>
-            <p><strong>Price:</strong> $@Model.Price</p>
-            <p><strong>Stock:</strong> @Model.StockQuantity</p>
-            <p><strong>Category:</strong> @(Model.ProductCategory?.Name ?? "N/A")</p>
+<div class="container">
+	<div class="alert-section">
+		@if (TempData["ErrorMessage"] != null)
+		{
+			<div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+		}
 
-            <h3>Product Features:</h3>
-            @if (Model.ProductFeatures != null && Model.ProductFeatures.Any())
-            {
-	            <ul class="feature-list">
-		            @foreach (var productFeature in Model.ProductFeatures)
-		            {
-			            var feature = _featureService.GetById(productFeature.FeatureId);
-			            <li class="feature-item">
-				            <span>@feature.Name:</span>
-				            <span class="feature-value">@productFeature.FeatureValue</span>
-			            </li>
-		            }
-	            </ul>
-            }
-            else
-            {
-	            <p class="no-features">No features available for this product.</p>
-            }
+		@if (TempData["SuccessMessage"] != null)
+		{
+			<div class="alert alert-success">@TempData["SuccessMessage"]</div>
+		}
+	</div>
+
+	<div class="product-details">
+		<img src="data:image/png;base64,@(Convert.ToBase64String(Model.Image))" alt="@Model.Name" class="product-image"/>
+		<div class="details">
+			<h1>@Model.Name</h1>
+			<p>
+				<strong>Brand:</strong> @Model.Brand
+			</p>
+			<p><strong>Price:</strong> $@Model.Price</p>
+			<p>
+				<strong>Stock:</strong> @Model.StockQuantity
+			</p>
+			<p>
+				<strong>Category:</strong> @(Model.ProductCategory?.Name ?? "N/A")
+			</p>
+
+			<h3>Product Features:</h3>
+			@if (Model.ProductFeatures != null && Model.ProductFeatures.Any())
+			{
+				<ul class="feature-list">
+					@foreach (var productFeature in Model.ProductFeatures)
+					{
+						var feature = _featureService.GetById(productFeature.FeatureId);
+						<li class="feature-item">
+							<span>@feature.Name:</span>
+							<span class="feature-value">@productFeature.FeatureValue</span>
+						</li>
+					}
+				</ul>
+			}
+			else
+			{
+				<p class="no-features">No features available for this product.</p>
+			}
+
+		</div>
+	</div>
+
+		<div class="comparison-section .comparison-container ">
+		<h3>Compare with Other Products:</h3>
+			<form method="get" asp-controller="Product" asp-action="CompareProducts" class="comparison-form">
+			<input type="hidden" name="ProductId" value="@Model.ProductId"/>
+			<label for="ComparisonProductId">Select a product for comparison:</label>
+				<select name="ComparisonProductId" class="comparison-dropdown">
+				@if (ViewBag.RelatedProducts != null && ViewBag.RelatedProducts.Count > 0)
+				{
+					@foreach (var product in ViewBag.RelatedProducts)
+					{
+						<option value="@product.ProductId">@product.Name</option>
+					}
+				}
+				else
+				{
+					<option value="">No products available for comparison</option>
+				}
+			</select>
+			<button type="submit" class="btn-link">Compare Products</button>
+		</form>
+	</div>
+
+	
+		<h3 class="section-title">User Reviews:</h3>
+		@if (_userService.GetCurrentUser() != null)
+		{
+			<form method="post" action="@Url.Action("AddReview", "Review", new { productId = Model.ProductId })">
+				<input type="hidden" name="ProductId" value="@Model.ProductId"/>
+
+				<!-- Updated Star Rating Section with working stars -->
+				<div class="rating">
+					<input type="hidden" name="Rating" id="ratingValue" value="0"/>
+					<i class="bx bx-star star" data-value="1"></i>
+					<i class="bx bx-star star" data-value="2"></i>
+					<i class="bx bx-star star" data-value="3"></i>
+					<i class="bx bx-star star" data-value="4"></i>
+					<i class="bx bx-star star" data-value="5"></i>
+				</div>
+
+				<textarea class="text-review" name="Content" cols="30" rows="5" placeholder="Share your opinion about this product..." style="resize: none;"></textarea>
+
+				<div class="btn-group">
+					<button type="submit" class="btn submit">Submit Review</button>
+				</div>
+			</form>
+		}
+		@if (ViewBag.Reviews != null && ViewBag.Reviews.Count > 0)
+		{
+			<div class="reviews-section">
+				@foreach (var review in ViewBag.Reviews)
+				{
+					var userName = _userService.GetByUserId(review.UserId).UserName;
+
+					<div class="review">
+						@if (User.IsInRole("Admin"))
+						{
+							<form method="post" action="@Url.Action("DeleteReview", "Review", new { id = review.ReviewId, productId = review.ProductId })" class="remove-review-form">
+								<button type="submit" class="btn remove-btn">❌</button>
+							</form>
+						}
+						<div class="rating">
+							@for (var i = 0; i < review.Rating; i++)
+							{
+								<i class="bx bxs-star"></i>
+							}
+						</div>
+						<p class="review-content"> @review.Content</p>
+						<p class="review-author"><strong>Reviewed by:</strong> @userName </p>
+
+
+					</div>
+				}
+			</div>
+		}
+		else
+		{
+			<p class="no-reviews">No reviews available yet. Be the first to share your thoughts!</p>
+		}
+	
 
 
 
-           @*  <form asp-action="AddToCart" method="post">
-               <input type="hidden" name="ProductId" value="@Model.ProductId" />
-               <button type="submit" class="btn-add-to-cart">Add to Cart</button>
-            </form> *@
-         </div>
-      </div>
-
-      <div class="comparison-section">
-	      <h3>Compare with Other Products:</h3>
-	      <form method="get" asp-controller="Product" asp-action="CompareProducts">
-		      <input type="hidden" name="ProductId" value="@Model.ProductId" />
-		      <label for="ComparisonProductId">Select a product for comparison:</label>
-		      <select name="ComparisonProductId">
-			      @if (ViewBag.RelatedProducts != null && ViewBag.RelatedProducts.Count > 0)
-			      {
-				      @foreach (var product in ViewBag.RelatedProducts)
-				      {
-					      <option value="@product.ProductId">@product.Name</option>
-				      }
-			      }
-			      else
-			      {
-				      <option value="">No products available for comparison</option>
-			      }
-		      </select>
-		      <button type="submit" class="btn-link">Compare Products</button>
-	      </form>
-
-      </div>
-   </div>
-
+</div>
+	<script src="~/js/review.js"></script>
 </body>
 </html>

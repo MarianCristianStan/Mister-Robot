@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Mister_Robot.Models.ContactMessage>
+@{
+   ViewData["Title"] = "Your Contact Messages";
+   Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>@ViewData["Title"]</title>
+   <link rel="icon" type="image/png" href="@Url.Content("~/assets/mr_robot_logo.webp")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/dashboard.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/contact.css")" />
+</head>
+<body class="background-image">
+
+<header class="header-nav">
+	<a href="@Url.Action("Index", "Home")" class="logo">
+		<img src="@Url.Content("~/assets/mr_robot_logo.webp")" alt="Mr. Robot Logo" />
+	</a>
+
+	<nav class="navbar">
+		<a href="@Url.Action("Index", "Home")" class="nav-link">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/bx-home-heart.svg")" alt="home icon" />
+			</i>
+			Home
+		</a>
+		<a href="@Url.Action("Index", "Contact")" class="nav-link">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/contact-solid-24.svg")" alt="contact icon" />
+			</i>
+			Contact
+		</a>
+		@if (User.IsInRole("Basic"))
+		{
+			<a href="@Url.Action("UserMessages", "Contact")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/message-rounded-regular-24.svg")" alt="dashboard icon" />
+				</i>
+				Your Messages
+			</a>
+		}
+		@if (User.IsInRole("Admin"))
+		{
+			<a href="@Url.Action("index", "Admin")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
+				</i>
+				Admin Panel
+			</a>
+		}
+		<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
+			</i>
+			Settings
+		</a>
+
+	</nav>
+	<partial name="_LoginPartial" />
+</header>
+
+   <div class="container contact-container">
+      <h1 class="main-title">📩 Your Contact Messages</h1>
+
+      @if (!Model.Any())
+      {
+         <p class="no-messages">You have not sent any messages yet.</p>
+      }
+
+      @foreach (var message in Model)
+      {
+         <div class="message-box">
+            <h3>Your Message:</h3>
+            <p><strong>📧 Sent By:</strong> @message.Name</p>
+            <p><strong>📨 Message:</strong> @message.Message</p>
+            <p><strong>📅 Sent At:</strong> @message.SentAt.ToString("dd.MM.yyyy HH:mm:ss")</p>
+
+            @if (message.IsReplied)
+            {
+               <div class="admin-reply">
+                  <h4>✅Reply:</h4>
+                  <p><strong>💬 Reply:</strong> @message.AdminReply</p>
+                  <p><strong>👤 Responded By:</strong> @message.RespondedBy</p>
+               </div>
+            }
+            else
+            {
+               <p class="pending-reply">⏳ No reply yet.</p>
+            }
+         </div>
+      }
+   </div>
+</body>
+</html>

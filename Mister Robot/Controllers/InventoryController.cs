@@ -187,29 +187,10 @@ namespace Mister_Robot.Controllers
 	      }
 
 	      ViewBag.Features = _featureService.GetAll();
-	      return View(product);
+	      ViewBag.LinkedFeatures = _productFeatureService.GetFeaturesByProductId(id);
+			return View(product);
       }
 
-		/*[HttpPost]
-		[Authorize(Roles = "Admin")]
-		public IActionResult LinkProductFeatures(string productId, string featureId, string featureValue)
-		{
-			if (string.IsNullOrEmpty(productId) || string.IsNullOrEmpty(featureId) || string.IsNullOrEmpty(featureValue))
-			{
-				ModelState.AddModelError("", "All fields are required");
-				return RedirectToAction("Manage");
-			}
-
-			var productFeature = new ProductFeature
-			{
-				ProductId = productId,
-				FeatureId = featureId,
-				FeatureValue = featureValue
-			};
-
-			_productFeatureService.Add(productFeature);
-			return RedirectToAction("Manage");
-		}*/
 
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
@@ -225,6 +206,7 @@ namespace Mister_Robot.Controllers
 				ViewBag.ErrorMessage = "This feature is already linked to the product.";
 				var product = _productService.GetById(productId);
 				ViewBag.Features = _featureService.GetAll().Where(f => f.ProductCategoryId == product.ProductCategoryId).ToList();
+				ViewBag.LinkedFeatures = _productFeatureService.GetFeaturesByProductId(productId);
 				return View(product);
 			}
 
@@ -242,8 +224,32 @@ namespace Mister_Robot.Controllers
 			ViewBag.SuccessMessage = "Feature successfully linked!";
 			var updatedProduct = _productService.GetById(productId);
 			ViewBag.Features = _featureService.GetAll().Where(f => f.ProductCategoryId == updatedProduct.ProductCategoryId).ToList();
+			ViewBag.LinkedFeatures = _productFeatureService.GetFeaturesByProductId(productId);
 			return View(updatedProduct);
 		}
 
-	}
+      [HttpPost]
+      public IActionResult UnlinkProductFeature(string productId, string featureId)
+      {
+         try
+         {
+            // Use the DeleteCompositeKey method for better deletion management
+            _productFeatureService.DeleteCompositeKey(productId, featureId);
+
+            ViewBag.SuccessMessage = "Feature unlinked successfully!";
+         }
+         catch (Exception ex)
+         {
+            ViewBag.ErrorMessage = $"Error while unlinking feature: {ex.Message}";
+         }
+
+      
+         var product = _productService.GetById(productId);
+         ViewBag.Features = _featureService.GetAll();
+         ViewBag.LinkedFeatures = _productFeatureService.GetFeaturesByProductId(productId);
+         return View("LinkProductFeatures", product);
+      }
+
+
+   }
 }

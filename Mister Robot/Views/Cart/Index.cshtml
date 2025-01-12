@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
 	<link rel="stylesheet" href="@Url.Content("~/css/cart.css")" />
 	<script defer src="@Url.Content("~/js/cart.js")"></script>
+	<script defer src="@Url.Content("~/js/alert.js")"></script>
 </head>
 
 <body class="background-image">
@@ -65,7 +66,15 @@
 		</nav>
 		<partial name="_LoginPartial" />
 	</header>
+	@if (TempData["ErrorMessage"] != null)
+	{
+		<div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+	}
 
+	@if (TempData["SuccessMessage"] != null)
+	{
+		<div class="alert alert-success">@TempData["SuccessMessage"]</div>
+	}
 
 	<div class="cart-container">
 		<h1 class="main-title">🛒 Your Shopping Cart</h1>

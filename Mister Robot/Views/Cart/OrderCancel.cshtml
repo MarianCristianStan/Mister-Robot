@@ -1,0 +1,26 @@
+﻿@{
+	ViewData["Title"] = "Payment Cancelled";
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>@ViewData["Title"]</title>
+	<link rel="icon" type="image/png" href=" @Url.Content("~/assets/mr_robot_logo.webp")"/>
+	<link rel="stylesheet" href="@Url.Content("~/css/checkoutResponse.css")"/>
+
+</head>
+
+<body class="background-image">
+
+<div class="container">
+	<h1 class="cancel">❌ Payment Cancelled</h1>
+	<p>Your payment has been cancelled. If you encountered an issue, please try again or contact support.</p>
+	<a href="@Url.Action("Index", "Cart")" class="btn-primary">Return to Cart</a>
+</div>
+
+</body>
+</html>

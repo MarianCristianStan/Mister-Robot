@@ -60,7 +60,12 @@
 				</i>
 				Orders
 			</a>
-
+			<a href="@Url.Action("Index", "Contact")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/contact-solid-24.svg")" alt="contact icon" />
+				</i>
+				Contact
+			</a>
 			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
 				<i class="nav-icon">
 					<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
@@ -129,6 +134,34 @@
 								<input asp-for="Input.Email" class="form-control" />
 								<span asp-validation-for="Input.Email" class="text-danger"></span>
 							</div>
+							<div class="form-group">
+								<label asp-for="Input.City" class="form-label"></label>
+								<input asp-for="Input.City" class="form-control" />
+								<span asp-validation-for="Input.City" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="Input.Country" class="form-label"></label>
+								<input asp-for="Input.Country" class="form-control" />
+								<span asp-validation-for="Input.Country" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="Input.Street" class="form-label"></label>
+								<input asp-for="Input.Street" class="form-control" />
+								<span asp-validation-for="Input.Street" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="Input.PostalCode" class="form-label"></label>
+								<input asp-for="Input.PostalCode" class="form-control" />
+								<span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="Input.PhoneNumber" class="form-label"></label>
+								<input asp-for="Input.PhoneNumber" class="form-control" />
+								<span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+							</div>
+							
+							
+
 							<button id="profileSaveButton" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
 						</div>
 					</div>

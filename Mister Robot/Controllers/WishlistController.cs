@@ -9,12 +9,14 @@ namespace Mister_Robot.Controllers
 	public class WishlistController : Controller
    {
       private readonly IWishlistService _wishlistService;
+      private readonly IWishlistProductService _wishlistProductService;
       private readonly IProductService _productService;
       private readonly IUserService _userService;
 
-      public WishlistController(IWishlistService wishlistService, IProductService productService, IUserService userService)
+      public WishlistController(IWishlistService wishlistService, IProductService productService, IUserService userService, IWishlistProductService wishlistProductService)
       {
          _wishlistService = wishlistService;
+         _wishlistProductService = wishlistProductService;
          _productService = productService;
          _userService = userService;
       }
@@ -68,7 +70,13 @@ namespace Mister_Robot.Controllers
 
          var userId = _userService.GetCurrentUser().Id;
 
-         if (_wishlistService.GetWishlistByUserId(userId)?.WishlistProducts.Any(wp => wp.ProductId == productId) == true)
+         var wishlist = userId != null ? _wishlistService.GetWishlistByUserId(userId) : null;
+
+         var isProductInWishlist = _wishlistProductService
+	         .GetWishlistProductsByWishlistId(wishlist.WishlistId)
+	         .Any(wp => wp.ProductId == productId);
+
+			if (isProductInWishlist)
          {
             _wishlistService.RemoveFromWishlist(productId);
          }

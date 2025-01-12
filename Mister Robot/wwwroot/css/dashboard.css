@@ -1,6 +1,7 @@
 ﻿.add-product-container {
+  
    max-width: 600px;
-   margin: 8rem auto; /* Add top margin */
+   margin: 12rem auto;/*  Add top margin*/ 
    background: rgba(0, 0, 0, 0.8);
    padding: 20px;
    border-radius: 10px;
@@ -145,4 +146,15 @@ textarea.form-control {
 
 .alert i {
    margin-right: 10px;
+}
+
+.contact-container {
+
+   max-width: 600px;
+   margin: 12rem auto;
+   background: rgba(0, 0, 0, 0.8);
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+   color: var(--white);
 }

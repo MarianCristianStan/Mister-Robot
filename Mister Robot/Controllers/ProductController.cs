@@ -11,13 +11,15 @@ namespace Mister_Robot.Controllers
       private readonly IProductCategoryService _productCategoryService;
       private readonly IProductFeatureService _productFeatureService;
 		private readonly IFeatureService _featureService;
-		public ProductController(IUserService userService, IProductService productService, IProductCategoryService productCategoryService, IProductFeatureService productFeatureService, IFeatureService featureService)
+		private readonly IReviewService _reviewService;
+		public ProductController(IUserService userService, IProductService productService, IProductCategoryService productCategoryService, IProductFeatureService productFeatureService, IFeatureService featureService , IReviewService reviewService)
       {
          _userService = userService;
          _productService = productService;
          _productCategoryService = productCategoryService;
          _productFeatureService = productFeatureService;
 			_featureService = featureService;
+			_reviewService = reviewService;
       }
 
       public IActionResult Index(string id)
@@ -42,8 +44,14 @@ namespace Mister_Robot.Controllers
 
          ViewBag.RelatedProducts = filteredProducts.Any() ? filteredProducts : new List<Mister_Robot.Models.Product>();
 
-         return View(product);
-      }
+			var reviews = _reviewService.GetReviewsByProductId(id).ToList();
+
+			ViewBag.Reviews = reviews;
+			ViewData["ProductId"] = id;
+			ViewBag.ProductTitle = product.Name;
+
+			return View(product);
+		}
 
 
       [HttpGet]
@@ -52,13 +60,14 @@ namespace Mister_Robot.Controllers
 	      var product1 = _productService.GetById(ProductId);
 	      var product2 = _productService.GetById(ComparisonProductId);
 
-	      if (product1 == null || product2 == null)
-	      {
-		      return NotFound("One or both products not found.");
-	      }
+			if (product1 == null || product2 == null)
+			{
+				TempData["ErrorMessage"] = "One or both products not found.";
+				return RedirectToAction("Index", "Product", new { id = ProductId });
+			}
 
-	      // Fetch the product features using their IDs
-	      var product1Features = _productFeatureService.GetFeaturesByProductId(product1.ProductId)
+			// Fetch the product features using their IDs
+			var product1Features = _productFeatureService.GetFeaturesByProductId(product1.ProductId)
 		      .Select(pf => new ProductFeature
 		      {
 					ProductId = product1.ProductId,
@@ -103,6 +112,8 @@ namespace Mister_Robot.Controllers
 	      return View("ComparisonResult");
       }
 
+
+      
 
 
 

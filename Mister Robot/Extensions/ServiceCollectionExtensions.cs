@@ -33,6 +33,8 @@ namespace Mister_Robot.Extensions
 			services.AddScoped<IWishlistProductRepository,WishlistProductRepository>();
 			services.AddScoped<IOrderProductRepository, OrderProductRepository>();
 			services.AddScoped<IFeatureRepository, FeatureRepository > ();
+			services.AddScoped<IReviewRepository, ReviewRepository>();
+			services.AddScoped<IContactMessageRepository, ContactMessageRepository>();
 
             // Service registrations
 			services.AddScoped<IUserService, UserService>();
@@ -49,8 +51,10 @@ namespace Mister_Robot.Extensions
 			services.AddScoped<IWishlistProductService, WishlistProductService>();
 			services.AddScoped<IOrderProductService, OrderProductService>();
 			services.AddScoped<IFeatureService, FeatureService>();
+			services.AddScoped<IReviewService, ReviewService>();
+			services.AddScoped<IContactMessageService, ContactMessageService>();
 
-            // Authentication and Identity
+			// Authentication and Identity
 			services.AddScoped<IAuthService, AuthService>();
 			services.AddScoped<SignInManager<User>>();
 			services.AddScoped<UserManager<User>>();

@@ -6,6 +6,7 @@ namespace Mister_Robot.Services.Interfaces
 	{
 		User GetCurrentUser();
 		User GetByUsername(string username);
+		User GetByUserId(string userId);
 		Task<bool> IsUserAdminAsync(User user);
 	}
 }

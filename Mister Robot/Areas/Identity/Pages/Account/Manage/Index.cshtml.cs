@@ -3,6 +3,7 @@ using Mister_Robot.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Mister_Robot.Services.Interfaces;
 
 namespace Mister_Robot.Areas.Identity.Pages.Account.Manage
 {
@@ -11,13 +12,15 @@ namespace Mister_Robot.Areas.Identity.Pages.Account.Manage
    {
       private readonly UserManager<User> _userManager;
       private readonly SignInManager<User> _signInManager;
+      private readonly IUserAddressService _userAddressService;
 
       public IndexModel(
           UserManager<User> userManager,
-          SignInManager<User> signInManager)
+          SignInManager<User> signInManager, IUserAddressService userAddressService)
       {
          _userManager = userManager;
          _signInManager = signInManager;
+         _userAddressService = userAddressService;
       }
 
       public string Username { get; set; }
@@ -42,18 +45,42 @@ namespace Mister_Robot.Areas.Identity.Pages.Account.Manage
 
          [Display(Name = "Profile Picture")]
          public byte[]? ProfilePicture { get; set; }
+
+         // Address Fields
+         [Display(Name = "City")]
+         public string? City { get; set; }
+
+         [Display(Name = "Country")]
+         public string? Country { get; set; }
+
+         [Display(Name = "Street")]
+         public string? Street { get; set; }
+
+         [Display(Name = "Postal Code")]
+         public string? PostalCode { get; set; }
+
+         [Phone]
+         [Display(Name = "Phone Number")]
+         public string? PhoneNumber { get; set; }
       }
 
       private async Task LoadAsync(User user)
       {
          Username = await _userManager.GetUserNameAsync(user);
 
+         var userAdress = _userAddressService.GetFirstAddressByUserId(user.Id);
+
          Input = new InputModel
          {
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email,
-            ProfilePicture = user.ProfilePicture
+            ProfilePicture = user.ProfilePicture,
+            City = userAdress?.City ?? "None",
+            Country = userAdress?.Country ?? "None",
+            Street = userAdress?.Street ?? "None",
+            PostalCode = userAdress?.PostalCode ?? "None",
+            PhoneNumber = userAdress?.PhoneNumber ?? "None"
          };
       }
 
@@ -104,8 +131,35 @@ namespace Mister_Robot.Areas.Identity.Pages.Account.Manage
                user.ProfilePicture = dataStream.ToArray();
             }
          }
-         
-         user.FirstName = Input.FirstName;
+
+			var existingAddress = _userAddressService.GetFirstAddressByUserId(user.Id);
+
+			if (existingAddress == null)
+			{
+				existingAddress = new UserAddress
+				{
+					UserId = user.Id,
+					City = Input.City ?? "None",
+					Country = Input.Country ?? "None",
+					Street = Input.Street ?? "None",
+					PostalCode = Input.PostalCode ?? "None",
+					PhoneNumber = Input.PhoneNumber ?? "None"
+				};
+
+				_userAddressService.Add(existingAddress); 
+			}
+			else
+			{
+				// Update the existing address
+				existingAddress.City = Input.City;
+				existingAddress.Country = Input.Country;
+				existingAddress.Street = Input.Street;
+				existingAddress.PostalCode = Input.PostalCode;
+				existingAddress.PhoneNumber = Input.PhoneNumber;
+
+				_userAddressService.Update(existingAddress); 
+			}
+			user.FirstName = Input.FirstName;
          user.LastName = Input.LastName;
          
          var updateResult = await _userManager.UpdateAsync(user);

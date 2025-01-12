@@ -1,0 +1,60 @@
+﻿.styled-table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 20px;
+}
+
+   .styled-table th, .styled-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--yellow);
+      text-align: center;
+   }
+
+   .styled-table th {
+      background-color: var(--yellow);
+      color: var(--dark-bg);
+   }
+
+   .styled-table tr:hover {
+      background-color: rgba(255, 215, 0, 0.2);
+   }
+
+.btn-danger {
+   padding: 0.5rem 1rem;
+   border-radius: 5px;
+   font-weight: bold;
+   border: none;
+   cursor: pointer;
+   color: white;
+   background: crimson;
+   transition: all 0.3s ease;
+}
+
+   .btn-danger:hover {
+      background: darkred;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+   }
+
+.linked-title {
+   font-size: 2rem;
+   color: var(--yellow);
+   margin-top: 20px;
+   text-align: center;
+}
+.no-features-found {
+   text-align: center;
+   margin-top: 2rem;
+   color: var(--yellow);
+   font-size: 1.5rem;
+   font-weight: bold;
+   padding: 2rem;
+   background: rgba(0, 0, 0, 0.6);
+   border-radius: 10px;
+}
+
+   .no-features-found i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+      color: lightcoral;
+   }

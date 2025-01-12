@@ -45,6 +45,13 @@
 					Admin Panel
 				</a>
 			}
+			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
+				</i>
+				Settings
+			</a>
+
 		</nav>
 		<partial name="_LoginPartial" />
 	</header>

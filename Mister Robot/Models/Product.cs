@@ -49,4 +49,5 @@ public class Product
     public ICollection<CartProduct>? CartProducts { get; set; } = new List<CartProduct>();
     public ICollection<WishlistProduct>? WishlistProducts { get; set; } = new List<WishlistProduct>();
     public ICollection<OrderProduct>? OrderProducts { get; set; } = new List<OrderProduct>();
+    public ICollection<Review>? Reviews { get; set; } = new List<Review>();
 }

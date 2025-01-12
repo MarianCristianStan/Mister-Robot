@@ -1,19 +1,23 @@
-﻿@model Mister_Robot.Models.Product
+﻿@using Mister_Robot.Services.Interfaces
+@model Mister_Robot.Models.Product
+@inject IFeatureService _FeatureService;
+@inject IProductFeatureService _ProductFeatureService;
 @{
-   ViewData["Title"] = "Link Features to Product";
-   Layout = null;
+	ViewData["Title"] = "Link Features to Product";
+	Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <title>@ViewData["Title"]</title>
-   <link rel="icon" type="image/png" href="@Url.Content("~/assets/mr_robot_logo.webp")" />
-   <link rel="stylesheet" href="@Url.Content("~/css/inventory.css")" />
-   <link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
-   <link rel="stylesheet" href="@Url.Content("~/css/dashboard.css")" />
- 
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+	<link rel="icon" type="image/png" href="@Url.Content("~/assets/mr_robot_logo.webp")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/inventory.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/dashboard.css")" />
+	<link rel="stylesheet" href="@Url.Content("~/css/linkFeature.css")" />
+	<script defer src="@Url.Content("~/js/alert.js")"></script>
 </head>
 
 <body class="background-image">
@@ -67,49 +71,82 @@
 		<partial name="_LoginPartial" />
 	</header>
 
-   <div class="container add-product-container">
-      <h1 class="main-title">Link Features to @Model.Name</h1>
+	<div class="container add-product-container">
+		@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+		{
+			<div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+		}
+		@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+		{
+			<div class="alert alert-success">@ViewBag.SuccessMessage</div>
+		}
+		<h1 class="main-title">Link Features to @Model.Name</h1>
 
-      <!-- Display Error Message if the feature already exists -->
-      @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-      {
-	      <div class="alert alert-danger">
-		      <i class="bx bx-error-circle"></i> @ViewBag.ErrorMessage
-	      </div>
-      }
 
-      @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
-      {
-	      <div class="alert alert-success">
-		      <i class="bx bx-check-circle"></i> @ViewBag.SuccessMessage
-	      </div>
-      }
 
-      <form asp-action="LinkProductFeatures" method="post" class="form-container styled-form">
-         <input type="hidden" name="ProductId" value="@Model.ProductId" />
-         <input type="hidden" name="ProductCategoryId" id="ProductCategoryId" value="@Model.ProductCategoryId" />
+		<form asp-action="LinkProductFeatures" method="post" class="form-container styled-form">
+			<input type="hidden" name="ProductId" value="@Model.ProductId" />
+			<input type="hidden" name="ProductCategoryId" id="ProductCategoryId" value="@Model.ProductCategoryId" />
 
-         <div class="form-group">
-            <label for="FeatureId">Select Feature</label>
-            <select name="FeatureId" id="FeatureId" class="form-control">
-               <option value="">Select a feature</option>
-               @foreach (var feature in ViewBag.Features)
-               {
-                  <option value="@feature.FeatureId">@feature.Name</option>
-               }
-            </select>
-         </div>
+			<div class="form-group">
+				<label for="FeatureId">Select Feature</label>
+				<select name="FeatureId" id="FeatureId" class="form-control">
+					<option value="">Select a feature</option>
+					@foreach (var feature in ViewBag.Features)
+					{
+						<option value="@feature.FeatureId">@feature.Name</option>
+					}
+				</select>
+			</div>
 
-         <div class="form-group">
-            <label for="FeatureValue">Feature Value</label>
-            <input type="text" name="FeatureValue" id="FeatureValue" class="form-control" required placeholder="Enter feature value" />
-         </div>
+			<div class="form-group">
+				<label for="FeatureValue">Feature Value</label>
+				<input type="text" name="FeatureValue" id="FeatureValue" class="form-control" required placeholder="Enter feature value" />
+			</div>
 
-         <div class="form-buttons">
-            <button type="submit" class="btn btn-primary">Link Feature</button>
-            <a href="@Url.Action("Manage", "Inventory")" class="btn btn-secondary">Cancel</a>
-         </div>
-      </form>
-   </div>
+			<div class="form-buttons">
+				<button type="submit" class="btn btn-primary">Link Feature</button>
+				<a href="@Url.Action("Manage", "Inventory")" class="btn btn-secondary">Cancel</a>
+			</div>
+		</form>
+		
+		<!-- List of Already Linked Features -->
+		<h2 class="linked-title">Linked Features</h2>
+		@if (ViewBag.LinkedFeatures != null && ViewBag.LinkedFeatures.Count > 0)
+		{
+			<table class="styled-table">
+				<thead>
+				<tr>
+					<th>Feature</th>
+					<th>Value</th>
+					<th>Action</th>
+				</tr>
+				</thead>
+				<tbody>
+				@foreach (var linkedFeature in ViewBag.LinkedFeatures)
+				{
+						var linkedFt = _FeatureService.GetFeatureById(linkedFeature.FeatureId);
+						
+					<tr>
+						<td>@linkedFt.Name</td>
+						<td>@linkedFeature.FeatureValue</td>
+						<td>
+							<form asp-action="UnlinkProductFeature" method="post">
+								<input type="hidden" name="ProductId" value="@Model.ProductId" />
+								<input type="hidden" name="FeatureId" value="@linkedFt.FeatureId" />
+								<button type="submit" class="btn btn-danger">Unlink</button>
+							</form>
+						</td>
+					</tr>
+				}
+				</tbody>
+			</table>
+		}
+		else
+		{
+			<p class="no-features-found">No features linked yet.</p>
+		}
+
+	</div>
 </body>
 </html>

@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Mister_Robot.Models.ContactMessage>
+@{
+   ViewData["Title"] = "Admin - Contact Messages";
+   Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>@ViewData["Title"]</title>
+   <link rel="icon" type="image/png" href="@Url.Content("~/assets/mr_robot_logo.webp")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/dashboard.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/contact.css")" />
+
+</head>
+<body class="background-image">
+	<header class="header-nav">
+		<a href="@Url.Action("Index", "Home")" class="logo">
+			<img src="@Url.Content("~/assets/mr_robot_logo.webp")" alt="Mr. Robot Logo" />
+		</a>
+
+		<nav class="navbar">
+			<a href="@Url.Action("Index", "Home")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/bx-home-heart.svg")" alt="home icon" />
+				</i>
+				Home
+			</a>
+
+			@if (User.IsInRole("Admin"))
+			{
+				<a href="@Url.Action("index", "Admin")" class="nav-link">
+					<i class="nav-icon">
+						<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
+					</i>
+					Admin Panel
+				</a>
+			}
+			<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
+				</i>
+				Settings
+			</a>
+
+		</nav>
+		<partial name="_LoginPartial" />
+	</header>
+<div class="manage-box">
+	<div class="container contact-container">
+		<h1 class="main-title">Admin - Contact Messages</h1>
+
+		@if (TempData["SuccessMessage"] != null)
+		{
+			<div class="alert alert-success">@TempData["SuccessMessage"]</div>
+		}
+		@if (TempData["ErrorMessage"] != null)
+		{
+			<div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+		}
+
+		<table class="dashboard-table">
+			<thead>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Message</th>
+				<th>Status</th>
+				<th>Reply</th>
+				<th>Responded By</th>
+				<th>Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+			@foreach (var message in Model)
+			{
+				<tr>
+					<td>@message.Name</td>
+					<td>@message.Email</td>
+					<td>@message.Message</td>
+					<td>
+						@if (message.IsReplied)
+						{
+							<span style="color: green;">Replied</span>
+						}
+						else
+						{
+							<span style="color: red;">Pending</span>
+						}
+					</td>
+					<td>@(message.AdminReply ?? "No reply yet")</td>
+					<td>@(message.RespondedBy ?? "N/A")</td>
+					<td>
+						<a class="btn btn-primary" href="@Url.Action("RespondToMessage", "Contact", new { id = message.ContactMessageId })">Reply</a>
+					</td>
+				</tr>
+			}
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+</html>

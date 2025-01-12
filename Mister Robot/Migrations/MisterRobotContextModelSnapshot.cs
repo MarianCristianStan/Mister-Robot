@@ -197,6 +197,48 @@ namespace Mister_Robot.Migrations
                     b.ToTable("CartProducts");
                 });
 
+            modelBuilder.Entity("Mister_Robot.Models.ContactMessage", b =>
+                {
+                    b.Property<string>("ContactMessageId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("AdminReply")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsReplied")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("RespondedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ContactMessageId");
+
+                    b.ToTable("ContactMessages");
+                });
+
             modelBuilder.Entity("Mister_Robot.Models.Feature", b =>
                 {
                     b.Property<string>("FeatureId")
@@ -363,6 +405,37 @@ namespace Mister_Robot.Migrations
                     b.HasIndex("FeatureId");
 
                     b.ToTable("ProductFeatures");
+                });
+
+            modelBuilder.Entity("Mister_Robot.Models.Review", b =>
+                {
+                    b.Property<string>("ReviewId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ReviewId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Mister_Robot.Models.Supplier", b =>
@@ -719,6 +792,25 @@ namespace Mister_Robot.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Mister_Robot.Models.Review", b =>
+                {
+                    b.HasOne("Mister_Robot.Models.Product", "Product")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mister_Robot.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Mister_Robot.Models.UserAddress", b =>
                 {
                     b.HasOne("Mister_Robot.Models.User", "User")
@@ -782,6 +874,8 @@ namespace Mister_Robot.Migrations
                     b.Navigation("OrderProducts");
 
                     b.Navigation("ProductFeatures");
+
+                    b.Navigation("Reviews");
 
                     b.Navigation("WishlistProducts");
                 });

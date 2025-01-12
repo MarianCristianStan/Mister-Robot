@@ -20,7 +20,8 @@ public class MisterRobotContext : IdentityDbContext<User>
 	public DbSet<ProductFeature>? ProductFeatures { get; set; }
 	public DbSet<CartProduct> CartProducts { get; set; }
 	public DbSet<WishlistProduct> WishlistProducts { get; set; }
-
+	public DbSet<Review> Reviews { get; set; }
+	public DbSet<ContactMessage> ContactMessages { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

@@ -17,10 +17,17 @@ namespace Mister_Robot.Services
 		}
 
 		public List<UserAddress> GetAddressesByUserId(string userId)
-		{
-			return _repositoryWrapper.UserAddressRepository
-				 .FindByCondition(ua => ua.UserId == userId)
-				 .ToList();
-		}
-	}
+      {
+         return _repositoryWrapper.UserAddressRepository
+            .FindByCondition(ua => ua.UserId == userId)
+            .ToList();
+      }
+
+      public UserAddress? GetFirstAddressByUserId(string userId)
+      {
+         return _repositoryWrapper.UserAddressRepository
+            .FindByCondition(ua => ua.UserId == userId)
+            .FirstOrDefault();
+      }
+   }
 }

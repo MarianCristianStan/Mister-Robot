@@ -92,8 +92,11 @@
                   <tr>
 	                  <td>
 		                  <div class="order-item">
-                           <img src="data:image/png;base64,@(@productDetails.Image != null ? Convert.ToBase64String(@productDetails.Image) : "")" alt="@productDetails.Name" class="order-thumbnail" />
-                           <span>@productDetails.Name</span>
+                           <a href="@Url.Action("Index", "Product", new { id = productDetails.ProductId })">
+			                  <img src="data:image/png;base64,@(@productDetails.Image != null ? Convert.ToBase64String(@productDetails.Image) : "")" alt="@productDetails.Name" class="order-thumbnail"/>
+                           </a>
+			                  <span>@productDetails.Name</span>
+		                  
 		                  </div>
 	                  </td>
                      <td>$@productDetails.Price</td>

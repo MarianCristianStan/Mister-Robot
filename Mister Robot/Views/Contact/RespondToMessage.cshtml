@@ -1,0 +1,91 @@
+﻿@model Mister_Robot.Models.ContactMessage
+@{
+   ViewData["Title"] = "Reply to Message";
+   Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>@ViewData["Title"]</title>
+   <link rel="icon" type="image/png" href="@Url.Content("~/assets/mr_robot_logo.webp")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/dashboard.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/navbar.css")" />
+   <link rel="stylesheet" href="@Url.Content("~/css/contact.css")" />
+   <script defer src="@Url.Content("~/js/alert.js")"></script>
+</head>
+<body class="background-image">
+<header class="header-nav">
+	<a href="@Url.Action("Index", "Home")" class="logo">
+		<img src="@Url.Content("~/assets/mr_robot_logo.webp")" alt="Mr. Robot Logo" />
+	</a>
+
+	<nav class="navbar">
+		<a href="@Url.Action("Index", "Home")" class="nav-link">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/bx-home-heart.svg")" alt="home icon" />
+			</i>
+			Home
+		</a>
+
+		@if (User.IsInRole("Admin"))
+		{
+			<a href="@Url.Action("index", "Admin")" class="nav-link">
+				<i class="nav-icon">
+					<img src="@Url.Content("~/assets/boxicons/dashboard-solid-24.svg")" alt="dashboard icon" />
+				</i>
+				Admin Panel
+			</a>
+		}
+		<a href="@Url.Page("/Account/Manage/Index", new { area = "Identity" })" class="nav-link">
+			<i class="nav-icon">
+				<img src="@Url.Content("~/assets/boxicons/bx-cog.svg")" alt="settings icon" />
+			</i>
+			Settings
+		</a>
+
+	</nav>
+	<partial name="_LoginPartial" />
+</header>
+   <div class="manage-box">
+   <div class="container contact-container">
+	   <h1 class="main-title">📩 Reply to Message</h1>
+
+	   <div class="message-details">
+		   <div class="message-box">
+			   <p><strong>📧 From:</strong> <span class="detail-text">@Model.Name</span></p>
+			   <p><strong>📧 Email:</strong> <span class="detail-text">@Model.Email</span></p>
+			   <p><strong>📨 Message:</strong> <span class="detail-text">@Model.Message</span></p>
+			   <p><strong>📅 Sent At:</strong> <span class="detail-text">@Model.SentAt.ToString("dd.MM.yyyy HH:mm:ss")</span></p>
+        
+			   @if (!string.IsNullOrEmpty(Model.Username))
+			   {
+				   <p><strong>👤 Username:</strong> <span class="detail-text">@Model.Username</span></p>
+			   }
+			   else
+			   {
+				   <p><strong>👤 Username:</strong> <span class="detail-text" style="color: red;">Not provided</span></p>
+			   }
+		   </div>
+	   </div>
+
+
+	   <form asp-action="SubmitAdminReply" method="post" class="form-container styled-form">
+		   <input type="hidden" name="contactMessageId" value="@Model.ContactMessageId" />
+
+		   <div class="form-group">
+			   <label for="reply"><strong>✏️ Admin Reply:</strong></label>
+			   <textarea name="reply" id="reply" class="form-control reply-textarea" rows="5" required placeholder="Write your response here..."></textarea>
+		   </div>
+
+		   <div class="form-buttons">
+			   <button type="submit" class="btn btn-primary">Send Reply</button>
+			   <a href="@Url.Action("AdminReply", "Contact")" class="btn btn-secondary"> Back to Messages</a>
+		   </div>
+	   </form>
+   </div>
+	</div>
+</body>
+</html>

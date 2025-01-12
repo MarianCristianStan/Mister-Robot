@@ -1,0 +1,182 @@
+﻿* {
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+   font-family: "Poppins", sans-serif;
+}
+
+:root {
+   --yellow: #ffd700;
+   --blue: #1b1a55;
+   --green: #4caf50;
+   --white: #ffffff;
+   --dark-bg: #121212;
+}
+
+.background-image {
+   position: relative;
+   width: 100%;
+   min-height: 100vh;
+   background-image: url('/assets/background/background_site.jpg');
+   background-size: cover;
+   background-position: center;
+   background-attachment: fixed;
+   z-index: -1;
+}
+
+.container {
+   max-width: 1200px;
+   margin: 8rem auto;
+   padding: 20px;
+}
+.row {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 15px;
+}
+.main-title {
+   color: var(--yellow);
+   font-size: 2.5rem;
+   font-weight: 700;
+   text-align: center;
+   margin-bottom: 1.5rem;
+   text-shadow: 0 0 20px var(--dark-bg);
+   margin-top: 2rem;
+}
+
+.content {
+   text-align: center;
+   color: var(--white);
+   z-index: 1;
+}
+
+   .content h1 {
+      font-weight: 800;
+      color: var(--yellow);
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+      transition: color 0.3s;
+   }
+
+      .content h1:hover {
+         color: var(--green);
+      }
+.manage-box {
+   margin-top: 15rem;
+}
+
+.dashboard {
+   max-width: 80rem;
+   margin: 8rem auto;
+   padding: 20px;
+   background-color: rgba(0, 0, 0, 0.8);
+   color: var(--white);
+   border-radius: 10px;
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 20px;
+}
+
+   .dashboard-header h1 {
+      font-size: 2rem;
+      color: var(--yellow);
+   }
+
+
+.dashboard-table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 20px;
+}
+
+   .dashboard-table th, .dashboard-table td {
+      padding: 12px;
+      text-align: center;
+      vertical-align: middle;
+      border-bottom: 1px solid var(--yellow);
+   }
+
+
+   .dashboard-table th {
+      background-color: var(--yellow);
+      color: var(--dark-bg);
+   }
+
+   .dashboard-table tr:hover {
+      background-color: rgba(255, 215, 0, 0.2);
+   }
+
+
+.inline-form {
+   display: inline-block;
+   margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+   .button-group {
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+   }
+
+   .btn-edit, .btn-link, .btn-delete {
+      width: 100%;
+      max-width: 200px;
+   }
+
+   .dashboard-table th, .dashboard-table td {
+      font-size: 0.9rem;
+      padding: 8px;
+   }
+}
+
+/* Message Box Styling */
+.message-box {
+   padding: 20px;
+   border: 2px solid var(--yellow);
+   border-radius: 10px;
+   background-color: rgba(0, 0, 0, 0.85);
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+   margin-bottom: 20px;
+}
+
+   .message-box p {
+      font-size: 1.1rem;
+      margin: 10px 0;
+      line-height: 1.5;
+      color: var(--white);
+   }
+
+   .message-box strong {
+      color: var(--yellow);
+   }
+
+.detail-text {
+   font-size: 1.1rem;
+   color: var(--white);
+   font-weight: 400;
+}
+
+.message-box p::before {
+   content: "✔️ ";
+   margin-right: 5px;
+   color: var(--green);
+}
+
+.message-box p strong::before {
+   content: "";
+   margin-right: 5px;
+}
+
+/* Highlight important elements */
+.message-box p:nth-child(odd) {
+   background: rgba(255, 255, 255, 0.05);
+   padding: 10px;
+   border-radius: 5px;
+}
