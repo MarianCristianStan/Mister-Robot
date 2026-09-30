@@ -36,21 +36,22 @@ This project was built as a hands-on learning experience to explore how a comple
 ## Screenshots
 
 <table>
+
 <tr>
+
+<td width="50%" align="center">
+<h3>Home Page</h3>
+<img src="Images%20used%20for%20demo/ReadMe/HOME.png" width="100%" />
+<p>
+Landing page with quick access to the main areas of the application.
+</p>
+</td>
 
 <td width="50%" align="center">
 <h3>Inventory</h3>
 <img src="Images%20used%20for%20demo/ReadMe/INVENTORY.png" width="100%" />
 <p>
-Product browsing, search, categories, wishlist and cart actions.
-</p>
-</td>
-
-<td width="50%" align="center">
-<h3>Product Page</h3>
-<img src="Images%20used%20for%20demo/ReadMe/PRODUCT_PAGE.png" width="100%" />
-<p>
-Detailed product information, stock, category and technical specifications.
+Browse products, search by name, filter by category, add items to the cart or wishlist.
 </p>
 </td>
 
@@ -59,18 +60,18 @@ Detailed product information, stock, category and technical specifications.
 <tr>
 
 <td width="50%" align="center">
-<h3>Shopping Cart</h3>
-<img src="Images%20used%20for%20demo/ReadMe/CART.png" width="100%" />
+<h3>Product Page</h3>
+<img src="Images%20used%20for%20demo/ReadMe/PRODUCT_PAGE.png" width="100%" />
 <p>
-Quantity controls, total calculation and Stripe checkout.
+Detailed product information including price, stock, category and technical specifications.
 </p>
 </td>
 
 <td width="50%" align="center">
-<h3>Order History</h3>
-<img src="Images%20used%20for%20demo/ReadMe/ORDER_STRIPE.png" width="100%" />
+<h3>Reviews</h3>
+<img src="Images%20used%20for%20demo/ReadMe/COMPARE_PRODUCT_AND_REVIEW.png" width="100%" />
 <p>
-Completed orders are stored and displayed after checkout.
+Authenticated users can rate products and leave written reviews.
 </p>
 </td>
 
@@ -82,7 +83,7 @@ Completed orders are stored and displayed after checkout.
 <h3>Product Comparison</h3>
 <img src="Images%20used%20for%20demo/ReadMe/COMPARE_PRODUCT_PAGE.png" width="100%" />
 <p>
-Compare products from the same category side by side.
+Products from the same category can be compared side by side.
 </p>
 </td>
 
@@ -90,7 +91,7 @@ Compare products from the same category side by side.
 <h3>Feature Comparison</h3>
 <img src="Images%20used%20for%20demo/ReadMe/COMPARE_PRODUCT_FEATURES.png" width="100%" />
 <p>
-Technical specifications are compared dynamically.
+Technical specifications are dynamically displayed and compared between products.
 </p>
 </td>
 
@@ -99,38 +100,38 @@ Technical specifications are compared dynamically.
 <tr>
 
 <td width="50%" align="center">
-<h3>Reviews</h3>
-<img src="Images%20used%20for%20demo/ReadMe/COMPARE_PRODUCT_AND_REVIEW.png" width="100%" />
+<h3>Shopping Cart</h3>
+<img src="Images%20used%20for%20demo/ReadMe/CART.png" width="100%" />
 <p>
-Users can rate products and leave written reviews.
+Manage product quantities, view the total price and continue to Stripe checkout.
 </p>
 </td>
+
+<td width="50%" align="center">
+<h3>Order History</h3>
+<img src="Images%20used%20for%20demo/ReadMe/ORDER_STRIPE.png" width="100%" />
+<p>
+Completed orders are stored in the database and displayed in the user's order history.
+</p>
+</td>
+
+</tr>
+
+<tr>
 
 <td width="50%" align="center">
 <h3>Inventory Management</h3>
 <img src="Images%20used%20for%20demo/ReadMe/INVENTORY_MANAGEMENT.png" width="100%" />
 <p>
-Admin dashboard for managing products and stock.
+Admin dashboard for managing products, stock and inventory information.
 </p>
 </td>
-
-</tr>
-
-<tr>
 
 <td width="50%" align="center">
 <h3>Add Product</h3>
 <img src="Images%20used%20for%20demo/ReadMe/ADD_PRODUCT.png" width="100%" />
 <p>
-Admin form for adding products, categories and suppliers.
-</p>
-</td>
-
-<td width="50%" align="center">
-<h3>Link Product Features</h3>
-<img src="Images%20used%20for%20demo/ReadMe/LINK_FEATURE.png" width="100%" />
-<p>
-Dynamic product specifications can be linked and unlinked by admins.
+Administrators can add new products with category, supplier, stock, image and pricing information.
 </p>
 </td>
 
@@ -139,22 +140,23 @@ Dynamic product specifications can be linked and unlinked by admins.
 <tr>
 
 <td width="50%" align="center">
-<h3>Contact Messages</h3>
-<img src="Images%20used%20for%20demo/ReadMe/CONTACT_ADMIN.png" width="100%" />
+<h3>Link Product Features</h3>
+<img src="Images%20used%20for%20demo/ReadMe/LINK_FEATURE.png" width="100%" />
 <p>
-Admin panel for viewing and replying to user messages.
+Technical specifications can be dynamically linked to products by administrators.
 </p>
 </td>
 
 <td width="50%" align="center">
-<h3>Product Details</h3>
-<img src="Images%20used%20for%20demo/ReadMe/PRODUCT_PAGE.png" width="100%" />
+<h3>Contact Messages</h3>
+<img src="Images%20used%20for%20demo/ReadMe/CONTACT_ADMIN.png" width="100%" />
 <p>
-Product details with dynamically loaded technical features.
+Administrators can view contact messages and reply directly from the admin panel.
 </p>
 </td>
 
 </tr>
+
 </table>
 
 ## Stripe Payments
