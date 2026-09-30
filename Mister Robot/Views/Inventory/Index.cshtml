@@ -184,10 +184,16 @@
 					<h5 class="card-title">@product.Name</h5>
 					<p class="card-brand">@product.Brand</p>
 					<p class="card-price">$@product.Price</p>
-					@if (!string.IsNullOrEmpty(product.Description))
-					{
-						<p class="card-description">@product.Description</p>
-					}
+						@if (!string.IsNullOrEmpty(product.Description))
+						{
+							<p class="card-description">@product.Description</p>
+						}
+						else
+						{
+							<p class="card-description">
+								No description available.
+							</p>
+						}
 
 
 
